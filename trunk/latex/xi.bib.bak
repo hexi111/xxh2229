@@ -1,0 +1,662 @@
+% This file was created with JabRef 2.4.2.
+% Encoding: MacRoman
+
+@INPROCEEDINGS{DBLP:conf/ics/CarreraPB03,
+  author = {Enrique V. Carrera and Eduardo Pinheiro and Ricardo Bianchini},
+  title = {Conserving disk energy in network servers},
+  booktitle = {ICS},
+  year = {2003},
+  pages = {86-97},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  crossref = {DBLP:conf/ics/2003},
+  ee = {http://doi.acm.org/10.1145/782814.782829},
+  file = {:http\://iris04.rit.edu/~ftpuser/S034.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/isca/FanWB07,
+  author = {Xiaobo Fan and Wolf-Dietrich Weber and Luiz Andr{\'e} Barroso},
+  title = {Power provisioning for a warehouse-sized computer},
+  booktitle = {ISCA},
+  year = {2007},
+  pages = {13-23},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  crossref = {DBLP:conf/isca/2007},
+  ee = {http://doi.acm.org/10.1145/1250662.1250665},
+  file = {:http\://iris04.rit.edu/~ftpuser/S047.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/wmcsa/FlinnS99,
+  author = {Jason Flinn and Mahadev Satyanarayanan},
+  title = {PowerScope: A Tool for Profiling the Energy Usage of Mobile Applications},
+  booktitle = {WMCSA},
+  year = {1999},
+  pages = {2-10},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  crossref = {DBLP:conf/wmcsa/1999},
+  ee = {http://csdl.computer.org/comp/proceedings/wmcsa/1999/0025/00/00250002abs.htm},
+  file = {:http\://iris04.rit.edu/~ftpuser/S037.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/islped/JosephM01,
+  author = {Russ Joseph and Margaret Martonosi},
+  title = {Run-time power estimation in high performance microprocessors},
+  booktitle = {ISLPED},
+  year = {2001},
+  pages = {135-140},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  crossref = {DBLP:conf/islped/2001},
+  ee = {http://doi.acm.org/10.1145/383082.383119},
+  file = {:http\://iris04.rit.edu/~ftpuser/S036.pdf:PDF}
+}
+
+@TECHREPORT{report/greengridreport6,
+  author = {Dave Anderson et. al.},
+  title = {{A Framework for Data Center Energy Productivity}},
+  institution = {Green Grid},
+  year = {2008},
+  file = {:http\://iris04.rit.edu/~ftpuser/S040.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.24}
+}
+
+@TECHREPORT{report/greengridreport5,
+  author = {Jon Haas et. al.},
+  title = {{Proxy Proposals for Measuring Data Center Productivity}},
+  institution = {the green grid},
+  year = {2007},
+  month = {Feb.},
+  file = {:http\://iris04.rit.edu/~ftpuser/S045.pdf:PDF},
+  owner = {Lizhe},
+  timestamp = {2009.05.16}
+}
+
+@TECHREPORT{armbrust2009above,
+  author = {Armbrust, M. and Fox, A. and Griffith, R. and Joseph, A.D. and Katz,
+	R.H. and Konwinski, A. and Lee, G. and Patterson, D.A. and Rabkin,
+	A. and Stoica, I. and others},
+  title = {{Above the clouds: A berkeley view of cloud computing}},
+  institution = {EECS Department, University of California, Berkeley},
+  year = {2009},
+  file = {:http\://iris04.rit.edu/~ftpuser/030.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.23}
+}
+
+@INPROCEEDINGS{DBLP:conf/sosp/BarhamDFHHHN03,
+  author = {Paul Barham and Boris Dragovic and Keir Fraser and Steven Hand and
+	Timothy L. Harris and Alex Ho and Rolf Neugebauer and Ian Pratt and
+	Andrew Warfield},
+  title = {Xen and the art of virtualization},
+  booktitle = {SOSP},
+  year = {2003},
+  pages = {164-177},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://doi.acm.org/10.1145/945445.945462},
+  file = {:http\://iris04.rit.edu/~ftpuser/040.pdf:PDF}
+}
+
+@ARTICLE{barroso2009datacenter,
+  author = {Barroso, L.A. and H{\"o}lzle, U.},
+  title = {{The Datacenter as a Computer: An Introduction to the Design of Warehouse-Scale
+	Machines}},
+  journal = {Synthesis Lectures on Computer Architecture},
+  year = {2009},
+  volume = {4},
+  pages = {1--108},
+  number = {1},
+  file = {:http\://iris04.rit.edu/~ftpuser/S046.pdf:PDF},
+  publisher = {Morgan \& Claypool Publishers}
+}
+
+@ARTICLE{journals/dpd/BeitelmalP07,
+  author = {Abdlmonem H. Beitelmal and Chandrakant D. Patel},
+  title = {{Thermo-Fluids Provisioning of a High Performance High Density Data
+	Center}},
+  journal = {Distributed and Parallel Databases},
+  year = {2007},
+  volume = {21},
+  pages = {227-238},
+  number = {2-3},
+  date = {2007-09-18},
+  file = {:http\://iris04.rit.edu/~ftpuser/S033.pdf:PDF}
+}
+
+@TECHREPORT{report/greengridreport3,
+  author = {Christian Belady},
+  title = {{The Green Grid Data center Efficiency Metrics: PUE and DCIE}},
+  institution = {Green Grid},
+  year = {2007},
+  file = {:http\://iris04.rit.edu/~ftpuser/S039.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.24}
+}
+
+@ARTICLE{blazek2004data,
+  author = {Blazek, M. and Chong, H. and Loh, W. and Koomey, J.G.},
+  title = {{Data centers revisited: assessment of the energy impact of retrofits
+	and technology trends in a high-density computing facility}},
+  journal = {Journal of Infrastructure Systems},
+  year = {2004},
+  volume = {10},
+  pages = {98},
+  file = {:http\://iris04.rit.edu/~ftpuser/S008.pdf:PDF}
+}
+
+@ARTICLE{boucher2006viability,
+  author = {Boucher, T.D. and Auslander, D.M. and Bash, C.E. and Federspiel,
+	C.C. and Patel, C.D.},
+  title = {{Viability of dynamic cooling control in a data center environment}},
+  journal = {Journal of Electronic Packaging},
+  year = {2006},
+  volume = {128},
+  pages = {137},
+  file = {:http\://iris04.rit.edu/~ftpuser/S015.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/isca/BrooksTM00,
+  author = {David Brooks and Vivek Tiwari and Margaret Martonosi},
+  title = {Wattch: a framework for architectural-level power analysis and optimizations},
+  booktitle = {ISCA},
+  year = {2000},
+  pages = {83-94},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://doi.acm.org/10.1145/339647.339657},
+  file = {:http\://iris04.rit.edu/~ftpuser/S038.pdf:PDF}
+}
+
+@ARTICLE{DBLP:journals/computer/CameronGF05,
+  author = {Kirk W. Cameron and Rong Ge and Xizhou Feng},
+  title = {High-Performance, Power-Aware Distributed Computing for Scientific
+	Applications},
+  journal = {IEEE Computer},
+  year = {2005},
+  volume = {38},
+  pages = {40-47},
+  number = {11},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://doi.ieeecomputersociety.org/10.1109/MC.2005.380},
+  file = {:http\://iris04.rit.edu/~ftpuser/S025.pdf:PDF}
+}
+
+@MISC{www/DCO,
+  author = {Parallel Data Lab at Carnegie Mellon University},
+  title = {{Data Center Observatory (DCO)}},
+  howpublished = {Web Page},
+  month = {Dec.},
+  year = {2008},
+  url = {http://www.pdl.cmu.edu/DCO/index.html}
+}
+
+@INPROCEEDINGS{chen2005reducing,
+  author = {Chen, G. and Malkowski, K. and Kandemir, M. and Raghavan, P.},
+  title = {{Reducing power with performance contraints for parallel sparse applications}},
+  booktitle = {Workshop on High-Performance, Power-Aware Computing},
+  year = {2005},
+  file = {:http\://iris04.rit.edu/~ftpuser/S023.pdf:PDF}
+}
+
+@ARTICLE{DBLP:journals/tc/ChoiKSSWL08,
+  author = {Jeonghwan Choi and Youngjae Kim and Anand Sivasubramaniam and Jelena
+	Srebric and Qian Wang and Joonwon Lee},
+  title = {{A CFD-Based Tool for Studying Temperature in Rack-Mounted Servers}},
+  journal = {IEEE Trans. Computers},
+  year = {2008},
+  volume = {57},
+  pages = {1129-1142},
+  number = {8},
+  file = {:http\://iris04.rit.edu/~ftpuser/078.pdf:PDF}
+}
+
+@TECHREPORT{report/fundamental,
+  author = {Dennis Bouley, Tom Brey},
+  title = {{Fundamentals of Data Center Power and Cooling Efficiency Zones}},
+  institution = {Green Grid},
+  year = {2008},
+  file = {:http\://iris04.rit.edu/~ftpuser/S041.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.24}
+}
+
+@TECHREPORT{report/epa,
+  author = {EPA},
+  title = {{Report to Congress on Server and Data Center Energy Efficiency}},
+  institution = {U.S. Environmental Protection Agency},
+  year = {2007},
+  file = {:http\://iris04.rit.edu/~ftpuser/S050.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.24}
+}
+
+@ARTICLE{feng2008green,
+  author = {Feng, W. and Feng, X. and Ge, R.},
+  title = {{Green supercomputing comes of age}},
+  journal = {IT PROFESSIONAL},
+  year = {2008},
+  volume = {10},
+  pages = {17},
+  number = {1},
+  file = {:http\://iris04.rit.edu/~ftpuser/S013.pdf:PDF},
+  publisher = {IEEE}
+}
+
+@INPROCEEDINGS{freeh2005using,
+  author = {Freeh, V.W. and Lowenthal, D.K.},
+  title = {{Using multiple energy gears in MPI programs on a power-scalable
+	cluster}},
+  booktitle = {Proceedings of the tenth ACM SIGPLAN symposium on Principles and
+	practice of parallel programming},
+  year = {2005},
+  pages = {173},
+  organization = {ACM},
+  file = {:http\://iris04.rit.edu/~ftpuser/S024.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/sc/GeFC05,
+  author = {Rong Ge and Xizhou Feng and Kirk W. Cameron},
+  title = {Performance-constrained Distributed DVS Scheduling for Scientific
+	Applications on Power-aware Clusters},
+  booktitle = {SC},
+  year = {2005},
+  pages = {34},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://doi.acm.org/10.1145/1105760.1105799},
+  file = {:http\://iris04.rit.edu/~ftpuser/044.pdf:PDF}
+}
+
+@INPROCEEDINGS{ge2007cpu,
+  author = {Ge, R. and Feng, X. and Feng, W. and Cameron, K.W.},
+  title = {{CPU MISER: A performance-directed, run-time system for power-aware
+	clusters}},
+  booktitle = {Proc. International Conference on Parallel Processing},
+  year = {2007},
+  pages = {18--26},
+  organization = {Citeseer},
+  file = {:http\://iris04.rit.edu/~ftpuser/S027.pdf:PDF}
+}
+
+@ARTICLE{DBLP:journals/internet/Goth08,
+  author = {Greg Goth},
+  title = {The Net's Going Green: Multipronged Approach Might Save Costs, Energy
+	- and the Climate},
+  journal = {IEEE Internet Computing},
+  year = {2008},
+  volume = {12},
+  pages = {7-9},
+  number = {1},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://dx.doi.org/10.1109/MIC.2008.22},
+  file = {:http\://iris04.rit.edu/~ftpuser/S029.pdf:PDF}
+}
+
+@ARTICLE{greenberg2006best,
+  author = {Greenberg, S. and Mills, E. and Tschudi, B. and Rumsey, P. and Myatt,
+	B.},
+  title = {{Best practices for data centers: Lessons learned from benchmarking
+	22 data centers}},
+  journal = {Proceedings of the ACEEE Summer Study on Energy Efficiency in Buildings
+	in Asilomar, CA. ACEEE, August},
+  year = {2006},
+  volume = {3},
+  pages = {76--87},
+  file = {:http\://iris04.rit.edu/~ftpuser/S042.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/hpca/GurumurthiSIVKLJ02,
+  author = {Sudhanva Gurumurthi and Anand Sivasubramaniam and Mary Jane Irwin
+	and Narayanan Vijaykrishnan and Mahmut T. Kandemir and Tao Li and
+	Lizy Kurian John},
+  title = {Using Complete Machine Simulation for Software Power Estimation:
+	The SoftWatt Approach},
+  booktitle = {HPCA},
+  year = {2002},
+  pages = {141-150},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://computer.org/proceedings/hpca/1525/15250141abs.htm},
+  file = {:http\://iris04.rit.edu/~ftpuser/S035.pdf:PDF}
+}
+
+@TECHREPORT{report/thermal-logic,
+  author = {HP},
+  title = {{The hot and cold of power and cooling}},
+  institution = {HP Thermal Logic technology},
+  year = {2006},
+  file = {:http\://iris04.rit.edu/~ftpuser/S044.pdf:PDF},
+  owner = {Lizhe},
+  timestamp = {2009.05.20}
+}
+
+@INPROCEEDINGS{hsu2005power,
+  author = {Hsu, C. and Feng, W.},
+  title = {{A power-aware run-time system for high-performance computing}},
+  booktitle = {Proceedings of the 2005 ACM/IEEE conference on Supercomputing},
+  year = {2005},
+  pages = {1},
+  organization = {IEEE Computer Society},
+  file = {:http\://iris04.rit.edu/~ftpuser/S026.pdf:PDF}
+}
+
+@INPROCEEDINGS{huang2004compact,
+  author = {Huang, W. and Stan, M.R. and Skadron, K. and Sankaranarayanan, K.
+	and Ghosh, S. and Velusam, S.},
+  title = {{Compact thermal modeling for temperature-aware design}},
+  booktitle = {Proceedings of the 41st annual conference on Design Automation},
+  year = {2004},
+  pages = {878--883},
+  organization = {ACM New York, NY, USA},
+  file = {:http\://iris04.rit.edu/~ftpuser/S031.pdf:PDF}
+}
+
+@INPROCEEDINGS{kim2007power,
+  author = {Kim, K.H. and Buyya, R. and Kim, J.},
+  title = {{Power aware scheduling of bag-of-tasks applications with deadline
+	constraints on dvs-enabled clusters}},
+  booktitle = {Proceedings of the Seventh IEEE International Symposium on Cluster
+	Computing and the Grid},
+  year = {2007},
+  pages = {541--548},
+  organization = {Citeseer},
+  file = {:http\://iris04.rit.edu/~ftpuser/S020.pdf:PDF}
+}
+
+@INPROCEEDINGS{kimura2006emprical,
+  author = {Kimura, H. and Sato, M. and Hotta, Y. and Boku, T. and Takahashi,
+	D.},
+  title = {{Emprical study on reducing energy of parallel programs using slack
+	reclamation by DVFS in a power-scalable high performance cluster}},
+  booktitle = {Proceedings of the IEEE International Conference on Cluster Computing},
+  year = {2006},
+  organization = {Citeseer},
+  file = {:http\://iris04.rit.edu/~ftpuser/S007.pdf:PDF}
+}
+
+@INPROCEEDINGS{kimura2008runtime,
+  author = {Kimura, H. and Sato, M. and Imada, T. and Hotta, Y.},
+  title = {{Runtime DVFS control with instrumented Code in power-scalable cluster
+	system}},
+  booktitle = {2008 IEEE International Conference on Cluster Computing},
+  year = {2008},
+  pages = {354--359},
+  file = {:http\://iris04.rit.edu/~ftpuser/S006.pdf:PDF}
+}
+
+@MISC{www/thermostat,
+  author = {PSU Computer Systems Lab},
+  title = {{ThermoStat}},
+  howpublished = {Web Page},
+  url = {http://csl.cse.psu.edu/?q=node/115}
+}
+
+@INPROCEEDINGS{von2009power,
+  author = {von Laszewski, G. and Wang, L. and Younge, A.J. and He, X. and Bloomington,
+	IN and Rochester, NY},
+  title = {{Power-Aware Scheduling of Virtual Machines in DVFS-enabled Clusters}},
+  booktitle = {IEEE Cluster},
+  year = {2009},
+  file = {:http\://iris04.rit.edu/~ftpuser/S028.pdf:PDF}
+}
+
+@TECHREPORT{report/upssilicon,
+  author = {Michael K Patterson, Annabelle Pratt, Pavan Kumar},
+  title = {{From UPS to Silicon an end-to-end evaluation of Data Center Efficiency}},
+  institution = {Intel},
+  year = {2006},
+  file = {:http\://iris04.rit.edu/~ftpuser/S043.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.24}
+}
+
+@INPROCEEDINGS{moore2006wao,
+  author = {Moore, J. and Chase, JS and Ranganathan, P.},
+  title = {{Weatherman: Automated, Online and Predictive Thermal Mapping and
+	Management for Data Centers}},
+  booktitle = {IEEE International Conference on Autonomic Computing, 2006. ICAC'06},
+  year = {2006},
+  pages = {155--164},
+  file = {:http\://iris04.rit.edu/~ftpuser/079.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/usenix/MooreCRS05,
+  author = {Justin D. Moore and Jeffrey S. Chase and Parthasarathy Ranganathan
+	and Ratnesh K. Sharma},
+  title = {Making Scheduling "Cool": Temperature-Aware Workload Placement in
+	Data Centers},
+  booktitle = {USENIX Annual Technical Conference, General Track},
+  year = {2005},
+  pages = {61-75},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://www.usenix.org/events/usenix05/tech/general/moore.html},
+  file = {:http\://iris04.rit.edu/~ftpuser/065.pdf:PDF}
+}
+
+@INPROCEEDINGS{patel2002thermal,
+  author = {Patel, C.D. and Sharma, R. and Bash, C.E. and Beitelmal, A.},
+  title = {{Thermal considerations in cooling large scale high compute density
+	data centers}},
+  booktitle = {2002 Inter Society Conference on Thermal Phenomena, pg},
+  year = {2002},
+  pages = {767--776},
+  organization = {Citeseer},
+  file = {:http\://iris04.rit.edu/~ftpuser/S048.pdf:PDF}
+}
+
+@INPROCEEDINGS{steven2009understanding,
+  author = {Steven Pelley and David Meisner and Thomas F. Wenisch and James W.
+	VanGilder},
+  title = {{Understanding and Abstracting Total Data Center Power}},
+  booktitle = {2009 Workshop on Energy Efficient Design },
+  year = {2009},
+  organization = {Citeseer},
+  file = {:http\://iris04.rit.edu/~ftpuser/S049.pdf:PDF}
+}
+
+@ARTICLE{DBLP:journals/dpd/RamboJ07,
+  author = {Jeffrey Rambo and Yogendra Joshi},
+  title = {Modeling of data center airflow and heat transfer: State of the art
+	and future trends},
+  journal = {Distributed and Parallel Databases},
+  year = {2007},
+  volume = {21},
+  pages = {193-225},
+  number = {2-3},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://dx.doi.org/10.1007/s10619-006-7007-3},
+  file = {:http\://iris04.rit.edu/~ftpuser/S014.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/hpca/RamosB08,
+  author = {Luiz Ramos and Ricardo Bianchini},
+  title = {{C-Oracle: Predictive thermal management for data centers}},
+  booktitle = {{HPCA}},
+  year = {2008},
+  pages = {111-122},
+  file = {:http\://iris04.rit.edu/~ftpuser/S003.pdf:PDF}
+}
+
+@MISC{www/mercy,
+  author = {DARK Lab at Rutegus University},
+  title = {{Mercury suite)}},
+  howpublished = {Web Page},
+  month = {Dec.},
+  year = {2008},
+  url = {http://www.darklab.rutgers.edu/MERCURY/}
+}
+
+@TECHREPORT{scaramella-worldwide,
+  author = {Scaramella, J.},
+  title = {{Worldwide server power and cooling expense: 2006-2010 forecast}},
+  institution = {IDC},
+  year = {2006},
+  file = {:http\://iris04.rit.edu/~ftpuser/S051.pdf:PDF},
+  owner = {xi},
+  timestamp = {2009.11.28}
+}
+
+@ARTICLE{DBLP:journals/internet/SharmaBPFC05,
+  author = {Ratnesh K. Sharma and Cullen Bash and Chandrakant D. Patel and Richard
+	J. Friedrich and Jeffrey S. Chase},
+  title = {Balance of Power: Dynamic Thermal Management for Internet Data Centers},
+  journal = {IEEE Internet Computing},
+  year = {2005},
+  volume = {9},
+  pages = {42-49},
+  number = {1},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://doi.ieeecomputersociety.org/10.1109/MIC.2005.10},
+  file = {:http\://iris04.rit.edu/~ftpuser/071.pdf:PDF}
+}
+
+@TECHREPORT{sullivan2000alternating,
+  author = {Sullivan, R.F.},
+  title = {{Alternating cold and hot aisles provides more reliable cooling for
+	server farms}},
+  institution = {Uptime Institute},
+  year = {2000},
+  owner = {xi},
+  timestamp = {2009.11.23}
+}
+
+@INPROCEEDINGS{DBLP:conf/cluster/TangGV07,
+  author = {Qinghui Tang and Sandeep K. S. Gupta and Georgios Varsamopoulos},
+  title = {Thermal-aware task scheduling for data centers through minimizing
+	heat recirculation},
+  booktitle = {CLUSTER},
+  year = {2007},
+  pages = {129-138},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://dx.doi.org/10.1109/CLUSTR.2007.4629225},
+  file = {:http\://iris04.rit.edu/~ftpuser/064.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/aPcsac/VandersterBD07,
+  author = {Daniel C. Vanderster and Amirali Baniasadi and Nikitas J. Dimopoulos},
+  title = {Exploiting Task Temperature Profiling in Temperature-Aware Task Scheduling
+	for Computational Clusters},
+  booktitle = {Asia-Pacific Computer Systems Architecture Conference},
+  year = {2007},
+  pages = {175-185},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://dx.doi.org/10.1007/978-3-540-74309-5_18},
+  file = {:http\://iris04.rit.edu/~ftpuser/S021.pdf:PDF}
+}
+
+@ARTICLE{DBLP:journals/tpds/MualemF01,
+  author = {Ahuva Mu'alem Weil and Dror G. Feitelson},
+  title = {Utilization, Predictability, Workloads, and User Runtime Estimates
+	in Scheduling the IBM SP2 with Backfilling},
+  journal = {IEEE Trans. Parallel Distrib. Syst.},
+  year = {2001},
+  volume = {12},
+  pages = {529-543},
+  number = {6},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://www.computer.org/tpds/td2001/l0529abs.htm},
+  file = {:http\://iris04.rit.edu/~ftpuser/S019.pdf:PDF}
+}
+
+@ARTICLE{DBLP:journals/itpro/WilliamsC08,
+  author = {Joseph Williams and Lewis Curtis},
+  title = {Green: The New Computing Coat of Arms?},
+  journal = {IT Professional},
+  year = {2008},
+  volume = {10},
+  pages = {12-16},
+  number = {1},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://dx.doi.org/10.1109/MITP.2008.9},
+  file = {:http\://iris04.rit.edu/~ftpuser/S030.pdf:PDF}
+}
+
+@INPROCEEDINGS{DBLP:conf/ispass/YangZCZJ08,
+  author = {Jun Yang and Xiuyi Zhou and Marek Chrobak and Youtao Zhang and Lingling
+	Jin},
+  title = {Dynamic Thermal Management through Task Scheduling},
+  booktitle = {ISPASS},
+  year = {2008},
+  pages = {191-201},
+  bibsource = {DBLP, http://dblp.uni-trier.de},
+  ee = {http://dx.doi.org/10.1109/ISPASS.2008.4510751},
+  file = {:http\://iris04.rit.edu/~ftpuser/S022.pdf:PDF}
+}
+
+@MISC{flotherm,
+  title = {{FLOTHERM}},
+  howpublished = {Web Page},
+  owner = {Lizhe},
+  timestamp = {2009.05.20},
+  url = {http://www.mentor.com/products/mechanical/products/flotherm}
+}
+
+@MISC{hp-dmc,
+  title = {{HP Dynamic Smart Cooling}},
+  howpublished = {Web Page},
+  owner = {Lizhe},
+  timestamp = {2009.05.20},
+  url = {http://h20223.www2.hp.com/enterprise/cache/434556-0-0-197-470.html}
+}
+
+@MISC{www-ccr,
+  title = {{the Center of Computational Research}},
+  url = {http://www.ccr.buffalo.edu/display/WEB/Home}
+}
+
+@MISC{www-ccr-facility,
+  title = {{Facility Description of the Center of Computational Research}},
+  url = {http://www.ccr.buffalo.edu/download/attachments/65635/CCRFacilityDescriptionPIs.doc}
+}
+
+@MISC{www-sd,
+  title = {{Standard Deviation}},
+  url = {http://en.wikipedia.org/wiki/Standard_deviation}
+}
+
+@MISC{www-u2,
+  title = {{CCR U2 Cluster}},
+  url = {http://www.ccr.buffalo.edu/display/WEB/U2}
+}
+
+@MISC{thegreengrid,
+  title = {{The Green Grid}},
+  howpublished = {Website},
+  year = {2009},
+  url = {http://www.thegreengrid.org}
+}
+
+@comment{jabref-meta: groupsversion:3;}
+
+@comment{jabref-meta: groupstree:
+0 AllEntriesGroup:;
+1 ExplicitGroup:Green Computing\;2\;;
+2 ExplicitGroup:Overview\;0\;DBLP:journals/dpd/RamboJ07\;DBLP:journals
+/internet/Goth08\;DBLP:journals/itpro/WilliamsC08\;barroso2009datacent
+er\;blazek2004data\;feng2008green\;;
+2 ExplicitGroup:Cooling System\;0\;DBLP:conf/aPcsac/VandersterBD07\;DB
+LP:conf/cluster/TangGV07\;DBLP:conf/ispass/YangZCZJ08\;DBLP:conf/useni
+x/MooreCRS05\;DBLP:journals/internet/SharmaBPFC05\;boucher2006viabilit
+y\;huang2004compact\;journals/dpd/BeitelmalP07\;moore2006wao\;patel200
+2thermal\;report/thermal-logic\;sullivan2000alternating\;;
+2 ExplicitGroup:IT Equipment\;2\;hsu2005power\;;
+3 ExplicitGroup:DVFS\;0\;DBLP:conf/sc/GeFC05\;DBLP:journals/computer/C
+ameronGF05\;chen2005reducing\;freeh2005using\;ge2007cpu\;hsu2005power\
+;kim2007power\;kimura2006emprical\;kimura2008runtime\;von2009power\;;
+3 ExplicitGroup:Misc\;0\;DBLP:conf/sosp/BarhamDFHHHN03\;;
+3 ExplicitGroup:microprocessors\;0\;DBLP:conf/hpca/GurumurthiSIVKLJ02\
+;DBLP:conf/ics/CarreraPB03\;DBLP:conf/isca/BrooksTM00\;DBLP:conf/islpe
+d/JosephM01\;DBLP:conf/wmcsa/FlinnS99\;;
+2 ExplicitGroup:Scheduling\;0\;DBLP:conf/aPcsac/VandersterBD07\;DBLP:c
+onf/cluster/TangGV07\;DBLP:conf/ispass/YangZCZJ08\;DBLP:conf/sc/GeFC05
+\;DBLP:conf/usenix/MooreCRS05\;DBLP:journals/tpds/MualemF01\;kim2007po
+wer\;von2009power\;;
+2 ExplicitGroup:Implementation\;0\;DBLP:conf/hpca/RamosB08\;DBLP:journ
+als/tc/ChoiKSSWL08\;hp-dmc\;www/DCO\;www/mercy\;www/thermostat\;;
+2 ExplicitGroup:Misc\;0\;flotherm\;greenberg2006best\;report/epa\;repo
+rt/fundamental\;report/greengridreport3\;report/greengridreport5\;repo
+rt/greengridreport6\;report/thermal-logic\;report/upssilicon\;scaramel
+la-worldwide\;scaramella-worldwide1\;thegreengrid\;www-ccr\;www-ccr-fa
+cility\;www-epa\;www-sd\;www-u2\;;
+2 ExplicitGroup:Power System\;0\;DBLP:conf/isca/FanWB07\;steven2009und
+erstanding\;;
+2 ExplicitGroup:Model\;0\;;
+1 ExplicitGroup:Clouding Computing\;2\;;
+2 ExplicitGroup:Overview\;0\;armbrust2009above\;;
+}
+

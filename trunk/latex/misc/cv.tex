@@ -1,0 +1,192 @@
+% LaTeX Curriculum Vitae Template
+%
+% Copyright (C) 2004-2009 Jason Blevins <jrblevin@sdf.lonestar.org>
+% http://jblevins.org/projects/cv-template/
+%
+% You may use use this document as a template to create your own CV
+% and you may redistribute the source code freely. No attribution is
+% required in any resulting documents. I do ask that you please leave
+% this notice and the above URL in the source code if you choose to
+% redistribute this file.
+ 
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage[T1]{fontenc}
+
+% Comment the following line to use the default Computer Modern font
+% instead of the Palatino font provided by the mathpazo package.
+% Remove the 'osf' bit if you don't like the old style figures.
+\usepackage[sc,osf]{mathpazo}
+
+% In practice, I use the following font packages instead of mathpazo.
+% beramono provides a nice fixed-width font. xagaramon uses the
+% (commercial) Adobe Garamond font.
+%\usepackage[scaled=0.75]{beramono}
+%\usepackage[osf]{xagaramon}
+
+% Set your name here
+\def\name{Xi He}
+
+% Replace this with a link to your CV if you like, or set it empty
+% (as in \def\footerlink{}) to remove the link in the footer:
+\def\footerlink{}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {economics, econometrics, industrial organization,
+    applied microeconomics},
+  pdftitle = {\name: Curriculum Vitae},
+  pdfsubject = {Curriculum Vitae},
+  pdfpagemode = UseNone
+}
+
+\geometry{
+  body={6.5in, 8.5in},
+  left=1.0in,
+  top=1.25in
+}
+
+% Customize page headers
+\pagestyle{myheadings}
+\markright{\name}
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\rmfamily\mdseries\Large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+% Other possible font commands include:
+% \ttfamily for teletype,
+% \sffamily for sans serif,
+% \bfseries for bold,
+% \scshape for small caps,
+% \normalsize, \large, \Large, \LARGE sizes.
+
+% Don't indent paragraphs.
+\setlength\parindent{0em}
+
+% Make lists without bullets
+\renewenvironment{itemize}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+  }
+}{
+  \end{list}
+}
+
+\begin{document}
+
+% Place name at left
+{\huge \name}
+
+% Alternatively, print name centered and bold:
+%\centerline{\huge \bf \name}
+
+\vspace{0.25in}
+
+\begin{minipage}[t]{0.5\textwidth}
+  {Graduate Student}\\
+  %\href{http://www.gccis.rit.edu/~gccisphd/phd/index.maml}{Second Year PhD Student} \\
+  \href{http://www.rit.edu/}{Rochester Institute of Technology} \\
+  %Bldg. 74, Room 1065\\
+ 102 Lomb Memorial Avenue\\
+  Rochester, NY  14623  \\
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+  Phone: (404) 518-3581 \\
+  %Fax: (919) 684-8974 \\
+  Email: \href{mailto:xi.he@mail.rit.edu}{\tt xi.he@mail.rit.edu} \\
+  Skype: hexi111
+  %Homepage: \href{http://cyberaide.org/members/he-xi}{\tt http://cyberaide.org/members/he-xi} \\
+\end{minipage}
+
+\section*{Education}
+
+\begin{itemize}
+  \item M.A. Computing Science, Rochester Institute of Technology,  2008-present.
+
+  \item M.A. Computer Science, South China Normal University, 2005-2008.
+
+  \item B.S. Computer Science, HuNan University, 1996-2000.
+%    \begin{itemize}
+%    \item \textit{Minors:} Economics and Computer Science.
+%    \item \textit{Honors:} \textit{Summa Cum Laude},
+%      \href{http://www.pbk.org/}{Phi Beta Kappa}.
+%    \item \textit{Advanced study:}
+%      \href{http://www.stolaf.edu/depts/math-old/budapest/}{Budapest
+%        Semesters in Mathematics}, Fall 2002.
+%    \end{itemize}
+
+\end{itemize}
+
+\section*{Research Interests}
+
+Grid Computing, Cloud Computing, Green Computing, Parallel Computing
+
+\section*{Research Activity}
+\begin {itemize}
+\item Participate in the research project {\em Parallel Java}, which is an API and middleware for parallel programming in 100\% Java.
+\item Participate in the research project {\em Cyberaide JavaScript}, which is an easy-access JavaScript grid abstraction layer.
+\item Participate in the research project {\em Cyberaide Shell}, an advanced but simple to use system shell facilitating the use of current and future cyberinfrastrucuture.
+\item Participate in the research project {\em An Adaptive Cyberinfrastructure for 
+Threat Management in Urban Water Distribution Systems}.
+\item Collaborate with \href{http://www.ccr.buffalo.edu/display/WEB/Home} {Center for Computational Research} for the {\em Green Computing} project.
+\end {itemize}
+
+
+\section*{Publications}
+
+\begin{itemize}
+\item Wang, L., A. J. Younge, T. R. Furlani, G. von Laszewski, J. Dayal, and X. He, "Towards Thermal Aware Workload Scheduling in a Data Center", 10th International Symposium on Pervasive Systems, Algorithms and Networks (I-SPAN 2009) , Kao-Hsiung, Taiwan, 12/2009, Accepted.
+\item Laszewski, G., Wang L., Younge A. J., and He X.,  "Power-Aware Scheduling of Virtual Machines in DVFS-enabled Clusters",  IEEE Cluster 2009, New Orleans, Louisiana, IEEE, 08/2009.
+\item Laszewski, G., Younge A., He X., Mahinthakumar K., and Wang L.,  "Experiment and Workflow Management Using Cyberaide Shell",  4th International Workshop on Workflow Systems in e-Science (WSES 09) in conjunction with 9th IEEE International Symposium on Cluster Computing and the Grid: IEEE, 2009.
+\item Laszewski, G., Wang F., Younge A., He X., Guo Z., and Pierce M.,  "Cyberaide JavaScript: A JavaScript Commodity Grid Kit",  GCE08 at SC'08, Austin, TX, IEEE, Nov. 16, 2008.
+\end{itemize}
+
+
+
+\section*{Professional Experience}
+
+Software R\&D Intern 2006-2007
+\begin{itemize} 
+\item Design and develop the online transaction platform for Guangzhou Social Insurance Bureau.
+\item Design and develop the LED subsystem for the Second Asian Indoor Games.
+\item Design and develop the Score subsystem for the Ninth GuangDong Games.
+\item Participate in the development of IT Service Management Software.
+\item Participate in the development of Project Management Software.
+\item Participate in the development of Bug Management Software.
+\end{itemize} 
+Lecturer Intern 2005-2006
+\begin{itemize}
+\item Give lectures on Web Services.
+\item Give lectures on Java Language.
+\end{itemize} 
+Software Engineering 2002-2005
+\begin{itemize}
+\item Participate in the development of MinSheng Banking System.
+\item Participate in the development of Card SubSystem of industrial and Commercial Bank of China.
+\end{itemize} 
+
+\section*{Technical Skills}
+\begin {itemize}
+\item Programming: C, C++, C\#, Java, VB, Delphi, Python, PHP, UNIX shell scripting and others.
+\item Database: Oracle, Informix, MSSQL, MySQL.
+\item Application: Latex, Microsoft Office, and other common productivity packages for Windows, OS X, Linux platforms.
+\item Operating Systems: Microsoft Windows XP/2000/2003, Apple OS X, Linux, SCO, AIX and other UNIX variants.
+\end {itemize}
+
+% Footer
+\begin{center}
+  \begin{footnotesize}
+    Last updated: \today \\
+    \href{\footerlink}{\texttt{\footerlink}}
+  \end{footnotesize}
+\end{center}
+
+\end{document}

@@ -1,0 +1,105 @@
+%\doublespacing
+
+\newcommand{\AUTHOR}{%
+Xi He\\
+Service Oriented Cyberinfrastruture Lab, Rochester Institute of Technology\\
+~Bldg 74, Lomb Memorial Drive, Rochester, NY 14623-5608 \\
+~xi.he@mail.rit.edu%
+}
+\newcommand{\TITLE}{Green It}
+
+\TABLEOFCONTENTS
+
+\title{\TITLE}
+\author{\AUTHOR}
+
+\maketitle
+
+\begin{abstract}
+Your abstract goes here
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Your introduction goes here. 
+
+The paper is structred as follows ...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Other Sections}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To cite you use the cite command \cite{DBLP:conf/aPcsac/VandersterBD07}. Abstract and Conclusion sections must not contain citations or special formating such as itemized lists.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Including Figures}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This is how to include and refer to Figure \ref{F:framework}.
+ 
+
+\FIGURE{!htb}
+  {images/cyberaide}
+  {1.0}
+  {Cyberaide Framework}
+  {F:framework}
+
+Example for a side by side figure is Figure  \ref{F:blocks} with ist subfigures 
+\ref{F:blocks}.a and \ref{F:blocks}.b.
+
+\SIDEBYSIDEFIGURE{!htb}
+  {images/cyberaide}
+  {0.5}
+  {Caption for Figure a}
+  {images/cyberaide}
+  {0.5}
+  {Caption for Figure b}
+  {Example of two figures next to each other}
+  {F:blocks}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Make}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The best way to create the documents is form the commandline (under windows you can install miktex and cygwin). Make sure you have make installed. Once that is done you can craete the contents while modifying the following files in teh directory.
+
+\begin{itemize}
+
+\item {\em paper.tex:} contents of the paper you will write
+\item {\em vonLaszewski-template.tex:} real name of the latex file that includes the contents from paper.tex. In teh final version the \verb|template| shoudl be replaced with something more meaningful and the Makefile shoud be updated. Do not modify the contents of this file too much other than changing title and authors. Typically {\em Gregor von Laszewski} is always a coauthor.
+
+\end{itemize}
+
+To create the file and view the pdf file say
+
+\begin{verbatim}
+$ make
+\end{verbatim}
+
+This will work only work on OSX.
+
+To recreate a complete new paper we advise to do a complete new make such as 
+
+\begin{verbatim}
+$ make clean
+$ make all
+\end{verbatim}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Commenting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+I am using sometimes comment with a special 
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Put your conclusions in this section

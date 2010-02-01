@@ -1,0 +1,108 @@
+% -*- latex -*-
+\documentclass[twocolumn,10pt]{IEEEtran}
+
+%
+% to disable the comments please switch to "false"
+%
+\newcommand\toPrintComments{true}
+%\newcommand\toPrintComments{false}
+
+\usepackage{setspace}  
+\usepackage{ifthen}
+\usepackage{comment}
+%\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[usenames]{color}
+\usepackage{amssymb,amsmath}
+
+\doublespacing
+
+\usepackage[%
+        pdfcreator={http://www.globus.org/cog/},%
+        pdftex,%
+        colorlinks=true,%
+        linkcolor={black},%
+        citecolor={black},%
+        urlcolor={black}]{hyperref}
+
+\usepackage{ifthen}
+       
+\usepackage{ifthen}
+
+\floatstyle{ruled}
+\newfloat{algorithm}{htbp}{loa}
+\floatname{algorithm}{Algorithm}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Program Float
+%
+\usepackage{float}
+
+\floatstyle{ruled}
+\newfloat{program}{thp}{lop}
+\floatname{program}{Program}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\G}{
+\ifthenelse{\equal{\toPrintComments}{true}}{
+{\footnote{\color{red}\em some error}}
+}{}
+}
+
+%\newcommand{\GVL}[1]{
+%\ifthenelse{\equal{\toPrintComments}{true}}{
+%{\color{red}\em GVL: #1}
+%}{}
+%}
+%\newcommand{\WANG}[1]{
+%\ifthenelse{\equal{\toPrintComments}{true}}{
+%{\color{red}\em GVL: #1}
+%}{}
+%}
+%\newcommand{\YOUNGE}[1]{
+%\ifthenelse{\equal{\toPrintComments}{true}}{
+%{\color{red}\em YOUNGE: #1}
+%}{}
+%}
+%\newcommand{\XI}[1]{
+%\ifthenelse{\equal{\toPrintComments}{true}}{
+%{\color{red}\em YOUNGE: #1}
+%}{}
+%}
+
+\begin{document}
+
+\input{tex/macros}
+
+\input{paper}
+
+%\section*{Acknowledgment}
+
+%Work conducted by Gregor von Laszewski is supported (in part) by NSF CMMI 0540076 and NSF SDCI NMI 0721656.
+
+\bibliographystyle{tex/IEEEtran}
+
+%\bibliography{../bib/WF}
+\bibliography{%
+../bib/vonLaszewski,%
+../bib/www,%
+../bib/grid,%
+greenit}
+
+%\clearpage
+%\appendix
+%\input{todo}
+
+\end{document}
+
+

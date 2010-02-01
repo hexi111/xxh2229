@@ -1,0 +1,140 @@
+% LaTeX Curriculum Vitae Template
+%
+% Copyright (C) 2004-2009 Jason Blevins <jrblevin@sdf.lonestar.org>
+% http://jblevins.org/projects/cv-template/
+%
+% You may use use this document as a template to create your own CV
+% and you may redistribute the source code freely. No attribution is
+% required in any resulting documents. I do ask that you please leave
+% this notice and the above URL in the source code if you choose to
+% redistribute this file.
+  
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{geometry}
+%\usepackage[T1]{fontenc}
+
+% Comment the following line to use the default Computer Modern font
+% instead of the Palatino font provided by the mathpazo package.
+% Remove the 'osf' bit if you don't like the old style figures.
+%\usepackage[sc,osf]{mathpazo}
+
+% In practice, I use the following font packages instead of mathpazo.
+% beramono provides a nice fixed-width font. xagaramon uses the
+% (commercial) Adobe Garamond font.
+%\usepackage[scaled=0.75]{beramono}
+%\usepackage[osf]{xagaramon}
+
+% Set your name here
+\def\name{Xi He}
+
+% Replace this with a link to your CV if you like, or set it empty
+% (as in \def\footerlink{}) to remove the link in the footer:
+\def\footerlink{}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {economics, econometrics, industrial organization,
+    applied microeconomics},
+  pdftitle = {\name: Curriculum Vitae},
+  pdfsubject = {Curriculum Vitae},
+  pdfpagemode = UseNone
+}
+
+\geometry{
+  body={6.5in, 10in},
+  left=1.0in,
+  top=0.6in
+}
+
+% Customize page headers
+\pagestyle{myheadings}
+\markright{\name}
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\rmfamily\mdseries\Large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+% Other possible font commands include:
+% \ttfamily for teletype,
+% \sffamily for sans serif,
+% \bfseries for bold,
+% \scshape for small caps,
+% \normalsize, \large, \Large, \LARGE sizes.
+
+% Don't indent paragraphs.
+\setlength\parindent{2em}
+
+% Make lists without bullets
+%\renewenvironment{itemize}{
+%  \begin{list}{}{
+%    \setlength{\leftmargin}{1.5em}
+%  }
+%}{
+%  \end{list}
+%}
+
+\begin{document}
+
+\newcommand{\AUTHOR}{%
+Xi He\\
+%Rochester Institute of Technology\\
+%~Bldg 74, Lomb Memorial Drive, Rochester, NY 14623-5608 \\
+%~xi.he@mail.rit.edu%
+}
+\newcommand{\TITLE}{Statement of Purpose}
+
+%\TABLEOFCONTENTS
+
+\title{\TITLE}
+\author{\AUTHOR}
+%\maketitle
+% Place name at left
+
+
+% Alternatively, print name centered and bold:
+%\centerline{\huge \bf \name}
+
+
+.
+%    \begin{itemize}
+%    \item \textit{Minors:} Economics and Computer Science.
+%    \item \textit{Honors:} \textit{Summa Cum Laude},
+%      \href{http://www.pbk.org/}{Phi Beta Kappa}.
+%    \item \textit{Advanced study:}
+%      \href{http://www.stolaf.edu/depts/math-old/budapest/}{Budapest
+%        Semesters in Mathematics}, Fall 2002.
+%    \end{itemize}
+
+
+\begin{center}
+{\large {\em Statement of Purpose}}
+\end{center}
+
+From an early age I have always been fascinated by computers. It was my brother who introduced me to the world of computing and I can still remember the feeling of wanting to just how computers worked, why they worked and what else they could do. It seemed only logical that I pursue a career in computer science.  During my undergraduate and graduate career, I had the opportunity to be exposed to the full range of computer science courses, all of which tended to reinforce and solidify my intense interest in computing. Since I got my B.S. and M.S. in computer science I have obtained so much practical experience and working skills as a software engineer. I am deeply engaged in computing areas such as Web Services, Grid Computing, and Cloud Computing. The more projects I was involved in, the longer I worked as a software engineer, the more responsibility I have in the project teams, the more eager I feel I need to go back to academic institute for advanced study to update my knowledge and to build a stronger and broader foundation for my further career. I am also very interested in research in computing to develop new ideas to solve challenging problems. One of my ultimate goals is to pursue my PhD degree.  I wish to be a scientist and researcher in the computing area in the future.
+
+In 2008, I was accepted by Computing and Information Sciences PhD program in Rochester Institute of Technology. My research focuses on Grid Computing, Cloud Computing and Green Computing. My advisor, Dr. Laszewski, is an expert in the area of Grid Computing. He worked as a scientist between 1996 and 2007 in Argonne National Laboratory before he came to RIT. Under the guidance of Dr. Laszewski, I have achieved a better understanding of what constitutes the good research and how to conduct such research. One of our research efforts is to develop specialized tools and services to ease the use of advanced Cyberinfrastructure. {\em Grid Shell}, for example, is an easy-to-use system shell we developed to facilitate the deploy and execution of large scale scientific application. Besides, our research effort includes developing new algorithm and adopting new methods to increase the energy efficiency in modern data centers.
+
+%With the growth of Cloud Computing and ever increasing data centers, I believe that Green Computing related research in the environment of Cloud Computing is promising and far-reaching. Currently, I am working on the study of green data centers in the context of Cloud Computing with the goal of improving energy efficiency in data centers and minimizing the environment impact.  Based on the analysis of current data centers and my review of research progress, I propose a novel thermal aware task scheduling which is based on our knowledge of thermal characteristic in data centers and aims to improve the energy efficiency and address the large energy problem in data centers. CFD tools are adopted to model the complex airflow and heat transfer in data center room.  In the long term, I think it is necessary to have a complete mathematic model and a framework for Green Computing.
+
+
+I believe Cloud Computing will play an extremely important role in the future world of computing since it has the potential to transform a large part of the IT industry, making software even more attractive as a service and shaping the way IT hardware is designed and purchased. Currently, quite a few obstacles urgently needed to be addressed in order to advance the development of Cloud Computing. For example, many applications benefit from high performance computing (HPC) which is mostly achieved in large clusters using message-passing interface (MPI). The obstacle confronted by Cloud Computing is that many HPC application need to ensure that all the threads of a program are running simultaneously, but today's virtual machines and operating systems do not provide a programmer-vision way to ensure this. Other obstacles in Cloud Computing include service availability, data confidentiality and so on. These obstacles, on the other hand, provide the opportunity for researchers to contribute to academic community and make Cloud Computing related research promising and far-reaching.
+
+I am happy to have learned that your college offers an excellent program in advanced computing theories and technologies and that will provide good opportunities for the full development of individual capacity and originality. I think it is one of the best places for me to undertake my PhD studies. 
+I believe I will be successful in my computing professional career with my hard working and studying in your college.
+
+
+
+% Footer
+%\begin{center}
+%  \begin{footnotesize}
+%    Last updated: \today \\
+%    \href{\footerlink}{\texttt{\footerlink}}
+%  \end{footnotesize}
+%\end{center}
+\end{document}

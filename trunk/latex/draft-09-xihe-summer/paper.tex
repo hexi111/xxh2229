@@ -1,0 +1,400 @@
+%\doublespacing
+
+\newcommand{\GVL}[1]{{\color{red}\em  GVL: #1}}
+
+\newcommand{\SHELL}{GridShell}
+\newcommand{\AUTHOR}{%
+Xi He\\
+Service Oriented Cyberinfrastruture Lab, Rochester Institute of Technology\\
+Bldg 74, Lomb Memorial Drive, Rochester, NY 14623-5608 \\
+Email: xi.he@mail.rit.edu%
+}
+\newcommand{\TITLE}{Thermal Aware Task Scheduling With Artificial Neural Network}
+
+%\TABLEOFCONTENTS
+
+\title{\TITLE}
+\author{\AUTHOR}
+
+\maketitle
+
+\begin{abstract}
+Large energy consumption in data centers has become a challenging problem with the emergence of cloud computing and high performance data centers. Efficiently reducing energy cost is one of key issues involved with both optimizing computing resources and maximizing business outcome. In this paper, we present a thermal aware task scheduling to address the energy problem in data centers. The basic idea of our approach is to balance the temperature distribution in data centers, thus implicitly minimizing cooling energy cost in data centers. As an important component of our scheduling system, a thermal model is also developed and implemented using artificial neural network to predict the effect of workload distribution and cooling configuration on thermal distribution in data centers.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In recent years, many large scale data centers have been deployed with high density computing clusters and server farms to support high performance scientific applications. However, besides the scientific challenges, many operational issues in data centers need to be addressed. One of those issues is the large energy consumption in data centers. According to U.S. Environmental Protection Agency (EPA), 61 billion kilowatt-hours of power was consumed in data center in 2006, that is 1.5 percent of all US electricity consumption costing around \$4.5 billion \cite{www-epa}. In fact, the energy consumption in data centers doubled between 2000 and 2006 and EPA estimates that the energy usage will double again by 2011.  
+
+A large scale data center's annual energy cost can be several millions of US dollars. 
+Power and cooling cost is the dominant cost in data centers \cite{report/greengridreport1}.
+In fact, it is reported that cooling costs can be up to 50\% of the total energy cost \cite{report/SAWYER}.
+It is also noted that the life of a computer system is directly related to its operating temperature. 
+Based on Arrhenius time-to-fail model \cite{qq},  every 10$^{\circ}\mathrm{C}$  increase of temperature leads to a doubling of the system failure rate. Hence, 
+it is recommended that computer components be kept as cool as possible 
+for maximum reliability, longevity, and return on investment \cite{www/temperature-reliability}.
+
+A recent research work \cite{DBLP:conf/cluster/TangGV07} indicates that computing nodes' temperature distribution will affect the energy cost of cooling system in data centers. It also shows that minimizing the maximal temperature of all the nodes will minimize the cooling energy cost of a data center. Assume a set of tasks consume a fixed amount of energy in data centers, an appropriate temperature distribution of computing nodes will reduce the maximal temperature of all the nodes and thus significantly conserve cooling energy consumption. 
+
+\begin{comment}
+In this paper we use standard deviation \cite{www-sd} to describe computing nodes' thermal distribution. Computing nodes' temperature standard deviation is the measure of how the computing nodes' temperature is close to their average value. A low standard deviation indicates that every computing node' temperature value tends to very close to the average value. A high standard deviation indicated that the temperature values in the computing nodes are distributed in a large range. Therefore, assume the same energy in data centers is needed to execute the same set of tasks, the goal of the efficient thermal management is to balance the thermal distribution on each node and make the computing nodes' temperature standard deviation as low as possible so that         
+\end{comment}
+
+In our study, we present a thermal aware task scheduling to address the energy problem. The contribution of this paper is two-fold: first, we developed a thermal-aware task scheduling for data centers, which will save an amount of cooling energy cost. Second, we develop and implement a thermal model with artificial neural network.
+
+The remainder of this paper is organized as follows: first we introduce three ways to approach the energy problem in data centers in Section 2. Then we discuss the motivation for thermal aware scheduling in Section 3. In Section 4,  we present compute nodes, thermal and job model in data centers, and define our problem. The detailed explanation of our thermal model and its implementation is presented in Section 5. We present our algorithm and simulation result in Section 6,7. In the last section, we conclude the paper and propose our future work.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Literature review }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+Much effort has been spend towards addressing the power crisis in data centers. For example, large amount of research work has been conducted on smart cooling techniques \cite{patel2002tcc, beitelmal2007tfp, moore2005dcw, moore2006wao}  to improve energy-efficiency in data centers. In \cite{hsu2005fap,DBLP:conf/sc/HsuF05} dynamic voltage and frequency scaling (DVFS) is proposed to reduce processor power dissipation with modest performance loss. Server virtualization \cite{DBLP:conf/sosp/BarhamDFHHHN03} is another way to address the large power consumption problem. Most servers and desktops today are in use only 5-15\% of the time they are powered on, yet most x86 hardware consumes 60-90\% of the normal workload power even when idle. With virtualization technique, all the VMs share the same physical resources and the utilization of the physical server can reach up to 80\% with ignorable overhead \cite{DBLP:conf/nca/SilvaASTA07}. Thus, although virtualization results typically in a performance loss, its ability to use the available hardware more efficiently provides great contribution in regards to the utilization. In addition, a wide variety of task scheduling algorithms are reported to minimize the energy consumption in data centers \cite{DBLP:conf/ccgrid/KimBK07,DBLP:conf/sc/GeFC05,DBLP:conf/cluster/TangGV07,DBLP:conf/usenix/MooreCRS05,DBLP:conf/aPcsac/VandersterBD07}. 
+\end{comment}
+
+Researchers usually approach the thermal management problem in three different ways. One is from the infrastructure design and planning perspective. In \cite{DBLP:conf/dac/HuangSSSGV04}, CFD modeling and increased deployment of temperature sensors are involved in the phase of data center design and analysis. The work in \cite{sullivan2000alternating} evaluates layout of the computing equipment in the data center to minimize air flow inefficiencies. The second approach aims to improve the computation power efficiency. In our lab's recent publication \cite{cluster2009}, we focuses on scheduling virtual machines in a compute cluster to reduce power consumption via the technique of Dynamic Voltage Frequency Scaling (DVFS). The third approach, which is applied in this paper, is targeted on improving the cooling power efficiency.  
+
+The cooling system in data centers extracts the heat produced by servers and maintains server's inlet air temperature below the redline temperature. Typically the efficiency of the cooling system depends on external environmental control which is affected  by irregular air flows and nonuniform workload. Therefore, more efficient cooling system can be achieved by appropriate workload placement. In \cite{DBLP:journals/internet/SharmaBPFC05}, based on the simulation result that there exists temperature imbalance for a row of racks, the researchers proposes to schedule the workload according to the extract temperature of the racks in a row. In \cite{DBLP:conf/cluster/TangGV07, DBLP:conf/usenix/MooreCRS05}, the researchers study the recirculation problem in data centers and propose a task scheduling algorithm to minimize heat recirculation, thus leading to minimal cooling energy cost. The shortcoming of these two approaches is that instead of compute nodes, they study compute racks which contain a certain number of compute nodes with different temperature. As a result, these solutions are less accurate than others. The more elaborate thermal aware tasks are with computational fluid dynamic (CFD) models \cite{choi2008cfd}. However, some research declares that CFD based model is too complex and is not suitable for online scheduling.  HP lab presents a neural network based thermal predictive model\cite{choi2008cfd}. Unfortunately, no detailed information is exposed to academic community due to industry restriction. Also the thermal aware task scheduling proposed in this paper is time-consuming and impractical.     
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Motivation for Thermal Aware Task Scheduling}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+Temperature is considered as an important physical metrics in data centers \cite{hamann2008mat}. First, efficient thermal management can decrease the cooling costs in data centers. For example, in \cite{DBLP:conf/usenix/MooreCRS05} it is pointed out that a 30,000 $ft^2$ data center with 1000 standard computing racks can lower computer room air conditioning (CRAC) power consumption by 20\%-40\% for a \$1-\$3 million savings in annual cooling costs by maintaining an ambient room temperature that is 5$^\circ$C cooler through intelligent thermal management. Second, efficient thermal management can also increase hardware reliability. Some studies \cite{DBLP:conf/fast/AndersonDR03, cole2000edr} show that a 15$^\circ$C rise increases hard disk drive failure rates by a factor of two. In this section, we present the motivation
+\end{comment}
+Temperature is considered as an important physical metrics in data centers \cite{hamann2008mat}. Efficient thermal management not only decrease the cooling costs in data centers, but also increase hardware reliability. In this section, We introduce a typical data center architecture, its nonuniform temperature distribution and the correlation between compute nodes' temperature and their workload. Then we present the motivation for thermal aware task scheduling. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Data Center Organization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FIGURE{htb}
+ {images/datacenter3}
+ {1}
+ {The typical architecture of data centers}
+ {F:f1}
+
+Figure \ref{F:f1} shows how a data center is organized.  The racks are laid out in rows on a raised floor over a shared plenum, and arranged back-to-back so that cool aisles and hot aisles are formed to minimize air mixing and increase cooling efficiency. Computer room air conditioning(CRAC) units along the walls take in the re-circulated exhaust hot air, cool the air over a refrigerated or chilled 
+water cooling coil to approximately 10-17$^\circ$ and direct the cooled air into the shared plenum. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Thermal Load Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FIGURE{htb}
+ {images/datacenter4}
+ {1}
+ {Temperature contour plot for a programmable data center\cite{DBLP:journals/internet/SharmaBPFC05}}
+ {F:f4}
+Typically, every data center has its thermal profile inherent to its layout and capability of cooling infrastructure. Due to complex air flow and workload, there exists thermal imbalance in data centers. For example, some locations in the data centers has the higher temperature than others, which we call hot spots. Figure \ref{F:f4} is based on a CFD based study in HP Labs\cite{DBLP:journals/internet/SharmaBPFC05} and it shows the contour plot of temperature at a height of 1.85m above the floor in a 11.7m $\times$ 8.5m $\times$ 3.1m data center. As can be seen from this figure, temperature distribution is not uniform, even the workload distribution is assumed to be uniform in the study. There are several ``hot spots'' indicated by the regions in red and several ``cold spots'' indicated by the regions in darker green and blue. The uneven thermal load distribution often leads to an excessive, inefficient cooling cost as it is difficult for current cooling solutions to identify and eliminate ``hot spots''.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Task-temperature Profiling}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\FIGURE{!h}
+ {images/Buffalo_data}
+  {1.0}
+ {Task-temperature profiles in buffalo data center}
+ {F:buffalo}
+ 
+Given certain compute processors and steady ambient  temperature, a task-temperature profile shows the temperature increase along with the task execution. Figure \ref{F:buffalo} shows an overall task-temperature profiles in the Center for Computational Research at State University of New York at Buffalo \cite{www-ccr}. 
+The X-axis is the time,  and the Y-axis gives two values: the upper line is the task execution time (CPU time), the lower line shows computing node temperature. 
+Figure \ref{F:buffalo} indicates the task and temperature correlation: as compute loads in term of task CPU time augment, computing node temperatures increase incidentally. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Motivation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Based on the above discussion, it is clear that irregular air flow and workload forms nonuniform thermal distribution in data centers, which leads to cooling inefficiency. At the same time, our data analysis shows that the compute nodes' temperature and their workload are strongly correlated. Base on the assumption that uniform thermal distribution can lower cooling cost, it is reasonable that we can conserve cooling energy by the way of scheduling tasks to balance thermal distribution in data centers. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{System Model}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Before selecting an appropriate technique to implement our idea, we must formalize our problem statement. This section presents formal models of compute resource, job and thermal prediction, and a thermal 
+aware scheduling algorithm, which allocates incoming jobs on compute resources in a data center with
+the goal of minimizing maximum temperature in the data center.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Compute Resource Model}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+Node=\{node_i | 1\le i \le N\}
+\end{equation}
+$Node$ represents a set of $N$ compute nodes. $Node_i$ is a compute node which is described as follows:
+\begin{equation}
+node_i=(<x,y,z>,temp(t),w(t),t^a)  
+\end{equation}
+where,\\$<x,y,z>$ is $node_i$'s location in a 3-dimensional space. $t^a$ is the time when $node_i$ is available for job execution. 
+$temp(t)$ is $node_i$'s temperature-time function. 
+\begin{displaymath} 
+temp(t) = \left\{  \begin{array}{ll} 
+actual~temperature&\textrm{if $t<t^{now}$}\\ 
+predicted~temperature & \textrm {if $t>=t^{now}$}
+\end{array} \right. 
+\end{displaymath} 
+Note that $temp$ function describes not only $node_i$'s history temperature, but also 
+future temperature that is predicted according to the workload that $node_i$ is going to take. 
+$w(t)$ is a function that represents the workload on $node_i$ over time.  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Thermal Model} \label {ss:tm}
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+T=P(W,L)
+\end{equation}
+$T$ represents the thermal topology in a data center. It has non-linear relation $P$ with two factors: $W$, the workload distribution in the data center and $L$, the physical topology of the data center.
+
+Since $P$ describe the relationship between temperature and workload, given nodes' workload and their current temperature, we can use $P$ to predict nodes' next moment's temperature.  
+\begin{equation}
+node_i.temp(t+1)=P( node_i.temp(t), node_i.w(t+1))
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Job model}
+%%%%%%%%%%%%%%%%%%%%%%%
+%Workloads in a data center are modeled as a set of jobs, 
+\begin{equation}
+Job=\{job_j | 1\le j \le J\}
+\end{equation}
+ $J$ is the total number of incoming jobs. 
+ $job_j$ is an incoming job, which is described as follows:
+\begin{equation}
+job_j=(p,  t^{arrive}, t^{start},  t^{req})
+\end{equation}
+where, \\$p$ is the required compute node number of $job_j$, \\
+ $t^{arrive}$ is the arrival time of $job_j$,\\
+ $t^{start}$ is the starting time of $job_j$,\\
+ $ t^{req} $ is the required execution time of $job_j$.\\
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection {Research Issue Definition}
+%%%%%%%%%%%%%%%%%%%%%%%
+Based on the above discussion, 
+a job schedule is a map from a job $job_j$ to certain compute node $node_i$ with starting time $job_j.start$:
+\begin{equation}
+schedule_j: job_j \rightarrow (node_i, job_j.t^{start})
+\end{equation}
+A workload schedule $Schedule$ is a set of job schedules $\{schedule_j | job_j \in Job\}$ for all jobs in the workload:
+\begin{equation}
+Schedule=\{schedule_j | job_j \in Job \}
+\end{equation}
+
+We define the maximum temperature of the compute nodes as $TEMP_{max}$; The problem definition is as follows:
+given a workload set $Job$ and a set of compute node $Node$, find an optimal workload schedule, $Schedule$, 
+which minimizes $TEMP_{max}$;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Thermal prediction using artificial neural network}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+As stated in subsection \ref{ss:tm}, the thermal model is used to describe the relationship between nodes' temperature and their workload as well as a tool to predict nodes' temperature. Many technologies can be used to implement thermal model, such as a genetic algorithm, support vector machine and artificial neural network. 
+
+In recent years, artificial neural networks (ANNs) has been widely applied to a number of prediction problems in different fields, such as "forex prediction" in financial markets or "temperature forecasting" in weather prediction. Thermal topology in data centers changes within minutes and it has the non-linear relationship with its previous thermal topology, workload distribution and effectiveness of cooling system. The temperature in a single compute node not only depends on its previous temperature and its workload, but also its neighborhood compute nodes and its spatial location. Considering ANNs' ability to find the correlation of various variables,  we choose ANNs to predict the thermal  topology in data centers. 
+
+\FIGURE{htb}
+ {images/ann.png}
+ {1}
+ {5-layer back propagation neural network}
+ {F:f2}
+
+The ANNs approach used in this paper is Back Propagation Neural Network in which learning is performed through the adjustment of errors that are regularly propagated back all the way to the input layer. As shown in Figure \ref{F:f2}, the neural network contains 3 types of layers: input layer, hidden layer and output layer. Input data is composed of two types of data: nodes' previous moment's temperature and their current workload. Nodes' current moment's temperature is predicted in the output layer. Between the input layer and the output layer, there are five hidden layers, and each layer contains a set of elements known as neurons. Each neuron accepts inputs from the previous layer, applies a weighting factor to each input and uses the sum of the weighted inputs as the input of its activation function, which is $tansig$ in our ANNs. Then the output of the neuron's activation function is passed as input to the next layer.
+
+\FIGURE{htb}
+ {images/ann1}
+ {1}
+ {ANNs simulation result}
+ {F:neural}
+ 
+We select Matlab Neural Network Toolbox to implement the back propagation neural network. We define five hidden layers in our neural network, and each hidden layer contains four hundred neurons and used the $tansig$ function as its activation function. The target Mean Square Error (MSE) is 0.025. The data for training and testing ANNs is from a real data center environment based on the Center for Computational Research (CRR) of State University of New York at Buffalo. We collected nodes' temperature data from the on-board sensors inside the compute nodes, and incoming jobs' information from job logs. We selected 50 compute nodes in our simulation,  use the data within 100 hours to train the neural network and then use the well-trained neural network to predict nodes' temperature at the next moment. Figure \ref{F:neural} shows a plot of predicted temperature distribution versus the actual distribution. Over 40\% of prediction difference are within 1$^\circ C$ and 70\% are within 2$^\circ C$.  
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This section discusses our Thermal Aware Scheduling Algorithm  (TASA). 
+The key idea  of TASA is  to schedule "hot" jobs on "cool" compute nodes and 
+tries to minimize maximum temperatures of compute nodes. 
+
+\newcommand{\LB}{\mbox{~~~~~~~~}}
+\newcommand{\SB}{\mbox{~~~~}}
+\begin{algorithm}
+\caption{Thermal Aware Scheduling Algorithm (TASA)}
+\label{A:1}
+~\\
+01\SB $t=0$\\
+02\SB FOR $i=1$ TO $N$ DO\\
+03\SB \SB$node_i.t^{a}$=0; \\
+04\SB ENDFOR\\
+05\SB Initiate $List_a$\\
+06\SB FOR $node_i \in Node$ DO\\
+07\SB\SB Insert $node_i$ into $List_a$, and keep $List_a$ the 
+\SB\SB~~ increased order of $node_i.temp(t^a)$\\
+08\SB ENDFOR\\
+\\
+09\SB Update $node_i.temp(t)$ with temperature measurement\\ 
+10\SB Sort $Job$  in the order of  decreased $job_j.t^{req}$\\
+\\
+11\SB FOR $j=1$  TO $J$ DO\\
+12\SB\SB FOR $k=1$ TO $job_j.p$ DO\\
+13\SB\SB\SB Set var to the first element in $List_a$ and remove\\
+\SB\SB\SB~~ var from $List_a$\\
+14\SB\SB\SB $var.t^{a}=var.t^{a}+job_j.t^{req}$\\
+15\SB\SB\SB Calculate $var.w(t^a-1)$ with $job_j.t^{req}$\\
+16\SB\SB\SB Predict $var.temp(t^{a}-1)$ with $P$\\
+17\SB\SB\SB IF $var.temp(t^{a-1}>=t_{redline})$ THEN\\
+18\SB\SB\SB\SB WHILE   ($var.temp(t^a-1)>=t_{redline}$) DO\\
+19\SB\SB\SB\SB\SB Schedule $job_{idle}$ on $var$\\
+20\SB\SB\SB\SB\SB $var.t^a=var.t^a+1$;\\
+21\SB\SB\SB\SB\SB Calculate $var.w(t^a-1)$ \\
+22\SB\SB\SB\SB\SB Predict $var.temp(t^{a}-1)$ with $var.f()$\\
+23\SB\SB\SB\SB END WHILE\\
+24\SB\SB\SB ENDIF\\         
+25\SB\SB\SB Insert $var$ into $List_a$, and keep $List_a$ the 
+\SB\SB\SB~~ increased order of $node_i.temp(t^a)$\\
+26\SB\SB ENDFOR\\
+27\SB \SB Schedule $job_j$ on  $\{ node_{j1}, node_{j2}, \ldots, node_{jp}\} $\\
+28\SB ENDFOR\\
+\\
+29\SB $t=t+ T^{interval}$\\
+30\SB Accept incoming jobs \\
+31\SB go to 09\\
+\end{algorithm}
+
+Algorithm \ref{A:1} presents a Thermal Aware Scheduling Algorithm (TASA). 
+Lines 1-- 8 initialize variables. 
+Line 1 sets the initial time stamp to 0. 
+Lines 2 -- 4 set compute nodes available time to 0, which means all nodes are available from the beginning. 
+Lines 5 -- 8 initialize a list $List_a$ and add all the available compute nodes into the list in the increased order of nodes' temperature.  
+
+Lines 9 -- 31 schedule jobs periodically with an interval of $T^{interval}$.
+Line 9 updates each node's $temp(t)$ with temperature measurement.
+Line 10 sorts the incoming jobs by their execute time. Actually we think a job's execute time is an important factor on determining how hot or how cool a job is. By sorting the incoming jobs by their execute time, we also sort the jobs from ``hottest'' to ``coolest''. 
+
+Lines 11 -- 28 allocate jobs to  all compute  nodes. 
+Line 11 gets a job from sorted job list, which is the ``hottest" job and 
+line 12 allocates the job with a number of required nodes, which are the ``coolest". 
+Line 13 -- 16 update those allocated nodes' information, such as the next available time, and the predicted temperature at the next available time using thermal model $P$.
+Lines 17 -- 24 deal with the situation that the node's predicted temperature at the next available time is above ``redline'', which causes the compute node down. In that case, our algorithm will schedule  ``empty task'' on the node and do not allocate any real task on it until its temperature cools down. 
+Line 25 predicts the temperature of next available time for these allocated nodes. 
+Then these nodes are inserted into $List_a$, which keeps the increased node temperature at next available time.  
+
+Algorithm \ref{A:1} waits a for period  of $T^{interval}$ and accepts incoming jobs. 
+It then proceeds to the next scheduling round. 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simulation and Performance Evaluation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Simulation Environment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We simulate a real data center environment based on the Center for Computational Research (CCR) of
+State University of New York at Buffalo. All jobs submitted to CCR are logged  during a 30-day period, from 
+20 Feb. 2009 to 22  Mar. 2009. CCR's resources and job logs  are used as  input for our simulation of the Thermal Aware Scheduling Algorithm (TASA). 
+
+CCR's computing facilities include a Dell x86 64 Linux Cluster  consisting of 1056 Dell PowerEdge 
+SC1425 nodes, each of which has two “Irwindale” processors (2MB of L2 cache, either 3.0GHz or 3.2GHz) and varying 
+amounts of main memory. The peak performance of this cluster is over 13TFlop/s. 
+
+The CCR cluster has a single job queue for incoming jobs. All jobs are scheduled with a First Come First Serve (FCFS) policy. 
+There were 22385 jobs submitted to CCR during the period from 20 Feb. 2009 to 22  Mar. 2009. 
+Figure \ref{F:exe}, Figure \ref{F:size} and Figure \ref{F:arrive} show the
+distribution of  job execution time, job size (required processor number) and job arrival rate in the log. 
+We can see that  79\% jobs are executed on one processor and job execution time ranges from several minutes to 
+several hours. 
+
+\begin{comment}
+Figure \ref{F:buffalo} shows the task-temperature profiles in CCR.
+In the simulation, we take the all 22385 jobs in the log as input for the workload module of TASA.
+We also measure the  temperatures of all computer nodes and ambient environment with off-board sensors. 
+Therefore   the thermal map of data centers and job-temperature profiles are available. 
+Online temperatures of all computer nodes can also be accessed from CCR web portal. 
+\end{comment}
+ 
+ \FIGURE{!h}
+ {images/exe.pdf}
+  {1}
+ {Job execution time distribution}
+ {F:exe}
+ 
+ 
+  \FIGURE{!h}
+ {images/size.pdf}
+  {1}
+ {Job size distribution}
+ {F:size}
+ 
+ 
+   \FIGURE{!h}
+ {images/arrive.pdf}
+  {1}
+ {Job arrive rate distribution}
+ {F:arrive}
+ 
+ 
+ 
+In the following section,  we simulate the Thermal Aware Scheduling Algorithm (TASA)
+based on the job-temperature profile,   job information, thermal maps, and  resource information obtained in CCR log files.
+We evaluate   the thermal aware scheduling algorithm by comparing it with the
+original job execution information logged in the CCR, which is scheduled by FCFS. 
+In the simulation of TASA, we set the maximum temperature threshold to 125${~}^{\circ}\textrm{F}$.  
+ 
+ \subsection{Experiment Results }
+ 
+ \subsubsection{Data Center Temperature}
+Firstly we consider the maximum temperature in a data center as it correlates with the cooling system 
+operating level. As shown in Figure \ref{F:max},  the X-axis is the time, and the Y-axis gives two values: the low line is the maximum temperature using TASA; the upper line is the maximum temperature using FCFS. 
+Compared with FCFS, the maximum temperature reduced by TASA is 19${~}^{\circ}\textrm{F}$ and the average temperature reduced by TASA is 12${~}^{\circ}\textrm{F}$.
+ \FIGURE{!h}
+ {images/result_temperature}
+  {1}
+ {Comparison of maximum temperature}
+ {F:max}
+ \subsubsection{Job response time} 
+
+We have reduced power consumption and have increase the system reliability, both by decreasing the data center temperatures. 
+However, we must consider that there may be trade offs by an increased response time.
+
+The response time of a job $job_j.t^{res}$ is defined as job execution time ($ job_j.t^{req}$) plus 
+job queueing time $ (job_j.t^{start}-job_j.t^{arrive})$,  as shown below:
+\begin{equation}
+job_j.t^{res} =job_j.t^{req}+job_j.t^{start}-job_j.t^{arrive}
+\end{equation}
+To evaluate the algorithm from the view point of users, job response time 
+indicates how long it takes for job results to return to the users. 
+
+As the thermal aware scheduling algorithm intends to delay scheduling jobs to some over-hot compute nodes, 
+it may increase the job response time.
+\begin{comment}
+ Figure \ref{F:response1} shows the response time of  FCFS and Figure \ref{F:response2} shows the response time of TASA. 
+
+
+In the simulation we calculate  the overall  job response time  overhead as follows:
+\begin{equation}
+\textrm {overhead}=\sum_{1\le j \le J} \frac{job_j.t^{res}_{tasa} - job_j.t^{res}_{fcfs}}{job_j.t^{res}_{fcfs}}
+\end{equation}
+\end{comment}
+In the simulation, we got the $overhead = 11\%$. Which means that we reduce the $19{~}^{\circ}\textrm{F}$ of  temperature in CCR data center
+by paying cost of increasing 11\% job response time. 
+
+ \begin{comment} 
+ \FIGURE{!ht}
+{images/response-fcfs.png}
+{1}
+ {Job response time of FCFS}
+ {F:response1}
+ 
+ \FIGURE{!ht}
+{images/response-tasa.png}
+ {1}
+ {Job response time of TASA}
+ {F:response2}
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To improve energy efficiency and reliability of data center operation, we study the temperature distribution in data centers and present our thermal aware task scheduling. As an important step to practically implement our algorithm, we apply artificial neural network technique to predict the effect of workload distribution and cooling configuration on temperature distribution in data centers. We also conduct a simulation to compare the thermal efficiency between TASA and classic FCFS. Compared with FCFS, TASA decreases the maximum temperature in the data center by $19{~}^{\circ}\textrm{F}$ with the cost of increasing 11\% job response time. 
+
+In the future work, we are interested to improve our neural network model and pay more attention to the effect of compute nodes' spatial location on temperature distribution.
+We also plan to compare our neural network based prediction model with CFD based prediction model. In addition, as backfilling algorithm is popular in parallel systems, we would integrate back-filling algorithm into our thermal aware scheduling algorithm to improve system performance.

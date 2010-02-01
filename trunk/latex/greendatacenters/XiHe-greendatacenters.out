@@ -1,0 +1,20 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Data Center Basics}{}
+\BOOKMARK [2][-]{subsection.2.1}{Power Subsystem}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{Heat Removal Subsystem}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{Computer Room Subsystem}{section.2}
+\BOOKMARK [1][-]{section.3}{Metrics}{}
+\BOOKMARK [2][-]{subsection.3.1}{DCiE \046 PUE}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{DCeP}{section.3}
+\BOOKMARK [1][-]{section.4}{IT Equipment Side}{}
+\BOOKMARK [2][-]{subsection.4.1}{Low-power Computing}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Power-aware Computing}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Server Consolidation}{section.4}
+\BOOKMARK [1][-]{section.5}{Cooling System}{}
+\BOOKMARK [1][-]{section.6}{Development and Implementation}{}
+\BOOKMARK [2][-]{subsection.6.1}{Data Center Observatory}{section.6}
+\BOOKMARK [2][-]{subsection.6.2}{Mercury}{section.6}
+\BOOKMARK [2][-]{subsection.6.3}{C-Oracle}{section.6}
+\BOOKMARK [2][-]{subsection.6.4}{ThermoStat}{section.6}
+\BOOKMARK [2][-]{subsection.6.5}{HP Work}{section.6}
+\BOOKMARK [1][-]{section*.1}{References}{}

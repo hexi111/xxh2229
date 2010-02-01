@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: vonLaszewski-09-xihe-summer.aux
+The style file: tex/IEEEtran.bst
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: vonLaszewski.bib
+Database file #2: cyberaide-www.bib
+Database file #3: cyberaide-grid.bib
+Database file #4: cyberaide-greenit.bib
+-- IEEEtran.bst version 1.12 (2007/01/11) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty author in report/greengridreport1
+
+Done.
+You've used 14 entries,
+            4024 wiz_defined-function locations,
+            888 strings with 9946 characters,
+and the built_in function-call counts, 9187 in all, are:
+= -- 705
+> -- 206
+< -- 64
++ -- 118
+- -- 36
+* -- 432
+:= -- 1381
+add.period$ -- 29
+call.type$ -- 14
+change.case$ -- 14
+chr.to.int$ -- 153
+cite$ -- 15
+duplicate$ -- 687
+empty$ -- 794
+format.name$ -- 43
+if$ -- 2105
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 131
+newline$ -- 71
+num.names$ -- 10
+pop$ -- 335
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 704
+stack$ -- 0
+substring$ -- 371
+swap$ -- 519
+text.length$ -- 13
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 14
+warning$ -- 1
+while$ -- 33
+width$ -- 16
+write$ -- 151
+(There was 1 warning)

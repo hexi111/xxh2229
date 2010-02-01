@@ -1,0 +1,531 @@
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.4.7)  13 NOV 2009 21:09
+entering extended mode
+**vonLaszewski-09-xihe-summer
+(./vonLaszewski-09-xihe-summer.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, arabic, basque, bulgarian, coptic, welsh, czech, slovak, german, ng
+erman, danish, esperanto, spanish, catalan, galician, estonian, farsi, finnish,
+ french, greek, monogreek, ancientgreek, croatian, hungarian, interlingua, ibyc
+us, indonesian, icelandic, italian, latin, mongolian, dutch, norsk, polish, por
+tuguese, pinyin, romanian, russian, slovenian, uppersorbian, serbian, swedish, 
+turkish, ukenglish, ukrainian, loaded.
+(/opt/local/share/texmf-dist/tex/latex/IEEEtran/IEEEtran.cls
+Document Class: IEEEtran 2007/01/11 V1.7 by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpcountA=\count79
+\@IEEEtrantmpcountB=\count80
+\@IEEEtrantmptoksA=\toks14
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 368.
+
+(/opt/local/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen104
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen105
+\CLASSINFOnormalsizeunitybaselineskip=\dimen106
+\IEEEnormaljot=\dimen107
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 726.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 726.
+\IEEEilabelindentA=\dimen108
+\IEEEilabelindentB=\dimen109
+\IEEEilabelindent=\dimen110
+\IEEEelabelindent=\dimen111
+\IEEEdlabelindent=\dimen112
+\IEEElabelindent=\dimen113
+\IEEEiednormlabelsep=\dimen114
+\IEEEiedmathlabelsep=\dimen115
+\IEEEiedtopsep=\skip41
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@IEEEsubequation=\count85
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count86
+\c@table=\count87
+\@IEEEeqnnumcols=\count88
+\@IEEEeqncolcnt=\count89
+\@IEEEtmpitemindent=\dimen116
+\c@IEEEbiography=\count90
+\@IEEEtranrubishbin=\box26
+) (/opt/local/share/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+) (/opt/local/share/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/opt/local/share/texmf-dist/tex/latex/comment/comment.sty
+\CommentStream=\write3
+
+Excluding comment 'comment')
+(/opt/local/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/opt/local/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/opt/local/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 90.
+
+(/opt/local/share/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
+\Gread@gobject=\count91
+))
+\Gin@req@height=\dimen117
+\Gin@req@width=\dimen118
+)
+(/opt/local/share/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 1998/07/17
+
+Style option: `fancyvrb' v2.6, with DG/SPQR fixes <1998/07/17> (tvz)
+\FV@CodeLineNo=\count92
+\FV@InFile=\read1
+\FV@TabBox=\box27
+\c@FancyVerbLine=\count93
+\FV@StepNumber=\count94
+\FV@OutFile=\write4
+
+No file fancyvrb.cfg.
+) (/opt/local/share/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count95
+\lst@gtempboxa=\box28
+\lst@token=\toks16
+\lst@length=\count96
+\lst@currlwidth=\dimen119
+\lst@column=\count97
+\lst@pos=\count98
+\lst@lostspace=\dimen120
+\lst@width=\dimen121
+\lst@newlines=\count99
+\lst@lineno=\count100
+\c@lstlisting=\count101
+\lst@maxwidth=\dimen122
+
+(/opt/local/share/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2004/10/17 1.3b (Carsten Heinz)
+)
+(/opt/local/share/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2004/09/07 1.3 (Carsten Heinz)
+\c@lstnumber=\count102
+\lst@skipnumbers=\count103
+\lst@framebox=\box29
+)
+(/opt/local/share/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2004/09/05 1.3 listings configuration
+))
+Package: listings 2004/10/17 1.3b (Carsten Heinz)
+
+(/opt/local/share/texmf-dist/tex/latex/rotating/rotating.sty
+Package: rotating 1997/09/26, v2.13 Rotation package
+
+(/opt/local/share/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count104
+\rot@float@box=\box30
+)
+(/opt/local/share/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/opt/local/share/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
+(/opt/local/share/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
+
+(/opt/local/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2005/08/23 v2.4b Tabular extension package (FMi)
+\col@sep=\dimen123
+\extrarowheight=\dimen124
+\NC@list=\toks17
+\extratabsurround=\skip44
+\backup@length=\skip45
+)
+\TX@col@width=\dimen125
+\TX@old@table=\dimen126
+\TX@old@col=\dimen127
+\TX@target=\dimen128
+\TX@delta=\dimen129
+\TX@cols=\count105
+\TX@ftn=\toks18
+)
+(/opt/local/share/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2001/02/13 v0.1j Color table columns (DPC)
+\everycr=\toks19
+\minrowclearance=\skip46
+)
+(/opt/local/share/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip47
+\subfigcapskip=\skip48
+\subfigcaptopadj=\dimen130
+\subfigbottomskip=\skip49
+\subfigcapmargin=\dimen131
+\subfiglabelskip=\skip50
+\c@subfigure=\count106
+\c@lofdepth=\count107
+\c@subtable=\count108
+\c@lotdepth=\count109
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/opt/local/share/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip51
+\subfig@bottom=\skip52
+)
+(/opt/local/share/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 149.
+LaTeX Info: Redefining \nocite on input line 214.
+Package: cite 2003/11/04  v 4.01
+)
+(/opt/local/share/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2006/05/18 v1.6g multicolumn formatting (FMi)
+\c@tracingmulticols=\count110
+\mult@box=\box31
+\multicol@leftmargin=\dimen132
+\c@unbalance=\count111
+\c@collectmore=\count112
+\doublecol@number=\count113
+\multicoltolerance=\count114
+\multicolpretolerance=\count115
+\full@width=\dimen133
+\page@free=\dimen134
+\premulticols=\dimen135
+\postmulticols=\dimen136
+\multicolsep=\skip53
+\multicolbaselineskip=\skip54
+\partial@page=\box32
+\last@line=\box33
+\mult@rightbox=\box34
+\mult@grightbox=\box35
+\mult@gfirstbox=\box36
+\mult@firstbox=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\@tempa=\box52
+\@tempa=\box53
+\@tempa=\box54
+\c@columnbadness=\count116
+\c@finalcolumnbadness=\count117
+\last@try=\dimen137
+\multicolovershoot=\dimen138
+\multicolundershoot=\dimen139
+\mult@nat@firstbox=\box55
+\colbreak@box=\box56
+)
+(/opt/local/share/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count118
+\float@exts=\toks20
+\float@box=\box57
+\@float@everytoks=\toks21
+\@floatcapt=\box58
+)
+(/opt/local/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2007/02/07 v6.75r Hypertext links for LaTeX
+\@linkdim=\dimen140
+\Hy@linkcounter=\count119
+\Hy@pagecounter=\count120
+
+(/opt/local/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2007/02/07 v6.75r Hyperref: PDFDocEncoding definition (HO)
+)
+(/opt/local/share/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/opt/local/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2006/08/22 v2.4 Connects package keyval with LaTeX options (
+HO)
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 2238.
+Package hyperref Info: Hyper figures OFF on input line 2288.
+Package hyperref Info: Link nesting OFF on input line 2293.
+Package hyperref Info: Hyper index ON on input line 2296.
+Package hyperref Info: Plain pages OFF on input line 2303.
+Package hyperref Info: Backreferencing OFF on input line 2308.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 2444.
+(/opt/local/share/texmf-dist/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2005/06/27  ver 3.2  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 2599.
+\Fld@menulength=\count121
+\Field@Width=\dimen141
+\Fld@charsize=\dimen142
+\Choice@toks=\toks22
+\Field@toks=\toks23
+Package hyperref Info: Hyper figures OFF on input line 3102.
+Package hyperref Info: Link nesting OFF on input line 3107.
+Package hyperref Info: Hyper index ON on input line 3110.
+Package hyperref Info: backreferencing OFF on input line 3117.
+Package hyperref Info: Link coloring ON on input line 3120.
+\Hy@abspage=\count122
+\c@Item=\count123
+)
+*hyperref using driver hpdftex*
+(/opt/local/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2007/02/07 v6.75r Hyperref driver for pdfTeX
+\Fld@listcount=\count124
+)
+\@float@every@algorithm=\toks24
+\c@algorithm=\count125
+\@float@every@program=\toks25
+\c@program=\count126
+
+(./vonLaszewski-09-xihe-summer.aux)
+\openout1 = `vonLaszewski-09-xihe-summer.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+
+(/opt/local/share/texmf-dist/tex/context/base/supp-pdf.tex
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen143
+\scratchbox=\box59
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen144
+\MPnumerator=\count131
+\everyMPtoPDFconversion=\toks26
+)
+Package hyperref Info: Link coloring ON on input line 49.
+ (/opt/local/share/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
+
+(/opt/local/share/texmf-dist/tex/latex/oberdiek/refcount.sty
+Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
+)
+\c@section@level=\count132
+)
+LaTeX Info: Redefining \ref on input line 49.
+LaTeX Info: Redefining \pageref on input line 49.
+
+(./vonLaszewski-09-xihe-summer.out) (./vonLaszewski-09-xihe-summer.out)
+\@outlinefile=\write5
+\openout5 = `vonLaszewski-09-xihe-summer.out'.
+
+
+(./tex/macros.tex) (./paper.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 35.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 35.
+ [1{/opt/local/share/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+FIGURE: images/datacenter3
+<images/datacenter3.pdf, id=101, 252.82188pt x 138.67871pt>
+File: images/datacenter3.pdf Graphic file (type pdf)
+
+<use images/datacenter3.pdf>
+FIGURE: images/datacenter4
+<images/datacenter4.pdf, id=103, 181.62227pt x 118.39091pt>
+File: images/datacenter4.pdf Graphic file (type pdf)
+
+<use images/datacenter4.pdf>
+FIGURE: images/Buffalo_data
+<images/Buffalo_data.pdf, id=105, 613.15083pt x 347.59914pt>
+File: images/Buffalo_data.pdf Graphic file (type pdf)
+
+<use images/Buffalo_data.pdf> [2 <./images/datacenter3.pdf> <./images/datacente
+r4.pdf> <./images/Buffalo_data.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 163--168
+
+ []
+
+FIGURE: images/ann.png
+<images/ann.png, id=185, 722.7pt x 542.025pt>
+File: images/ann.png Graphic file (type png)
+ <use images/ann.png> [3]
+FIGURE: images/ann1
+<images/ann1.pdf, id=203, 604.43681pt x 257.16989pt>
+File: images/ann1.pdf Graphic file (type pdf)
+ <use images/ann1.pdf>
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 221.
+
+Underfull \hbox (badness 2932) in paragraph at lines 223--261
+\OT1/ptm/m/n/10 07[][]Insert $\OML/cmm/m/it/10 node[]$ \OT1/ptm/m/n/10 into $\O
+ML/cmm/m/it/10 List[]$\OT1/ptm/m/n/10 , and keep $\OML/cmm/m/it/10 List[]$ \OT1
+/ptm/m/n/10 the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--261
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--261
+
+ []
+
+
+Underfull \hbox (badness 1728) in paragraph at lines 223--261
+\OT1/ptm/m/n/10 25[][][]Insert $\OML/cmm/m/it/10 var$ \OT1/ptm/m/n/10 into $\OM
+L/cmm/m/it/10 List[]$\OT1/ptm/m/n/10 , and keep $\OML/cmm/m/it/10 List[]$ \OT1/
+ptm/m/n/10 the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--261
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--261
+
+ []
+
+[4 <./images/ann.png> <./images/ann1.pdf>]
+Missing character: There is no Ò in font ptmr7t!
+Missing character: There is no Ó in font ptmr7t!
+
+FIGURE: images/exe.pdf
+<images/exe.pdf, id=232, 540.26146pt x 454.50562pt>
+File: images/exe.pdf Graphic file (type pdf)
+ <use images/exe.pdf>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+FIGURE: images/size.pdf
+<images/size.pdf, id=233, 481.2277pt x 411.58546pt>
+File: images/size.pdf Graphic file (type pdf)
+ <use images/size.pdf>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+FIGURE: images/arrive.pdf
+<images/arrive.pdf, id=234, 505.89pt x 505.89pt>
+File: images/arrive.pdf Graphic file (type pdf)
+ <use images/arrive.pdf>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+FIGURE: images/result_temperature
+<images/result_temperature.pdf, id=236, 530.10492pt x 277.95041pt>
+File: images/result_temperature.pdf Graphic file (type pdf)
+
+<use images/result_temperature.pdf>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5 <./images/exe.pdf> <./images/size.pdf>]) (./vonLaszewski-09-xihe-summer.bbl
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 29.
+) [6 <./images/arrive.pdf> <./images/result_temperature.pdf>]
+(./vonLaszewski-09-xihe-summer.aux) ) 
+Here is how much of TeX's memory you used:
+ 5854 strings out of 94073
+ 87071 string characters out of 1164798
+ 153360 words of memory out of 1500000
+ 8998 multiletter control sequences out of 10000+50000
+ 38151 words of font info for 71 fonts, out of 1200000 for 2000
+ 648 hyphenation exceptions out of 8191
+ 34i,11n,36p,1711b,364s stack positions out of 5000i,500n,6000p,200000b,5000s
+{/opt/local/share/texmf-dist/fonts/enc/dvi
+ps/base/8r.enc}</opt/local/share/texmf-dist/fonts/type1/bluesky/cm/cmex10.pfb><
+/opt/local/share/texmf-dist/fonts/type1/bluesky/cm/cmmi10.pfb></opt/local/share
+/texmf-dist/fonts/type1/bluesky/cm/cmmi7.pfb></opt/local/share/texmf-dist/fonts
+/type1/bluesky/cm/cmr10.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/cm
+/cmr7.pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/cm/cmsy10.pfb></opt/
+local/share/texmf-dist/fonts/type1/bluesky/cm/cmsy7.pfb></opt/local/share/texmf
+-dist/fonts/type1/urw/times/utmb8a.pfb></opt/local/share/texmf-dist/fonts/type1
+/urw/times/utmbi8a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/times/utmr8
+a.pfb></opt/local/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on vonLaszewski-09-xihe-summer.pdf (6 pages, 565126 bytes).
+PDF statistics:
+ 365 PDF objects out of 1000 (max. 8388607)
+ 61 named destinations out of 1000 (max. 131072)
+ 230 words of extra memory for PDF output out of 10000 (max. 10000000)
+

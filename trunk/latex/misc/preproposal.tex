@@ -1,0 +1,69 @@
+\documentclass[10pt]{article}
+\usepackage{geometry}
+%\usepackage{setspace}
+%\usepackage{cite}
+\usepackage{hyperref}
+
+
+% Set your name here
+\def\name{Xi He}
+
+\geometry{
+  body={6.5in, 10in},
+  left=1.0in,
+  top=0.5in
+}
+
+%\hypersetup{
+%  colorlinks = true,
+%  urlcolor = black,
+%  pdfauthor = {\name},
+%  pdfkeywords = {economics, econometrics, industrial organization,
+%    applied microeconomics},
+%  pdftitle = {\name: Curriculum Vitae},
+%  pdfsubject = {Curriculum Vitae},
+%  pdfpagemode = UseNone
+%}
+\begin{document}
+
+
+%\begin{center}
+%{\large {\em Team Proposal}}\\
+%~\\ 
+%{\small{\em Xi He, Jai Dayal, Kevin Pinto}}
+%%{\small{\em xxh2229@rit.edu}}
+%\end{center}
+%~\\
+\title{Pre-Proposal}
+\author{Xi He\\ xxh2229@rit.edu\\~\\{\bf Committee members}\\Chair:Alan Kaminsky}
+
+\maketitle
+%\begin{spacing}{1}
+\section{Problem Description}
+Parallel Java (PJ) is an API and middleware for parallel programming in 100\% Java on shared memory multiprocessor (SMP) parallel computers, cluster parallel computers, and hybrid SMP cluster parallel computers.
+Current implementation of PJ spawns a separate SSH session for each back-end processor to start each back-end process and authenticate each back-end process into the user's account. However, SSH is too ``heavyweight'': it creates too many processes, and it takes too long to get the job started. 
+
+Another potential improvement on PJ is its web interface. Right now PJ's web interface only displays the PJ job queue status. To facilitate easy access and manipulation of PJ, more functionalities should be added to its web interface.
+
+\section{Project Goal}
+The goal of the project is two-fold. One is to design and implement a different back-end process launching and authentication scheme that is faster and doesn't require SSH. Another goal of the project is to enable end users to submit jobs, change the order of jobs in the queue, and cancel jobs using PJ's web interface. Proper credentials are also supplied; 
+
+\section{Proposed Work}
+The proposed job launching scheme works as follows:
+\begin{itemize}
+\item PJ accepts a user's request and prepares for running the user's job.
+\item PJ detects if there is a daemon on behalf of the user running on each back-end node. 
+\item If no, PJ start a daemon on each back-end node and start running the job. Let the daemons and PJ share an authentication key.
+\item If yes, PJ can communicate with daemons and submit the job to daemons with all messages authenticated using a message authentication code (MAC).
+\end{itemize}
+%\end{spacing}
+
+In the proposed PJ web interface, there are different views for different users.
+\begin{itemize}
+\item For the anonymous user, he can only see the PJ job queue status.
+\item For the login user, he can submit new jobs to PJ.  He can also cancel his jobs which are queuing or running.
+\item For the administrator, he can change the priority of a job. He can also cancel any jobs queuing and running. 
+\end{itemize}
+%\bibliographystyle{latex8}
+%\bibliography{proposal}
+\end{document}
