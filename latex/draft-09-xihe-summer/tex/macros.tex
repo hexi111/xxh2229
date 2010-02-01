@@ -1,0 +1,69 @@
+
+\newcommand{\TE}{\footnote{Attribute Error.}}
+\newcommand{\NE}{\footnote{Number Error.}}
+\newcommand{\SE}{\footnote{Sentence does not seem right.}}
+\newcommand{\GE}{\footnote{Grammar Error.}}
+\newcommand{\CE}{\footnote{Capitalization Error. Why caps?}}
+\newcommand{\RE}{\footnote{Reference Missing.}}
+
+\newcommand{\FIGURE}[5]{%
+  \typeout{FIGURE: #2}
+  \begin{figure}[#1]
+     \centerline{\resizebox{#3\linewidth}{!}{\includegraphics{#2}}}
+     \caption{#4}
+     \label{#5}
+  \end{figure}
+}
+\newcommand{\TWOFIGURES}[9]{%
+  \typeout{FIGURE: #2}
+
+  \begin{figure}[#1]
+\begin{minipage}[t]{#3\linewidth}
+     \centerline{\resizebox{1.0\linewidth}{!}{\includegraphics{#2}}}
+     \caption{#4}
+     \label{#5}
+\end{minipage}
+\ \
+\begin{minipage}[t]{#7\linewidth}
+  \typeout{FIGURE: #6}
+     \centerline{\resizebox{1.0\linewidth}{!}{\includegraphics{#6}}}
+     \caption{#8}
+     \label{#9}
+\end{minipage}
+  \end{figure}
+}
+
+\newcommand{\TWOCOLFIGURE}[5]{%
+  \typeout{FIGURE: #2}
+  \begin{figure*}[#1]
+     \centerline{\resizebox{#3\linewidth}{!}{\includegraphics{#2}}}
+     \caption{#4}
+     \label{#5}
+  \end{figure*}
+}
+
+\newcommand{\SIDEBYSIDEFIGURE}[9]{%
+  \typeout{FIGURE: #2}
+  \begin{figure}[#1]
+    \centerline{
+    \subfigure[#4]{\label{#8:a}{\resizebox{#3\linewidth}{!}{\includegraphics{#2}}}}
+    \subfigure[#7]{\label{#8:b}{\resizebox{#6\linewidth}{!}{\includegraphics{#5}}}}
+    }
+     \caption{#8}
+     \label{#9}
+  \end{figure}
+}
+
+\newcommand{\TABLEOFCONTENTS}{
+\twocolumn[
+\begin{@twocolumnfalse}
+\begin{center}
+{\bf\Large \TITLE}\\
+{\bf \AUTHOR}
+\end{center}
+\end{@twocolumnfalse}]
+
+\tableofcontents
+
+\hfill
+}

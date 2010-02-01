@@ -1,0 +1,21 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Literature review }{}
+\BOOKMARK [1][-]{section.3}{Motivation for Thermal Aware Task Scheduling}{}
+\BOOKMARK [2][-]{subsection.3.1}{Data Center Organization}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Thermal Load Distribution}{section.3}
+\BOOKMARK [2][-]{subsection.3.3}{Task-temperature Profiling}{section.3}
+\BOOKMARK [2][-]{subsection.3.4}{Motivation}{section.3}
+\BOOKMARK [1][-]{section.4}{System Model}{}
+\BOOKMARK [2][-]{subsection.4.1}{Compute Resource Model}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Thermal Model}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Job model}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{Research Issue Definition}{section.4}
+\BOOKMARK [1][-]{section.5}{Thermal prediction using artificial neural network}{}
+\BOOKMARK [1][-]{section.6}{Algorithm}{}
+\BOOKMARK [1][-]{section.7}{Simulation and Performance Evaluation}{}
+\BOOKMARK [2][-]{subsection.7.1}{Simulation Environment}{section.7}
+\BOOKMARK [2][-]{subsection.7.2}{Experiment Results }{section.7}
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Data Center Temperature}{subsection.7.2}
+\BOOKMARK [3][-]{subsubsection.7.2.2}{Job response time}{subsection.7.2}
+\BOOKMARK [1][-]{section.8}{Conclusion}{}
+\BOOKMARK [1][-]{section*.1}{References}{}

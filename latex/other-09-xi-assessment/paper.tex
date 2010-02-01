@@ -1,0 +1,455 @@
+%\doublespacing
+\newcommand{\E}[1]{\footnote{{\color{red}\em  some error}}}
+\newcommand{\GVL}[1]{{\color{red}\em  GVL: #1}~}
+\newcommand{\WANG}[1]{{\color{blue}\em  WANG: #1}~}
+\newcommand{\YOUNGE}[1]{{\color{blue}\em  YOUNGE: #1}~}
+
+\newcommand{\AUTHOR}{Xi He\\
+%\newcommand{\AUTHOR}{Xi He, Gregor von Laszewski, Lizhe Wang and Andrew Younge\\
+%\small Service Oriented Cyberinfrastructure Lab\\
+\small Golisano College of Computing and Information Sciences, Rochester Institute of Technology\\
+\small 102 Lomb Memorial Drive, Rochester, NY 14623-5608\\
+\small e-mail: hexi111@gmail.com
+%\small e-mail: \{hexi111, laszewski, Lizhe.Wang, ajy4490\}@gmail.com
+%\vspace{-1cm}%
+}
+\newcommand{\TITLE}{Thermal-aware Resource Management Framework}
+
+%\TABLEOFCONTENTS
+
+\title{\TITLE}
+\author{\AUTHOR}
+
+\maketitle
+
+
+
+%\GVL{please do not delete comments if they are not yet addressed}
+
+%\GVL{note there are still problems there that i dod not comment on, but they can be fixed later, e.g. grammar.}
+
+\begin{abstract}
+Large energy consumption in data centers has become a challenging problem with the emergence of cloud computing and large scale data centers. In this paper, we present an architectural framework for thermal-aware resource management while considering energy efficiency. The framework consists of a layered architecture and integrates 
+an set of easy-to-use client tools and a thermal-aware task management middleware to schedule tasks based on thermal conditions within a cluster and among different data centers. As part of this paper we focus on the development of a thermal-aware task scheduling component for a single data center. This component is fundamental to our future activities, while considering to balance the temperature distribution in a single data center, thus implicitly minimizing energy cost in data centers. 
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In recent years, many large scale data centers have been deployed with high density computing clusters and server farms to support high performance scientific applications. However, besides the scientific challenges, many operational issues in data centers need to be addressed. One of those issues is the large energy consumption in data centers. According to U.S. Environmental Protection Agency (EPA), 61 billion kilowatt-hours of power was consumed in data center in 2006, that is 1.5 percent of all US electricity consumption costing around \$4.5 billion \cite{www-epa}. In fact, the energy consumption in data centers doubled between 2000 and 2006 and EPA estimates that the energy usage will double again by 2011. 
+
+Data centers, as the typical computing resources, their management is very sophisticated and complex. How can the end users with little computer knowledge easily utilize the computing power in data centers? How can the scientists collaborate with other scientists and seamlessly integrate the computing ability provided by data centers into their research? Since there is more concern about the energy consumption in data centers, the data center administrators are interested with the thermal and energy consumption situation in data centers so that they can take efficient measures to increase the system reliability and reduce the energy consumption.      
+
+Much effort has been spend towards addressing the power crisis in data centers. For example, large amount of research work has been conducted on smart cooling techniques \cite{patel2002tcc, beitelmal2007tfp, moore2005dcw, moore2006wao}  to improve energy-efficiency in data centers. In \cite{hsu2005fap,DBLP:conf/sc/HsuF05} dynamic voltage and frequency scaling (DVFS) is proposed to reduce processor power dissipation with modest performance loss. Server virtualization \cite{DBLP:conf/sosp/BarhamDFHHHN03} is another way to address the large power consumption problem. Most servers and desktops today are in use only 5-15\% of the time they are powered on, yet most x86 hardware consumes 60-90\% of the normal workload power even when idle. With virtualization technique, all the VMs share the same physical resources and the utilization of the physical server can reach up to 80\% with ignorable overhead \cite{DBLP:conf/nca/SilvaASTA07}. Thus, although using virtualization results typically in a performance loss using the available hardware more efficiently provides great contribution in regards to the utilization. In addition, a wide variety of task scheduling algorithms are reported to minimize the energy consumption in data centers \cite{DBLP:conf/ccgrid/KimBK07,DBLP:conf/sc/GeFC05,DBLP:conf/cluster/TangGV07,DBLP:conf/usenix/MooreCRS05,DBLP:conf/aPcsac/VandersterBD07}. 
+
+Temperature is considered as an important physical metrics in data centers \cite{hamann2008mat}. First, efficient thermal management can decrease the cooling costs in data centers. For example, in \cite{DBLP:conf/usenix/MooreCRS05} it is pointed out that a data center that can run the same computational workload and cooling configuration, but maintain an ambient room temperature that is 5$^\circ$C cooler through intelligent thermal management, can lower computer room air conditioning (CRAC) power consumption by 20\%-40\% for a \$1-\$3 million savings in annual cooling costs. Second, efficient thermal management can also increase hardware reliability. Some studies \cite{DBLP:conf/fast/AndersonDR03, cole2000edr} show that a 15$^\circ$C rise increases hard disk drive failure rates by a factor of two. 
+
+A recent research work \cite{DBLP:conf/cluster/TangGV07} indicates that computing nodes' temperature distribution will affect the energy cost of cooling system in data centers. It also shows that minimizing the maximal temperature of all the nodes will minimize the cooling energy cost of a data center. Assume a set of tasks consume a fixed amount of energy in data centers, an appropriate temperature distribution of computing nodes will reduce the maximal temperature of all the nodes and thus significantly conserve cooling energy consumption. There exists many available metrics for measuring temperature distribution, using the minimization of the standard deviation is one possible strategy that we will exploit.
+
+\begin{comment}
+In this paper we use standard deviation \cite{www-sd} to describe computing nodes' thermal distribution. Computing nodes' temperature standard deviation is the measure of how the computing nodes' temperature is close to their average value. A low standard deviation indicates that every computing node' temperature value tends to very close to the average value. A high standard deviation indicated that the temperature values in the computing nodes are distributed in a large range. Therefore, assume the same energy in data centers is needed to execute the same set of tasks, the goal of the efficient thermal management is to balance the thermal distribution on each node and make the computing nodes' temperature standard deviation as low as possible so that         
+\end{comment}
+
+In our study, we present a thermal-aware resource management framework (TARMF) for managing resource in a energy efficient fashion. As part of our long term research effort, we are currently focusing on thermal-aware task scheduling, which is an important component in TARMF. The contribution of this paper is two-fold: first, we present a novel framework to solve resource management problem. Second, we developed a thermal-aware task scheduling for data centers, which will save an amount of cooling energy cost. We employ standard deviation of computing nodes' temperature as our metrics.  
+
+
+The reminder of this paper is organized as follows. First we introduce requirement of  thermal-aware resource management framework and the multi-layer architecture of this framework in Section 2,3. Then we spent the rest of the sections discussing  thermal-aware task scheduling, which is an important component in thermal-aware resource management framework. We review related works and present an example to illustrate our thermal-aware task scheduling in Section 4 and 5. In Section 6, 7, we model data centers and their components, define our problem and present our solution to the problem. In the last section, we conclude the paper and propose our future work.
+
+%%%%%%%%%%%%
+\section{Requirements}\label{S:req}
+%%%%%%%%%%%%%%
+%\GVL{not a real motivation, mixing design with modtivation, possibly needs requirements section.}
+
+As mentioned in Section 1, resource management is an important and complex research topic and involves a wide variety of issues ranging from resource organization, resource discovery, resource access to resource integration and security. It is essential that all issues are addressed in a distributed system in that system end users, system administrators and resources are geographically dispersed. The system is preferred to be flexible so that it is convenient to update some of the system's functionality. For example, data centers used to adopt Backfilling Algorithm \cite{DBLP:journals/tpds/MualemF01} to schedule tasks with the aim of increasing system utilization. Yet in this paper we presents a novel thermal-aware task scheduling for the purpose of saving energy cost. Replacing the legend algorithm with our algorithm should not lead to significant change of the system. 
+
+In addition, the system is expected to be scalable. For example, different kinds of client tools can be easily developed and integrated into the system to meet different end users' requirement. Furthermore, the system must be easy to use and integratable in other frameworks. This consequently results in some features. One of these required feature is the command-line based client tool. Many scientists get accustomed to Unix system and they need the command-line based tool so that they can easily get access to computing resources. However, for less advanced users, they may require GUI based client tools. Another required feature is cross-platform and Internet-based security scheme. This scheme can provide discrete authority and authentication and can be easily integrated into other system components.     
+
+%To address the mentioned problem, a multi-layer architecture is required to isolate problem into various independent and transparent layers. Each layer has its responsibility and communicate with other layers through predefined interfaces. For example, there should be a resource layer that organizes different resources and provides resource access interface to other layers. This layer is also responsible for adopting the latest technique to improve resource and energy efficiency. Each layer is also composed of a set of reusable and independent components. 
+
+%%%%%%%%%%%%
+\section{Thermal-aware resource management framework}
+%%%%%%%%%%%%%%
+
+To address our requirments we are designing a thermal-aware resource management framework (TARMF). As this framework is quite extensive we have chosen a layered architecture design that allows us to gradually expand upon it and implement it in phases.
+In Figure \ref{F:t3} we show our TARMF while focusing on the  3-layer architecture design with a resource, mediator and client layer.  This design addresses explicitly the requirements that we have identified in Section \ref{S:req}. We describe the functionality of each layer next.
+
+\begin {itemize}
+\item The {\em resource layer} contains a number of advanced cyberinfrastructure resources. For our research we focus on clusters that are housed in data centers. Most importantly, it also contains a service that maps tasks onto a cluster while considering thermal properties.
+
+\item The {\em client layer} is composed of a set of easy-to-use client tools designed to facilitate the use of computing resources without putting much burden on the end users. However it is important to note that we provide a variety of different interfaces for different end users. Programmers are able to use APIs, administrators are exposed through scripts, and all of them can in addition use graphical user interfaces to interact with TARMF. This helps especially those that may just use TARMF as a monitoring tool. 
+
+\item The {\em mediator layer} provides all services that establish the connection between the client and the resource layer. Important features of this layer include: the secure connection between clients an resources, the availability of a super scheduling service to distribute tasks not only on one data center, but across data centers while considering thermal properties. Furthermore, the mediator layer must have a sophisticated workflow engine included that allows interfacing with Grids and clouds easily and provides scripting capabilities.
+
+\end {itemize}
+
+\FIGURE{htb}
+ {images/figure5.png}
+ {1}
+ {The 3-layered architecture of our TARMF.}
+ {F:t3}
+
+
+%\GVL{ next part needs some cleanup, but this can be done later}
+%\GVL{mix of components, modules, frameworks, need to be tightened and properly used}
+
+%Components in different layers communicating securely with the help of secure Web services.
+
+The most typical and important computing resources in the {\em resource layer} are data centers which house computer system, storage system and other associated components and provide powerful computing ability for task execution. Each data center is equipped with a thermal-aware task scheduling component, all of which are integrated into an overarching thermal scheduling component that are together integrated in our framework controlled, monitored, and accessed through the mediator layer. In accordance to prior work in Grid computing on meta scheduling \cite{DBLP:conf/mg/HeilgeistSR08} we also refer to it as {\em thermal-aware meta scheduler}.
+
+Besides the {\em thermal-aware meta scheduler}, the {\em mediator layer} also provides such functionality as task organization, security and client interface API. We have designed a sophisticated mediator service Cyberaide Shell \cite{las09ccgrid}. %\GVL{ shel is just a portion of the mediator in my view}
+ Cyberaide Shell provides a set of services such as task management service, authentication and authority service, task submission service to allow users to get access to complex cyberinfrastructure using its command line interface. Cyberaide Shell also exposes its functionality to a wide variety of frameworks and programming languages so that other tools in the client layers can be developed based on Cyberaide Shell.   
+%\FIGURE{htb}
+% {images/figure9.png}
+% {0.95}
+% {The architecture of Cyberaide Portal}
+% {F:t9}
+ 
+The client layer is targeted to offer users who are	 unfamiliar with the complex Grid and data center infrastructure, a tool to decrease the learning curve of using sophisticated computing resources across different data centers, complex remote resource that are independently managed by differnently organizations, a key concept of Grids. 
+To further assist in providing access to non computer scientists, we have also developed a Cyberaide Portal \cite{las08-javascript} framework that allows accessing data centers through a web browser with a sophisticated window based user interface and integrate Web Services, Javascript and other Web 2.0 technology. We are working on adding new components for auditing and monitoring thermal-aware task scheduling across data centers.
+%\footnote{This work was done mainly by Fugang Wang, however, the mediator is going to be used in this research activity, demonstrating the generality of our architecture and proving its usefulness also in another activity}. 
+
+%\GVL{ I think the java script framework should be included in the figure. I would also mention that new components will be made available for auditing and monitoring thermal aware task scheduling across data centers.}
+
+%In the next sections, we will focus on thermal aware task scheduling.
+
+%%%%%%%%%%%%
+\section{Related Work}
+%%%%%%%%%%%%%%
+
+Thermal-aware task scheduling \cite{DBLP:conf/dac/MukherjeeMM05, DBLP:conf/iccad/JayaseelanM08,DBLP:conf/date/CoskunRW07,DBLP:conf/vlsid/JayaseelanM09,arani2007ota,DBLP:conf/ispass/YangZCZJ08} has been one of important research topics in the area of embedded systems because efficient power management is critical in those system in which there is no dedicated energy source.
+Recently, with the emergence of cloud computing and the development of large scale data centers, a number of power-aware task scheduling \cite{DBLP:conf/ccgrid/KimBK07,DBLP:conf/sc/GeFC05} and thermal-aware task scheduling \cite{DBLP:conf/cluster/TangGV07,DBLP:conf/usenix/MooreCRS05,DBLP:conf/aPcsac/VandersterBD07} have been presented.
+
+In \cite{DBLP:conf/ccgrid/KimBK07,DBLP:conf/sc/GeFC05},  power reduction is achieved by the power-aware task scheduling on DVS-enabled commodity systems which can adjust the supply voltage and support multiple operating points. In \cite{DBLP:conf/cluster/TangGV07,DBLP:conf/usenix/MooreCRS05} thermodynamic formulation of steady state hot spots and cold spots in data centers is examined and based on the formulation several task scheduling algorithms are presented to reduce the cooling energy consumption. In \cite{DBLP:conf/aPcsac/VandersterBD07} the researchers study the task characteristics and temperature profiles for a subset of SPEC'2K benchmarks and exploit these profiles to suggest several scheduling algorithms aimed at achieving lower cluster temperature. However, these algorithms are not aimed at energy consumption and they are intuition based algorithms that cannot guarantee energy efficiency. 
+
+In our work, we study different types of task temperature profiles and the relationship between temperature distribution and cooling energy cost in data centers. Based on these studies, we mathematically define and develop our task scheduling targeted at conserving energy consumption and increasing system reliability.
+ 
+ 
+%%%%%%%%%%%%%
+\section{A Motivational Example}
+%%%%%%%%%%%%%%%
+
+Given certain compute processors and steady ambient  temperature, a task-temperature profile shows the temperature increase along with the task execution. 
+It has been observed that different types of computing tasks generate different amount of heat, 
+therefore featuring with distinct task-temperature profiles~\cite{DBLP:conf/aPcsac/VandersterBD07}. 
+
+\FIGURE{!h}
+ {images/Buffalo_data}
+  {1.0}
+ {Task-temperature profiles in buffalo data center}
+ {F:buffalo}
+
+\FIGURE{!h}
+ {images/crafty.pdf}
+  {1.0}
+ { Task-temperature profile of SPEC2000 (crafty)}
+ {F:crafty}
+ 
+
+A task-temperature profile can be obtained by using profiling tools. 
+As the task temperature is related to processor type and ambient environment and normal profiling tools 
+can only get task-termperture in a standard environment, 
+the task-temperature is also termed as general task-temperature profile. 
+Figure \ref{F:buffalo} shows an overall task-temperature profiles in the Center for Computational Research at State University of New York at Buffalo \cite{www-ccr}. 
+The X-axis is the time,  and the Y-axis gives two values: the upper line is the task execution time (CPU time), the lower line shows computing node temperature. 
+Figure \ref{F:buffalo} indicates the task and temperature correlation: as compute loads in term of task CPU time augment, computing node temperatures increase incidentally. 
+Their correlation coefficient is $0.65$. To be able to design a scheduling algorithm, we are also interested in explicit task-temperature profiles to derive some elementary characteristic that we like to model. Figure \ref{F:crafty} \cite{DBLP:conf/aPcsac/VandersterBD07} shows a task-temperature profile, 
+which is obtained  by running SPEC 2000 benchmark (crafty) on a IBM BladeCenter 
+with 2 GB memory and Red Hat Enterprise Linux AS 3.
+
+\FIGURE{!h}
+ {images/figure10.png}
+  {1.0}
+ {Two types of tasks' task-temperature profiles}
+ {F:t10}
+
+Now we present a simple example to illustrate thermal-aware task scheduling which is based on the mentioned observation and experiments. Suppose there are 2 tasks, $job_1$ and $job_2$, with task-temperature profiles, $f(job_1)$, $f(job_2)$ shown in Figure \ref{F:t10}.
+Now $job_1$ and $job_2$ are modeled as follows:
+
+%\begin {equation}
+$~~~~~~~~~~~~~~~~~~job_1=(0, 2, 20, f(job_1))$
+%\end {equation}
+
+Where, $job_1$ starts at 0 second, needs 2 processors; Its execution time is 20 seconds, and task-temperature profile is $f(job_1)$.
+
+%\begin {equation}
+$~~~~~~~~~~~~~~~~~~job_2=(0, 1, 40, f(job_2))$
+%\end {equation}
+
+Where, $job_2$ starts at 0 second, needs 1 processors; Its execution time is 40 seconds, and task-temperature profile is $f(job_2)$.
+
+Suppose we have 4 identical computing nodes, with current temperature: 
+
+\begin{quote}
+$node_1=40~^\circ C$ \\
+$node_2=32~^\circ C$ \\
+$node_3=34~^\circ C$ \\
+$node_4=32~^\circ C$ \\
+\end{quote}
+
+The goal of our task scheduling is to minimize the temperature profile deviation of computing nodes after tasks are  executed, and try to minimize the maximal temperature of computing nodes (mathematically, these two objectives are the same). Now a thermal-aware optimized scheduling of $job_1$, $job_2$ is as follows:
+
+\begin{quote}
+$Schedule_1$\\
+$job_1\to node_2, node_4$\\
+$job_2 \to node_3$\\
+\end{quote}
+
+After task execution, the temperature of these nodes will become:
+
+\begin{quote}
+$node_1=40~^\circ C$ \\
+$node_2=40~^\circ C$ \\
+$node_3=40~^\circ C$ \\
+$node_4=40~^\circ C$ \\
+$Max~temperature=40~^\circ C$ \\
+$\sigma =0$ \\
+\end{quote}
+
+Where, the highest temperature among these nodes are 40 $^\circ C$. Standard deviation of these temperature is 0.
+ 
+If the tasks are allocated with another schedule, for example: 
+  
+\begin{quote}
+$Schedule_2$
+ \\
+$job_1\to node_1, node_2$ \\
+$job_2 \to node_3$ \\
+\end{quote}
+
+After task execution, the temperature of these nodes will become:
+
+\begin{quote}
+$node_1=48~^\circ C$ \\
+$node_2=40~^\circ C$ \\
+$node_3=40~^\circ C$ \\ 
+$node_4=32~^\circ C$ \\
+$Max~temperature=48~^\circ C$ \\
+$\sigma =5.6$ \\
+\end{quote}
+Where, the highest temperature among these nodes are 48 $^\circ C$. Standard deviation of these temperature is 5.6.
+%deviation  = 20^2+10^2+10^2 
+
+Therefore, $schedule_1$ is better than $schedule_2$.
+%As presented in \cite{DBLP:conf/aPcsac/VandersterBD07}, different types of tasks have different temperature profiles, i.e. different tasks result in different temperature increase on the same computing nodes. Based on the experiment result in \cite{DBLP:conf/aPcsac/VandersterBD07}, we present an example to illustrate our thermal-aware task scheduling ???\footnote{word missing} that is an essential part of our architectural design and aims to keep the temperature distribution in the data centers as even as possible. \GVL{why is this important, why would that reduce the cost. ...}  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% GOT TILL HERE NAD NEED TO SLEEP %%%%%%%%%%%%%
+
+%%\FIGURE{htb}
+%% {images/figure6.png}
+%% {0.8}
+%% {The relationship between Class a tasks' execution time and the temperature increase it caused. }
+%% {F:t1}
+%%\FIGURE{htb}
+%% {images/figure7.png}
+%% {0.8}
+%%{The relationship between Class b tasks' execution time and the temperature increase it caused }
+%% {F:t2}
+%\begin{table}[htb]
+%\caption{ Class A Tasks execution time and the temperature nodes}
+%\label {T:t1}
+%\begin{center}
+%\begin{small}
+%\begin {tabular} {|r|l|l|}
+%\hline 
+%Task execution time & 20 seconds &40 seconds\\
+%\hline
+% Temperature increase & 2.2 $^\circ$C &6.1 $^\circ$C \\
+%\hline
+%\end {tabular}
+%\end{small}
+%\end{center}
+
+%\caption{ Class B Tasks execution time and the temperature nodes}
+%\label {T:t2}
+%\begin{center}
+%\begin{small}
+%\begin {tabular} {|r|l|l|}
+%\hline 
+%Task execution time & 20 seconds &40 seconds\\
+%\hline
+% Temperature increase & 8 $^\circ$C &10 $^\circ$C \\
+%\hline
+%\end {tabular}
+%\end{small}
+%\end{center}
+%\end {table}
+
+%To present a straight forward example let us assume that all tasks are part of two classes\footnote{it is not specified what a class is. it may be obvious from the paper, but the description here is highly confusing. I have taken the liberty to guess what you mean. it may be wrong and still incomplete, but at least its a start. the section as it was, was not understandable and actually wrong as we do not explain tables but tables are used to explain what we say in the text.} $A$, and $B$ that have some specific characteristics. These characteristics have been chosen based on 
+%real application data obtained through experiments conducted on ... \footnote{this is what i mentioned before}.
+
+%For tasks in the class $A$ let us assume the characteistics summarized in Table \ref{T:t1}, and for class $B$ the characteristics in table \ref{T:t2}. The tables specify a temperature increase given a particular execution time.\footnote{it is unclear if you do the same functionality in both tasks and if they only distingush itself through DVS. YOu realy have an incomplete example, and need to make sure you explain not the table, but the example and refer to the table.} 
+%Let us focus on tasks in class $A$ and its temperature behaviour. Here, if the tasks is executed in 20 seconds, the temperature of the node which the task ran on will increase 2.2 $^\circ$C. However, if the same task is executed in 40 seconds, the node temperature increase is 6.1 $^\circ$C. 
+% 
+% \FIGURE{htb}
+% {images/figure8.png}
+% {0.8}
+%{Thermal-aware task scheduling. }
+% {F:t3}
+
+%Let us assume there are two nodes in the data center with different current temperature values. Let us assume the temperatures are 
+% there are three nodes in the data center with the temperature of 12 $^\circ$C, 8$^\circ$C and 10$^\circ$c respectively (Figure \ref {F:t3}). 
+%Now we like to submit two nodes with the charcteristics specified in class $A$ and class $B$. Task a belongs to Class $B$ and it needs to run 20 seconds\footnote{contradiction to my understanding of the example}. So running task a will result in 8 $^\circ$C temperature increase. 
+
+%According our thermal aware task scheduling to minimize ... \GVL{what}, we assign task a running on $node_2$ which has the lowest temperature among 3 nodes. Task 2 belongs to Class a and it needs to run 20 seconds. So running task 2 will result in 2.2 $^\circ$C temperature increase. We assign task 2 to $node_3$ to balance the temperature distribution in the data center.
+
+%\GVL{ so what, this does not show anything and is more like a puzzle than an explanation. .. this example has not helped at all.}
+
+%\GVL{maybe move on and make your other stuff and fix this entire section later.}
+
+%%%%%%%%%%%%
+\section{System Model}
+%%%%%%%%%%%%%
+This sections provides the formal description of data centers, nodes, jobs and the problem, which are employed as basis of the scheduling algorithm presented in Section \ref{S:algorithm}.
+
+We define a data center as: 
+
+\begin{equation}
+Data\_Center=\{node_i\}, i\in [1,N]
+\end{equation}
+%\begin{equation}
+%R=\bigcup_{i=1}^{N} \{rack_i\}
+%\end{equation}
+
+
+Where, $node_i$ indicates the $i$th node in the data center. There are $N$ nodes in $Data\_Center$.
+%$R$ is composed of $N$ racks; $rack_i$ is the i$th$ rack of $R$. 
+
+%We model the node as: 
+
+%\begin{equation}
+%rack_i=\bigcup_{j=1}^{M}\{node_{ij}\}
+%\end{equation}
+
+%Where, 
+%$rack_i$ is composed of $M$ nodes; $node_{ij}$ is the j$th$ node in the $rack_i$.
+
+We define the node as:
+
+\begin{equation}
+node_i=( temp(t) )
+\end{equation}
+
+Where, each node has a temperature-time profile that indicates the node's temperature value over time.
+%has processors with processing performance of $n_{speed}$ MIPS (Million Instruction Per Second); $temp$ is the node's current temperature; $\bigtriangleup{temp}$ indicates the expected temperature increase on the node due to the scheduled tasks. $duration$ indicates the execution time of scheduled tasks.
+
+We define the jobs to be scheduled in the data center as:
+
+%\begin{equation}
+%J=\bigcup_{k=1}^{L} \{j_k\}
+%\end{equation}
+
+%\begin{equation}
+%j_k=\{t_{arrive}, num, walltime, f_{temp}\}
+%\end{equation}
+
+\begin{equation}
+job_k=(t_{start}, t_{exe}, node_{num}, f_{temp}(t))
+\end{equation}
+
+%Where, there are $L$ tasks submitted and to be scheduled. $j_k$ is the k$th$ task which comes 
+%at $t_{arrive}$; The task needs $num$ processors and lasts $walltime$; $f_{temp}$ is a function that can estimate nodes' temperature rise caused by the execution of the task. The function takes the task's $walltime$ as input and outputs the estimated temperature rise. 
+
+Where, $t_{start}$ indicates the starting time of job; The job needs $node_{num}$ processors and lasts $t_{exe}$; $f_{temp}(t)$ is a function that indicates temperature rise caused by the execution of the job based on the execution time of the job. 
+
+%%%%%%%%%%%%
+%\section{Problem Definition}\label{S:problem}
+%%%%%%%%%%%%%%%%%
+
+%Mathematically scheduling the tasks to the computing nodes is a function, $f$, which maps the tasks to the computing nodes.
+
+\begin{equation}
+%job_k \rightarrow node_i
+(job_k) \xrightarrow{map} (node_i) 
+%\xleftarrow{n+\mu-1}\quad \xrightarrow[T]{n\pm i-1}
+\end{equation}
+
+The task scheduling in the data center is actually the mapping of $job_k$ to $node_i$, and the starting time $t_{start}$ of $job_k$ is specified when the mapping is conducted. As a job runs on the node, it will cause $\Delta Temp$ temperature increase on the node.
+
+\begin{equation}
+\Delta Temp(job_k)=job_k.f_{temp}(job_k.t_{exe})
+\end{equation}
+
+%Where, $\Delta Temp(job_k)$ ask submitted to data centers; It is scheduled to run on $node_{bc}$ at the time $t_{start}$. Now we define the problem of thermal-aware scheduling as follows: 
+Where, $\Delta Temp(job_k)$ can be calculated through the $job_k$'s function $f_{temp}$.
+
+Now we define our problem as :
+given a set of jobs, find an optimal schedule to minimize computing nodes' temperature deviation. We use the deviation because it has the potential to balance the overall temperature in the data centers and thus decreasing the cost for air conditioning needs as pointed out in the introduction of this paper. Hence, 
+%
+%\begin{equation}
+
+%\end{equation}
+
+\begin{equation}
+u(t)=\frac{\sum_{i=1}^{N} (node_i.temp(t))}{N}
+\end{equation}
+
+\begin{equation}
+\sigma (t)=\sqrt{\frac{\sum_{i=1}^{N}(node_i.temp(t)-u(t))^2}{N}}
+\end{equation}
+
+As defined in equation 6 and 7, we use standard deviation as our metric for measuring temperature distribution. The less the value of standard deviation is, the more even temperature distribution is.
+
+%Where, $AVE$ is the average temperature of computing nodes.
+%---------------------------------------------------------------------
+\section{Thermal-Aware Task Scheduling Algorithm}\label{S:algorithm}
+%---------------------------------------------------------------------
+
+Next we define a thermal-aware task scheduling algorithm.
+
+\newcommand{\BH}{\mbox{~~~~}}
+\newcommand{\SH}{\mbox{~~}}
+
+\begin{algorithm}
+\caption{Task Scheduling Algorithm}
+\label{A:1}
+~\\
+1:  FOR $i =1$  TO  $N$ DO\\
+2:  \BH Initiate $node_i.temp(t)$ \\
+3:  END FOR\\
+\\ 
+4:       $t=0$\\
+5:       WHILE ($\lnot$ finished) DO\\
+6:\BH     Schedule the set of upcoming tasks with Algorithm \ref{A:2}\\
+7:\BH     $t=t+interval$\\
+8:		 END WHILE\\
+\end{algorithm}
+
+%In this section, we present our thermal aware task scheduling algorithm. Assume all of the nodes in data centers are homogeneous and we can estimate the type of tasks and tasks' wall time. Obviously, upcoming tasks generate equal temperature increases no matter how tasks are allocated to nodes. The goal of thermal aware task scheduling algorithm is to keep temperature distribution among nodes as even as possible so that less cooling energy is consumed to prevent nodes' temperature reaching its redline. 
+Algorithm \ref{A:1} shows thermal-aware task scheduling pseudo code to highlight its functionality. The scheduling algorithm runs as a daemon in a data center with a predefined scheduling interval, $interval$. First the scheduler initiates each node's temperature-time profile. A node's temperature-time is the node's temperature value over time. Then the scheduler iterates to schedule tasks (line 6,7) with predefined interval value, $interval$ from starting time 0; In each scheduling round, the scheduler places upcoming tasks in the queue to the nodes with Algorithm \ref{A:2}. During the period of scheduling interval, incoming tasks arrive at the scheduler and will be scheduled at the next schedule round. 
+
+\begin{algorithm}
+\caption{One-Round Scheduling Algorithm }
+\label{A:2}
+~\\
+1        Set the threshold for the node's temperature\\
+2:       Select the node which has the lowest ``current" temperature\\
+3:       Sort jobs in descending order of the temperature rise they cause\\
+4:       FOR EACH $job_k$\\
+5: \BH          Assign the job to the selected node\\
+6: \BH          Update the node's temperature-time profile.\\
+7: \BH	 			Select the node which has the lowest ``current" temperature\\
+8:     END FOR EACH\\          
+\end{algorithm}
+
+\FIGURE{!h}
+ {images/figure11.png}
+  {1.0}
+ {a node's temperature-time profile}
+ {F:t11}
+In Algorithm \ref{A:2}, a scheduler assigns jobs to the nodes in a one-round scheduling. In line 2, the scheduler iterates each node's temperature profile and identifies the node which has the lowest ``current'' temperature. We demonstrate it in a small example. Figure \ref{F:t11} is the node's temperature-time profile. As shown in Figure \ref{F:t11}, current time is t3 and the node's current temperate is 26$^\circ C$.  But the scheduled jobs on the node will run till t4 and at the time the node's temperature is 30 $^\circ C$. So the node's ``current'' temperature is 30 $^\circ$C. In line 3, the scheduler sorts the jobs based on the temperature rise they will cause. From line 4 to line 8, the scheduler iterates to assign the unscheduled job to the node with lowest ``current'' temperature, update the node's temperature-time profile and then select the node which has the lowest ``current'' temperature. 
+
+Let us calculate the running time for Algorithm \ref{A:2}. Assume there is $L$ jobs to be scheduled. The running time of selecting the node with the lowest ``current" temperature is $O(N)$. Sorting the jobs takes $O(L$lg$L)$ time. Assigning the job to the selected node and updating node's temperature-time profile both take $O(1)$ time. Since the algorithm needs $L$ times of selecting operations, the total running time for Algorithm \ref{A:2} is $O(L*N)+O(L$lg$L)$.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Simulation Results}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%In this section, we present simulation results of proposed thermal-aware
+%task scheduling. In the simulation, we have 10 nodes. 
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion and Future Work}
+%%%%%%%%%%%%%%%%%%%%%%%
+To manage computing resources in a more energy efficient fashion, we present our thermal-aware resource management framework which has a layered architecture and can address a series of resource management related problems. Based on our observation that different types of task-temperature profiles and the relationship between temperature distribution and cooling energy consumption, we also developed a thermal-aware task scheduling as part of our framework with a goal of conserving cooling energy cost and increasing system reliability. 
+
+In the future, We would further our study and investigate other thermal characteristic of data centers. In addition, we would continue the development and improvement of our layered thermal-aware resource management framework.
