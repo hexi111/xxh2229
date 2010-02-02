@@ -1,0 +1,141 @@
+\documentclass[12pt]{article}
+%\usepackage{geometry}
+%\usepackage{setspace}
+%\usepackage{cite}
+\usepackage{hyperref}
+
+
+% Set your name here
+\def\name{Xi He}
+
+%\geometry{
+%  body={6.5in, 10in},
+%  left=1.0in,
+%  top=1in
+%}
+
+%\hypersetup{
+%  colorlinks = true,
+%  urlcolor = black,
+%  pdfauthor = {\name},
+%  pdfkeywords = {economics, econometrics, industrial organization,
+%    applied microeconomics},
+%  pdftitle = {\name: Curriculum Vitae},
+%  pdfsubject = {Curriculum Vitae},
+%  pdfpagemode = UseNone
+%}
+\begin{document}
+
+
+%\begin{center}
+%{\large {\em Team Proposal}}\\
+%~\\ 
+%{\small{\em Xi He, Jai Dayal, Kevin Pinto}}
+%%{\small{\em xxh2229@rit.edu}}
+%\end{center}
+%~\\
+\title{Project 2 Report}
+\author{Xi He xxh2229@rit.edu}
+
+\maketitle
+%\begin{spacing}{1}
+
+
+In project 2, I conduct a statistical test on Advance Encryption Standard (AES) and try to disprove that AES behaves as a random function.  I also try to run the test as parallel as I can in order to shorten the running time. This report gives a description of how the program is designed, what is the design consideration, what is the running result of the program and so on.  
+\section{Design}
+In the project, I encrypt $N$ 128-bit plain text blocks into $N$ 128-bit cypher text blocks, iterate each cypher text block and for each cypher text bit position count the numbers of times the cypher text bit is 1 and the numbers of times the cypher text bit is 0. Then based on the data a chi-square statistic is conducted to determine if I can disprove that AES behaves as a random function. 
+
+In my program, I use the byte type arrays to store encryption key, the plain text blocks and cypher text blocks. I also use a long type array to store the expected number of times the cipher text bit is 1.   
+
+To parallel the program, I partition $N$ 128-bit plain text blocks into a number of parts evenly in accord with available computer nodes, and let a separate thread encrypt each part of plain text blocks and for each cypher text bit count the numbers of times the cypher text bit is 1. All of the numbers of times counted by each thread should be summed up and then the result is inputed as a parameter to a chi-square statistic. Since the problem is a massive parallel problem, there is no dependance between threads. And I think the computation for each thread is even (computation for the AES encryption for each 128-bit plain text block can be regarded as the same.), thus there is no need to do load balancing. Since every thread only calculates part of the program, the parallel program needs to apply reduction pattern to sum up the results from the threads. In my implementation, the program reduce the cipher text output bit from other thread to thread 0 using reduce message passing. 
+
+\section{Result}
+%\subsection{For The First Input Data Set}
+
+\begin{table}[htb]
+\begin{center}
+\begin{normalsize}
+\caption{For The First Input Data Set}
+\begin {tabular} {|c|c|c|c|c|c|c|c|}
+\hline 
+\hline
+{\em \bf NT} & {\em \bf T1} &{\em \bf T2}&{\em \bf T3}&{\em \bf T}&{\em \bf Spdup}&{\em \bf Effic}&{\em \bf EDSF}\\
+\hline
+seq&54954&55765&55288&54954&~&~&~\\
+\hline
+1&63758&53785&53805& 53785&1.022&1.022&~\\
+\hline
+2&33265&39896&28152&28152&1.950&0.975&0.047\\
+\hline
+3&19625&19690&19542&19542&2.812&0.937&0.045\\
+\hline
+4&15351&15253&15319&15253&3.603&0.901&0.045\\
+\hline
+8&10154&10254&10143&10143&5.417&0.677&0.073\\
+\hline
+\end {tabular}
+\end{normalsize}
+\end{center}
+\end {table}
+
+
+%\subsection{For The Second Input Data Set}
+
+\begin{table}[htb]
+\begin{center}
+\begin{normalsize}
+\caption{For The Second Input Data Set}
+\begin {tabular} {|c|c|c|c|c|c|c|c|}
+\hline 
+\hline
+{\em \bf NT} & {\em \bf T1} &{\em \bf T2}&{\em \bf T3}&{\em \bf T}&{\em \bf Spdup}&{\em \bf Effic}&{\em \bf EDSF}\\
+\hline
+seq&107808&107717&114388&107717&~&~&~\\
+\hline
+1&124754&105079&105541&105079&1.025&1.025&~\\
+\hline
+2&53818&53840&54263&53818&2.001&1.001&0.024\\
+\hline
+3&36853&37171&37065&36853&2.923&0.974&0.026\\
+\hline
+4&28257&28383&28719&28257&3.812&0.953&0.025\\
+\hline
+8&18121&16038&16718&16038&6.716&0.840&0.032\\
+\hline
+\end {tabular}
+\end{normalsize}
+\end{center}
+\end {table}
+
+%\subsection{For The Third Input Data Set}
+
+\begin{table}[htb]
+\begin{center}
+\begin{normalsize}
+\caption{For The Third Input Data Set}
+\begin {tabular} {|c|c|c|c|c|c|c|c|}
+\hline 
+\hline
+{\em \bf NT} & {\em \bf T1} &{\em \bf T2}&{\em \bf T3}&{\em \bf T}&{\em \bf Spdup}&{\em \bf Effic}&{\em \bf EDSF}\\
+\hline
+seq&160496&160664&160489&160489&~&~&~\\
+\hline
+1&156395&156386&156497&156386&1.026&1.026&~\\
+\hline
+2&79438&79471&79704&79438&2.020&1.010&0.016\\
+\hline
+3&53791&53905&53904&53791&2.983&0.995&0.016\\
+\hline
+4&40967&40962&41190&40962&3.918&0.979&0.016\\
+\hline
+8&25513&22279&21783&21783&7.368&0.921&0.016\\
+\hline
+\end {tabular}
+\end{normalsize}
+\end{center}
+\end {table}
+%\section{Thoughts}
+From the above table, we can see that speedup increases as the number of parallel threads increases. The efficiency is $0.9$ or so. When the number of computer nodes reaches to 8, there is  an obvious decrease of efficiency. That is probably because of the increased overhead of message passing. Actually, the problem in the project is a massive parallel problem, and it can easily be solved in parallel with little message passing overhead. These facts make it a good candidate for a cluster parallel problem. The sequential part of the program can not be paralleled, and causes the discrepancy between the ideal and the measured speedup and efficiency in the program.    
+
+I think this project is useful and helps me a lot. It solidified my concept of parallel computing and cluster computing. I understood the concept and operation of message passing. Most important, I learned from this project the methodology of writing a parallel program. 
+\end{document}
