@@ -1,14 +1,17 @@
 import edu.rit.util.Hex;
-import edu.rit.util.Range;
+import edu.rit.util.LongRange;
 import edu.rit.crypto.blockcipher.AES256Cipher;
 import edu.rit.numeric.Statistics;
 import edu.rit.pj.Comm;
+import edu.rit.mp.LongBuf;
+import edu.rit.pj.reduction.LongOp;
 
 public class AesTestClu {
 	// Communicator.
 	static Comm world;
 	static int size;
 	static int rank;
+
 	public static void main(String argv[]) throws Exception {
 		int n = argv.length;
 		byte[] key;
@@ -50,9 +53,13 @@ public class AesTestClu {
 		world = Comm.world();
 		size = world.size();
 		rank = world.rank();
-		
+
+		LongRange myslice = new LongRange(0, block - 1).subrange(size, rank);
+		long mylb = myslice.lb();
+		long myub = myslice.ub();
+
 		cipher = new AES256Cipher(key);
-		for (long i = 0; i < block; i++) {
+		for (long i = mylb; i <= myub; i++) {
 
 			plainText[15] = (byte) (i);
 			plainText[14] = (byte) (i >> 8);
@@ -86,23 +93,26 @@ public class AesTestClu {
 			}
 
 		}
-		double e0 = block / 2;
-		for (int i = 0; i < 128; i++) {
-			long m0 = block - stats[i];
-			double chisqr = (stats[i] - e0) * (stats[i] - e0) / e0 + (m0 - e0)
-					* (m0 - e0) / e0;
-			double p = Statistics.chiSquarePvalue(1, chisqr);
-			System.out.printf("%d\t%d\t%d\t%f\t%f%n", i, m0, stats[i], chisqr,
-					p);
+		world.reduce(0, LongBuf.buffer(stats), LongOp.SUM);
+		if (rank == 0) {
+			double e0 = block / 2;
+			for (int i = 0; i < 128; i++) {
+				long m0 = block - stats[i];
+				double chisqr = (stats[i] - e0) * (stats[i] - e0) / e0
+						+ (m0 - e0) * (m0 - e0) / e0;
+				double p = Statistics.chiSquarePvalue(1, chisqr);
+				System.out.printf("%d\t%d\t%d\t%f\t%f%n", i, m0, stats[i],
+						chisqr, p);
+			}
+			// Stop timing.
+			long t2 = System.currentTimeMillis();
+			System.out.println((t2 - t1) + " msec");
 		}
-		// Stop timing.
-		long t2 = System.currentTimeMillis();
-		System.out.println((t2 - t1) + " msec");
 	}
 
 	private static void usage() {
 
-		System.err.println("Usage: java AesTestSeq <key> <N>");
+		System.err.println("Usage: java AesTestClu <key> <N>");
 		System.err
 				.println("<key> = Encryption key (a 64-hexadecimal-digit number)");
 		System.err

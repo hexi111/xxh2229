@@ -118,7 +118,7 @@ public class AesTestSmp {
 
 	private static void usage() {
 
-		System.err.println("Usage: java AesTestSeq <key> <N>");
+		System.err.println("Usage: java AesTestSmp <key> <N>");
 		System.err
 				.println("<key> = Encryption key (a 64-hexadecimal-digit number)");
 		System.err
