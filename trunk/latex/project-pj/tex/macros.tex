@@ -1,0 +1,40 @@
+\newcommand{\FIGURE}[5]{%
+  \typeout{FIGURE: #2}
+  \begin{figure}[#1]
+     \centerline{\resizebox{#3\linewidth}{!}{\includegraphics{#2}}}
+     \caption{#4}
+     \label{#5}
+  \end{figure}
+}
+
+\newcommand{\TWOCOLFIGURE}[5]{%
+  \typeout{FIGURE: #2}
+  \begin{figure*}[#1]
+     \centerline{\resizebox{#3\linewidth}{!}{\includegraphics{#2}}}
+     \caption{#4}
+     \label{#5}
+  \end{figure*}
+}
+
+\newcommand{\SIDEBYSIDEFIGURE}[9]{%
+  \typeout{FIGURE: #2}
+  \begin{figure}[#1]
+    \centerline{
+    \subfigure[#4]{\label{#8:a}{\resizebox{#3\linewidth}{!}{\includegraphics{#2}}}}
+    \subfigure[#7]{\label{#8:b}{\resizebox{#6\linewidth}{!}{\includegraphics{#5}}}}
+    }
+     \caption{#8}
+     \label{#9}
+  \end{figure}
+}
+
+\newcommand{\TABLEOFCONTENTS}{
+%\begin{center}
+%{\bf\Large \TITLE}\\
+%{\bf \AUTHOR}
+%\end{center}
+
+\tableofcontents
+
+\hfill
+}

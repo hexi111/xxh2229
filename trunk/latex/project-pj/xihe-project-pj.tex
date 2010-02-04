@@ -1,0 +1,65 @@
+\documentclass[times,10pt]{article} 
+
+\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage{times}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{listings}
+\usepackage{rotating}
+\usepackage[usenames]{color}
+\usepackage{setspace}
+\usepackage{tabularx,colortbl}
+\usepackage{subfigure}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{fancyhdr}
+
+
+\usepackage[%
+        pdfcreator={http://cyberaide.org},
+        pdftex,
+        colorlinks=true,
+        linkcolor={black},
+        citecolor={black},
+        urlcolor={black}]{hyperref}
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Program Float
+%
+\usepackage{float}
+
+\floatstyle{ruled}
+\newfloat{program}{thp}{lop}
+\floatname{program}{Program}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\input{tex/macros}
+
+\input{paper}
+
+%\section*{Acknowledgment}
+
+%Work conducted by Gregor von Laszewski is supported (in part) by NSF CMMI 0540076 and NSF SDCI NMI 0721656.
+
+\bibliographystyle{tex/IEEEtran}
+
+%\bibliography{../bib/WF}
+\bibliography{%
+../xi}
+
+%\clearpage
+%\appendix
+%\input{todo}
+
+\end{document}
+
+
