@@ -17,6 +17,8 @@ preproposal:
 	pdflatex preproposal.tex
 project1:
 	pdflatex project1.tex
+project2:
+	pdflatex project2.tex
 resume:
 	pdflatex resume.tex
 

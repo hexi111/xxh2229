@@ -1,0 +1,107 @@
+%­\pagestyle{fancy}
+
+%\doublespacing
+
+\newcommand{\SHELL}{GridShell}
+\newcommand{\AUTHOR}{%
+Xi He\\
+Rochester Institute of Technology\\
+Bldg 74, Lomb Memorial Drive, Rochester, NY 14623-5608 \\
+Email: xi.he@mail.rit.edu%
+}
+\newcommand{\TITLE}{M.S. Project Proposal \\}
+
+\title{\TITLE}
+\author{\AUTHOR\\~}
+
+\maketitle
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+%\listoffigures
+
+%\listoftables
+
+%\clearpage
+
+%\begin{abstract}
+%Your abstract goes here
+%\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Preface}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Put your preface here. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Your introduction goes here. 
+
+The paper is structured as follows ...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Other Sections}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To cite you use the cite command \cite{armbrust2009above}. Abstract and Conclusion sections must not contain citations or special formating such as itemized lists.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Including Figures}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This is how to include and refer to Figure \ref{F:framework}.
+ 
+
+\FIGURE{!htb}
+  {images/cyberaide}
+  {1.0}
+  {Cyberaide Framework}
+  {F:framework}
+
+Example for a side by side figure is Figure  \ref{F:blocks} with ist subfigures 
+\ref{F:blocks}.a and \ref{F:blocks}.b.
+
+\SIDEBYSIDEFIGURE{!htb}
+  {images/cyberaide}
+  {0.5}
+  {Caption for Figure a}
+  {images/cyberaide}
+  {0.5}
+  {Caption for Figure b}
+  {Example of two figures next to each other}
+  {F:blocks}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Make}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The best way to create the documents is form the commandline (under windows you can install miktex and cygwin). Make sure you have make installed. Once that is done you can craete the contents while modifying the following files in teh directory.
+
+\begin{description}
+
+\item[paper.tex:] contents of the paper you will write
+\item[vonLaszewski-template.tex:] real name of the latex file that includes the contents from paper.tex. In teh final version the \verb|template| shoudl be replaced with something more meaningful and the Makefile shoud be updated. Do not modify the contents of this file too much other than changing title and authors. Typically {\em Gregor von Laszewski} is always a coauthor.
+
+\end{description}
+
+To create the file and view the pdf file say
+
+\begin{verbatim}
+$ make
+$ make view
+\end{verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Put your conclusions in this section
