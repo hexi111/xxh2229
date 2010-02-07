@@ -1,17 +1,27 @@
 import java.util.ArrayList;
 
-public class Node
+public class Node implements Comparable<Node>, Cloneable
 {
     private ArrayList<Node> neighbors;
-    private long id;
+    private int id;
     private int color;
-
-    public Node(long id, int color)
+  
+    
+    public Object clone() {
+        try {
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new InternalError(e.toString());
+        }
+    }
+    
+    public Node(int id, int color)
     {
 	this.id = id;
 	this.color = color;
 	neighbors = new ArrayList<Node>();
-	System.out.printf("Created node: %d color: %d\n",id, color);
+	//System.out.printf("Created node: %d color: %d\n",id, color);
     }
 
     public void addNeighbor(Node n)
@@ -19,8 +29,8 @@ public class Node
 	if(!neighbors.contains(n))
 	    {
 		neighbors.add(n);
-		System.out.println("Node: " + this.id + " added neighbor " 
-				   + n.getId());
+		//System.out.println("Node: " + this.id + " added neighbor " 
+			//	   + n.getId());
 	    }
     }
 
@@ -29,7 +39,7 @@ public class Node
 	return this.color;
     }
     
-    public long getId()
+    public int getId()
     {
 	return this.id;
     }
@@ -55,4 +65,30 @@ public class Node
     {
 	return neighbors.size();
     }
+    
+    public int getNeighbour(int index){
+    	return neighbors.get(index).getId();
+        	
+    }
+    
+    /**
+     * Reverse ordering comparison based on colors.
+     */
+    public int compareTo(Node o1)
+    {
+    	Node b = (Node)o1;
+    	if(this.getColor() < b.getColor())
+    	{
+    		return 1;
+    	}
+    	else if(this.getColor() > b.getColor())
+    	{
+    		return -1;
+    	}
+    	else
+    	{
+    		return 0;
+    	}
+    }
+
 }
