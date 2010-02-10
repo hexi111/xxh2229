@@ -31,7 +31,6 @@ public class GraphColoringSeq {
 		gc.printColor();
 		// Stop timing.
 		long t2 = System.currentTimeMillis();
-		
 		// Printing run time.
 		System.out.println((t2 - t1) + " msec");
 
