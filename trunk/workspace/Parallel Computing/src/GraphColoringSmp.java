@@ -1,7 +1,21 @@
+//******************************************************************************
+//
+// File:    GraphColoringSmp.java
+//
+// Team Project: Parallel  graph coloring
+// Team name: Beowulf
+// Team member: Jai Dayal, Kevin Pinto, Xi He
+//
+//******************************************************************************
 import edu.rit.pj.IntegerForLoop;
 import edu.rit.pj.ParallelRegion;
 import edu.rit.pj.ParallelTeam;
+import edu.rit.pj.Comm;
 
+/**
+ * Parallel program for graph coloring
+ *
+ */
 public class GraphColoringSmp {
 
 	static Node[] nodes;
@@ -9,6 +23,7 @@ public class GraphColoringSmp {
 	static int start;
 	static int end;
 	static int limit = 100;
+	static long tx;
 
 	/**
 	 * Main Program
@@ -22,15 +37,18 @@ public class GraphColoringSmp {
 		long t1 = System.currentTimeMillis();
 
 		// Initialize middleware.
-		// Comm.init (args);
+		Comm.init (args);
 
 		// Check usage and try catch block needs to be implemented.
 		nodes = Node.getInstance(args[0]);
+		tx=System.currentTimeMillis();
+		System.out.println(0+" "+0+" "+(tx-t1));
 		gc = new GraphColoring(nodes);
+		//gc.permuteByDegree();
 		// Phase 1
 		new ParallelTeam().execute(new ParallelRegion() {
 			public void run() throws Exception {
-				execute(0, nodes.length - 1, new IntegerForLoop() {
+				execute(0, gc.getNum(), new IntegerForLoop() {
 
 					// Extra padding.
 					long p0, p1, p2, p3, p4, p5, p6, p7;
@@ -39,6 +57,7 @@ public class GraphColoringSmp {
 					public void run(int first, int last) {
 
 						gc.color(first, last);
+						System.out.println(first+" "+last+" "+(System.currentTimeMillis()-tx));
 
 					}
 				});
@@ -51,21 +70,15 @@ public class GraphColoringSmp {
 		// Phase 2
 		// Sorting
 		gc.permuteByColor();
-		for (int i = 0; i < nodes.length - 1; i++) {
-			nodes[i].setColor(0);
-		}
+		// Identify different color classes
+		gc.colorClassSetup();
+		// Clear the color in each node
+		gc.cleanColor();
 
-		int tempColor = nodes[0].getColor();
-		int loop = 0;
 		start = 0;
 		// Iterate each color class and sort the vertices in it.
-		while (loop <= nodes.length - 1) {
-			if ((nodes[loop].getColor() == tempColor)
-					&& (loop != nodes.length - 1)) {
-				loop++;
-				continue;
-			}
-			end = loop;
+		while (gc.moreColorClass()) {
+			end=gc.nextColorClass();
 			// We don't always color in parallel. When the number of vertices is
 			// small, there is no point of coloring the vertices in parallel.
 			if (end - start > limit) {
@@ -87,11 +100,7 @@ public class GraphColoringSmp {
 			} else {
 				gc.color(start, end);
 			}
-			if (loop != (nodes.length - 1)) {
-				start = end + 1;
-				tempColor = nodes[start].getColor();
-			}
-			loop++;
+			start=end+1;
 		}
 
 		long t3 = System.currentTimeMillis();
@@ -101,19 +110,14 @@ public class GraphColoringSmp {
 		// Phase 3
 		new ParallelTeam().execute(new ParallelRegion() {
 			public void run() throws Exception {
-				execute(0, nodes.length - 1, new IntegerForLoop() {
+				execute(0, gc.getNum(), new IntegerForLoop() {
 
 					// Extra padding.
 					long p0, p1, p2, p3, p4, p5, p6, p7;
 					long p8, p9, pa, pb, pc, pd, pe, pf;
 
 					public void run(int first, int last) {
-						for (int i = first; i <= last; i++) {
-							if (!nodes[i].validColor(nodes[i].getColor())) {
-								nodes[i].setStatus(false);
-							}
-
-						}
+						gc.findConflict(first, last);
 
 					}
 
@@ -125,27 +129,14 @@ public class GraphColoringSmp {
 		System.out.println("Phase 3 " + (t4 - t3) + " msec");
 
 		// Phase 4
-		int colorCount = 1;
-		for (int i = 1; i < nodes.length; i++) {
-			if (!nodes[i].getStatus()) {
-				int color = 1;
-				while (!nodes[i].validColor(color)) {
-					color++;
-				}
-				nodes[i].setColor(color);
-			}
-			if (nodes[i].getColor() > colorCount) {
-				colorCount = nodes[i].getColor();
-			}
-		}
+		gc.resolveConflict();
 
 		// Stop timing.
 		long t5 = System.currentTimeMillis();
 		// Printing run time.
 		System.out.println("Phase 4 " + (t5 - t4) + " msec");
 
-		System.out
-				.println("No. of Colors used in after phase 4: " + colorCount);
+		gc.printColor();
 
 		// Printing run time.
 		System.out.println("total running time " + (t5 - t1) + " msec");
