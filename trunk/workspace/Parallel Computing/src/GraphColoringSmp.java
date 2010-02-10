@@ -63,6 +63,9 @@ public class GraphColoringSmp {
 				});
 			}
 		});
+		
+		gc.calculateColor();
+		gc.printColor();
 		long t2 = System.currentTimeMillis();
 		// Printing run time.
 		System.out.println("Phase 1 " + (t2 - t1) + " msec");
@@ -103,6 +106,8 @@ public class GraphColoringSmp {
 			start=end+1;
 		}
 
+		gc.calculateColor();
+		gc.printColor();
 		long t3 = System.currentTimeMillis();
 		// Printing run time.
 		System.out.println("Phase 2 " + (t3 - t2) + " msec");
@@ -124,13 +129,15 @@ public class GraphColoringSmp {
 				});
 			}
 		});
+
 		long t4 = System.currentTimeMillis();
 		// Printing run time.
 		System.out.println("Phase 3 " + (t4 - t3) + " msec");
 
 		// Phase 4
 		gc.resolveConflict();
-
+		gc.calculateColor();
+		gc.printColor();
 		// Stop timing.
 		long t5 = System.currentTimeMillis();
 		// Printing run time.

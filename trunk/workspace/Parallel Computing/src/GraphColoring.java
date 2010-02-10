@@ -36,10 +36,10 @@ public class GraphColoring {
 		int tempDegree = 0;
 		int tempIndex = 0;
 		Node tempNode = null;
-		for (int i = 0; i < nodes.length - 1; i++) {
+		for (int i = 0; i <= nodes.length - 1; i++) {
 			tempDegree = nodes[i].getDegree();
 			tempIndex = i;
-			for (int j = i + 1; j < nodes.length - 1; j++) {
+			for (int j = i + 1; j <= nodes.length - 1; j++) {
 				if (tempDegree < nodes[j].getDegree()) {
 					tempDegree = nodes[j].getDegree();
 					tempIndex = j;
@@ -55,10 +55,10 @@ public class GraphColoring {
 		int tempColor = 0;
 		int tempIndex = 0;
 		Node tempNode = null;
-		for (int i = 0; i < nodes.length - 1; i++) {
+		for (int i = 0; i <= nodes.length - 1; i++) {
 			tempColor = nodes[i].getColor();
 			tempIndex = i;
-			for (int j = i + 1; j < nodes.length - 1; j++) {
+			for (int j = i + 1; j <= nodes.length - 1; j++) {
 				if (tempColor < nodes[j].getColor()) {
 					tempColor = nodes[j].getColor();
 					tempIndex = j;
@@ -66,7 +66,7 @@ public class GraphColoring {
 			}
 			tempNode = nodes[i];
 			nodes[i] = nodes[tempIndex];
-			nodes[i] = tempNode;
+			nodes[tempIndex] = tempNode;
 		}
 	}
 
@@ -127,18 +127,19 @@ public class GraphColoring {
 		currentColor = nodes[0].getColor();
 		currentIndex = 0;
 		loop = 1;
-		while (currentIndex <= nodes.length - 1) {
+		while ((currentIndex <= nodes.length - 1) && (loop <= nodes.length -1)) {
 			if ((nodes[loop].getColor() == currentColor)
-					& (currentIndex != nodes.length - 1)) {
+					& (loop != nodes.length - 1)) {
 				loop++;
 				continue;
 			} else if ((nodes[loop].getColor() == currentColor)
-					& (currentIndex == nodes.length - 1)) {
+					& (loop == nodes.length - 1)) {
 				nodes[currentIndex].setNext(nodes.length - 1);
 				currentIndex = nodes.length;
 			} else if (nodes[loop].getColor() != currentColor) {
 				nodes[currentIndex].setNext(loop - 1);
 				currentIndex = loop;
+				currentColor=nodes[currentIndex].getColor();
 				loop = currentIndex + 1;
 			} else if (currentIndex == nodes.length - 1) {
 				nodes[currentIndex].setNext(nodes.length - 1);
@@ -149,12 +150,16 @@ public class GraphColoring {
 	}
 
 	public boolean moreColorClass() {
-		return (currentIndex <= nodes.length);
+		return (currentIndex <= nodes.length-1);
 	}
 
 	public int nextColorClass() {
 		int index = nodes[currentIndex].getNext();
+		if(index==nodes.length-1){
+			currentIndex=nodes.length;
+		}else {
 		currentIndex = index + 1;
+		}
 		return index;
 	}
 
