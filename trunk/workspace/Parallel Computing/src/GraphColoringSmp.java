@@ -141,7 +141,6 @@ public class GraphColoringSmp {
 		System.out.println("Phase 4 " + (t6 - t5) + " msec");
 
 		gc.printColor();
-
 		// Printing run time.
 		System.out.println("total running time (exclude I/O) " + (t6 - t2) + " msec");
 
