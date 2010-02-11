@@ -23,7 +23,6 @@ public class GraphColoringSmp {
 	static int start;
 	static int end;
 	static int limit = 100;
-	static long tx;
 
 	/**
 	 * Main Program
@@ -41,8 +40,8 @@ public class GraphColoringSmp {
 
 		// Check usage and try catch block needs to be implemented.
 		nodes = Node.getInstance(args[0]);
-		tx=System.currentTimeMillis();
-		System.out.println(0+" "+0+" "+(tx-t1));
+		long t2=System.currentTimeMillis();
+		System.out.println("I/O time "+(t2-t1));
 		gc = new GraphColoring(nodes);
 		//gc.permuteByDegree();
 		// Phase 1
@@ -57,8 +56,6 @@ public class GraphColoringSmp {
 					public void run(int first, int last) {
 
 						gc.color(first, last);
-						System.out.println(first+" "+last+" "+(System.currentTimeMillis()-tx));
-
 					}
 				});
 			}
@@ -66,9 +63,9 @@ public class GraphColoringSmp {
 		
 		gc.calculateColor();
 		gc.printColor();
-		long t2 = System.currentTimeMillis();
+		long t3 = System.currentTimeMillis();
 		// Printing run time.
-		System.out.println("Phase 1 " + (t2 - t1) + " msec");
+		System.out.println("Phase 1 " + (t3 - t2) + " msec");
 
 		// Phase 2
 		// Sorting
@@ -105,12 +102,11 @@ public class GraphColoringSmp {
 			}
 			start=end+1;
 		}
-
 		gc.calculateColor();
 		gc.printColor();
-		long t3 = System.currentTimeMillis();
+		long t4 = System.currentTimeMillis();
 		// Printing run time.
-		System.out.println("Phase 2 " + (t3 - t2) + " msec");
+		System.out.println("Phase 2 " + (t4 - t3) + " msec");
 
 		// Phase 3
 		new ParallelTeam().execute(new ParallelRegion() {
@@ -130,23 +126,24 @@ public class GraphColoringSmp {
 			}
 		});
 
-		long t4 = System.currentTimeMillis();
+		long t5 = System.currentTimeMillis();
 		// Printing run time.
-		System.out.println("Phase 3 " + (t4 - t3) + " msec");
+		System.out.println("Phase 3 " + (t5 - t4) + " msec");
 
 		// Phase 4
 		gc.resolveConflict();
-		gc.calculateColor();
-		gc.printColor();
+		System.out.println("total conflict= "+gc.getConflict());
+		//gc.calculateColor();
+		//gc.printColor();
 		// Stop timing.
-		long t5 = System.currentTimeMillis();
+		long t6 = System.currentTimeMillis();
 		// Printing run time.
-		System.out.println("Phase 4 " + (t5 - t4) + " msec");
+		System.out.println("Phase 4 " + (t6 - t5) + " msec");
 
 		gc.printColor();
 
 		// Printing run time.
-		System.out.println("total running time " + (t5 - t1) + " msec");
+		System.out.println("total running time (exclude I/O) " + (t6 - t2) + " msec");
 
 	}
 

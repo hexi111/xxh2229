@@ -18,6 +18,7 @@ public class GraphColoring {
 	private int currentIndex;
 	private int loop;
 	private int num;
+	private int conflict=0;
 
 	public GraphColoring(Node[] nodes) {
 		this.nodes = nodes;
@@ -47,7 +48,7 @@ public class GraphColoring {
 			}
 			tempNode = nodes[i];
 			nodes[i] = nodes[tempIndex];
-			nodes[i] = tempNode;
+			nodes[tempIndex] = tempNode;
 		}
 	}
 
@@ -75,25 +76,17 @@ public class GraphColoring {
 	}
 
 	public void color(int begin, int end) {
-		boolean flag = true;
 		for (int i = begin; i <= end; i++) {
-			flag = true;
-			for (int j = 1; j <= colorCount; j++) {
-				if (nodes[i].validColor(j)) {
-					nodes[i].setColor(j);
-					flag = false;
-					j = colorCount + 1;
-				}
+			int color = 1;
+			while (!nodes[i].validColor(color)) {
+				color++;
 			}
-			if (flag) {
-				colorCount++;
-				nodes[i].setColor(colorCount);
+			nodes[i].setColor(color);
 			}
-		}
 	}
 
 	public void cleanColor() {
-		for (int i = 0; i < nodes.length - 1; i++) {
+		for (int i = 0; i <=nodes.length - 1; i++) {
 			nodes[i].setColor(0);
 		}
 	}
@@ -174,8 +167,9 @@ public class GraphColoring {
 
 	public void resolveConflict() {
 		int colorCount = 1;
-		for (int i = 1; i < nodes.length; i++) {
+		for (int i = 0; i < nodes.length; i++) {
 			if (!nodes[i].getStatus()) {
+				conflict++;
 				int color = 1;
 				while (!nodes[i].validColor(color)) {
 					color++;
@@ -187,5 +181,8 @@ public class GraphColoring {
 			}
 		}
 		this.colorCount = colorCount;
+	}
+	public int getConflict(){
+		return this.conflict;
 	}
 }

@@ -21,18 +21,25 @@ public class GraphColoringSeq {
 		long t1 = System.currentTimeMillis();
 		Comm.init (args);
 		nodes = Node.getInstance(args[0]);
-		long tx= System.currentTimeMillis();
-		System.out.println((tx - t1) + " msec");
+		long t2= System.currentTimeMillis();
+		System.out.println("I/O time "+(t2 - t1) + " msec");
 		GraphColoring gc=new GraphColoring(nodes);
 		//gc.permuteByDegree();
 		gc.color();
+		gc.calculateColor();
+		gc.printColor();
+		long t3= System.currentTimeMillis();
+		System.out.println("phase 1 "+(t3 - t2) + " msec");
 		gc.permuteByColor();
+		gc.cleanColor();
 		gc.color();
+		gc.calculateColor();
 		gc.printColor();
 		// Stop timing.
-		long t2 = System.currentTimeMillis();
+		long t4 = System.currentTimeMillis();
+		System.out.println("phase 2 "+(t4 - t3) + " msec");
 		// Printing run time.
-		System.out.println((t2 - t1) + " msec");
+		System.out.println("total running time (exclude I/O) "+(t4 - t2) + " msec");
 
 	}
 }
