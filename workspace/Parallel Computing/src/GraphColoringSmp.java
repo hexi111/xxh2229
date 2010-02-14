@@ -1,50 +1,58 @@
-//******************************************************************************
-//
-// File:    GraphColoringSmp.java
-//
-// Team Project: Parallel  graph coloring
-// Team name: Beowulf
-// Team member: Jai Dayal, Kevin Pinto, Xi He
-//
-//******************************************************************************
 import edu.rit.pj.IntegerForLoop;
 import edu.rit.pj.ParallelRegion;
 import edu.rit.pj.ParallelTeam;
 import edu.rit.pj.Comm;
 
 /**
- * Parallel program for graph coloring
- *
+ * Class GraphColoringSmp is SMP parallel program to vertex color a graph.
+ * It was designed and built as per requirements of Parallel Computing -1
+ * Team Project in Department of Computer Science at RIT.
+ * 
+ * <P>
+ * Usage: java -Dpj.nt=<I>K</I> GraphColoringSmp <I>input</I>
+ * <BR><I>K</I> = Number of Parallel threads
+ * <BR><I>input</I> = input file name in DIMACS format.
+ * <P>
+ * 
+ * The program's algorithm is based on Culberson's lemma and Scalable parallel 
+ * graph coloring algorithms by  A. H. Gebremedhin and F. Manne.
+ * 
+ * Instructor: Prof. Alan Kaminsky
+ * 
+ * @author Xi He, Jai Dayal, Kevin Pinto
+ * @version 13-Feb-2010
+ * 
  */
 public class GraphColoringSmp {
 
-	static Node[] nodes;
+	//Instance of GraphColoring sequence.
 	static GraphColoring gc;
+	
 	static int start;
 	static int end;
+	
+	//Limiting factor for running coloring in parallel.
 	static int limit = 100;
 
 	/**
 	 * Main Program
 	 * 
-	 * @param args
+	 * @param input file name
 	 * @throws Exception
 	 */
 	public static void main(String args[]) throws Exception {
 
 		// Start timing.
-		long t1 = System.currentTimeMillis();
+		long time = -System.currentTimeMillis();
 
 		// Initialize middleware.
 		Comm.init (args);
 
-		// Check usage and try catch block needs to be implemented.
-		nodes = Node.getInstance(args[0]);
-		long t2=System.currentTimeMillis();
-		System.out.println("I/O time "+(t2-t1));
-		gc = new GraphColoring(nodes);
-		//gc.permuteByDegree();
-		// Phase 1
+		//Instantiate graph coloring class to perform operations over graph.
+		gc = new GraphColoring(args[0]);
+		
+		
+	// Phase 1 -  FF algorithm over entire array.
 		new ParallelTeam().execute(new ParallelRegion() {
 			public void run() throws Exception {
 				execute(0, gc.getNum(), new IntegerForLoop() {
@@ -54,25 +62,23 @@ public class GraphColoringSmp {
 					long p8, p9, pa, pb, pc, pd, pe, pf;
 
 					public void run(int first, int last) {
-
 						gc.color(first, last);
 					}
 				});
 			}
 		});
 		
+		//Calculate number of colors used so far.
 		gc.calculateColor();
-		gc.printColor();
-		long t3 = System.currentTimeMillis();
-		// Printing run time.
-		System.out.println("Phase 1 " + (t3 - t2) + " msec");
-
-		// Phase 2
-		// Sorting
+		
+	//Phase 2
+		//Sort array of nodes as per color in reverse order.
 		gc.permuteByColor();
-		// Identify different color classes
+		
+		// Identify different color classes start and end index values.
 		gc.colorClassSetup();
-		// Clear the color in each node
+		
+		// Reset colors of all node to zero.
 		gc.cleanColor();
 
 		start = 0;
@@ -102,13 +108,11 @@ public class GraphColoringSmp {
 			}
 			start=end+1;
 		}
+		
+		//Find the number of colors used so far.
 		gc.calculateColor();
-		gc.printColor();
-		long t4 = System.currentTimeMillis();
-		// Printing run time.
-		System.out.println("Phase 2 " + (t4 - t3) + " msec");
-
-		// Phase 3
+		
+	// Phase 3 - Find the conflicts in array of nodes in parallel.
 		new ParallelTeam().execute(new ParallelRegion() {
 			public void run() throws Exception {
 				execute(0, gc.getNum(), new IntegerForLoop() {
@@ -126,24 +130,18 @@ public class GraphColoringSmp {
 			}
 		});
 
-		long t5 = System.currentTimeMillis();
-		// Printing run time.
-		System.out.println("Phase 3 " + (t5 - t4) + " msec");
-
-		// Phase 4
+	// Phase 4 - Resolve conflict sequentially.
 		gc.resolveConflict();
-		System.out.println("total conflict= "+gc.getConflict());
-		//gc.calculateColor();
-		//gc.printColor();
+		
+		
 		// Stop timing.
-		long t6 = System.currentTimeMillis();
-		// Printing run time.
-		System.out.println("Phase 4 " + (t6 - t5) + " msec");
-
+		time += System.currentTimeMillis();
+		
+		//Print the number of colors used to color the graph.
 		gc.printColor();
-
+		
 		// Printing run time.
-		System.out.println("total running time (exclude I/O) " + (t6 - t2) + " msec");
+		System.out.println(time + " msec");
 
 	}
 
