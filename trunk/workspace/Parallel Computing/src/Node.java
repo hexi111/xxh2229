@@ -1,124 +1,153 @@
-//******************************************************************************
-//
-// File:    Node.java
-//
-// Team Project: Parallel graph coloring
-// Team name: Beowulf
-// Team member: Jai Dayal, Kevin Pinto, Xi He
-//
-//******************************************************************************
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-
 /**
- * Class Node provides the functionality for the manipulation of vertices in a
- * graph.
+ * Class Node provides elements of nodes and methods to access and set these elements.
+ * 
+ * @author Xi He, Jai Dayal, Kevin Pinto
+ * @version 13-Feb-2010
  * 
  */
 public class Node {
-	private ArrayList<Node> neighbors;
+	//Array of neighbors.
+	private Node[] neighbors;
+	
+	//Number of neighbors.
+	private int numOfNeighbors=0;
+	private int radio=0;
+	
+	//Node id.
 	private int id;
+	
+	//Color integer value.
 	private int color;
+	
+	//Status to set validity of node color.
 	private boolean status;
-	private static final int DEFAULT_COLOR = 0;
+	
+	//Pointer to next colorClass.
 	private int next = 0;
-
+	
 	/**
-	 * @param filename
-	 *            from which a graph can be read into memory
-	 * @return
-	 * @throws Exception
+	 * Constructor accepting node id, color, status and initial number.
+	 * 
+	 * 
+	 * @param id
+	 * @param color
+	 * @param status
+	 * @param initialNum
 	 */
-	public static Node[] getInstance(String filename) throws Exception {
-		BufferedReader reader = new BufferedReader(new FileReader(filename));
-		int numNodes;
-		String line = "";
-		Node[] nodes = null;
-		while ((line = reader.readLine()) != null) {
-			if (line.charAt(0) == 'p') {
-				String[] values = line.split(" ");
-				numNodes = Integer.parseInt(values[2]);
-				nodes = new Node[numNodes];
-				for (int i = 0; i < numNodes; i++) {
-					nodes[i] = new Node(i + 1, DEFAULT_COLOR, true);
-				}
-			}
-
-			// e 1 2
-			else if (line.charAt(0) == 'e') {
-				String[] values = line.split(" ");
-				int n1 = Integer.parseInt(values[1]);
-				int n2 = Integer.parseInt(values[2]);
-				Node N1 = nodes[n1 - 1];
-				Node N2 = nodes[n2 - 1];
-				N1.addNeighbor(N2);
-				N2.addNeighbor(N1);
-			}
-
-		}
-		return nodes;
+	public Node(int id, int color, boolean status,int initialNum) {
+		this.id = id;
+		this.color = color;
+		this.status = status;
+		neighbors = new Node[initialNum];
+		radio=initialNum/10;
 	}
-
+	
+	/**
+	 * Returns pointer to next color class.
+	 * 
+	 * @return pointer to next color class
+	 */
 	public int getNext() {
 		return next;
 	}
 
+	/**
+	 * Sets the value of next colorClass start index value.
+	 * 
+	 * @param next
+	 */
 	public void setNext(int next) {
 		this.next = next;
 	}
 
-	public Node(int id, int color, boolean status) {
-		this.id = id;
-		this.color = color;
-		this.status = status;
-		neighbors = new ArrayList<Node>();
-		// System.out.printf("Created node: %d color: %d\n",id, color);
-	}
+	
 
+	/**
+	 * Method to add a neighbor to node.
+	 * 
+	 * @param node object
+	 */
 	public void addNeighbor(Node n) {
-		if (!neighbors.contains(n)) {
-			neighbors.add(n);
-			// System.out.println("Node: " + this.id + " added neighbor "
-			// + n.getId());
+		Node[] oldData;
+		if(this.numOfNeighbors==neighbors.length){
+		    oldData=neighbors;
+			neighbors = (Node[])new Node[numOfNeighbors+radio];
+		    System.arraycopy(oldData, 0, neighbors, 0, oldData.length);
 		}
+		neighbors[numOfNeighbors]=n;
+		numOfNeighbors++;
+
 	}
 
+	/**
+	 * Return validity of color.
+	 * 
+	 * @return validity of color
+	 */
 	public boolean getStatus() {
 		return status;
 	}
 
+	/**
+	 * Sets the validity of color.
+	 * 
+	 * @param status
+	 */
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
+	
+	/**
+	 * Set the node's color.
+	 * 
+	 * @param color
+	 */
+	public void setColor(int color) {
+		this.color = color;
+	}
+	
+	/**
+	 * Get node's color.
+	 * 
+	 * @return node's color
+	 */
 	public int getColor() {
 		return this.color;
 	}
 
+	/**
+	 * Get Node's identification number.
+	 * 
+	 * @return node's identification
+	 */
 	public int getId() {
 		return this.id;
 	}
 
+	/**
+	 * Method to check if given color is valid for node by
+	 * checking its neighboring nodes.
+	 * 
+	 * @param color to be checked.
+	 * @return true or false
+	 */
 	public boolean validColor(int color) {
-		for (int i = 0; i < neighbors.size(); i++) {
-			if (color == neighbors.get(i).getColor()) {
+		for (int i = 0; i < numOfNeighbors; i++) {
+			if (color == neighbors[i].getColor()) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public void setColor(int color) {
-		this.color = color;
-	}
-
+	/**
+	 * Get the number of neighbors a node has.
+	 * 
+	 * @return number of neighbors
+	 */
 	public int getDegree() {
-		return neighbors.size();
+		return numOfNeighbors;
 	}
 
-	public int getNeighbour(int index) {
-		return neighbors.get(index).getId();
-
-	}
 }

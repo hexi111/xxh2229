@@ -1,45 +1,71 @@
-//******************************************************************************
-//
-// File:    GraphColoringSeq.java
-//
-// Team Project: Parallel graph coloring
-// Team name: Beowulf
-// Team member: Jai Dayal, Kevin Pinto, Xi He
-//
-//******************************************************************************
 import edu.rit.pj.Comm;
 /**
- * Sequential program for graph coloring.
- *
+ * Class GraphColoringSeq is sequential program to vertex color a graph.
+ * It was designed and built as per requirements of Parallel Computing -1
+ * Team Project in Department of Computer Science at RIT.
+ * 
+ * <P>
+ * Usage: java GraphColoringSeq <I>input</I>
+ * <BR><I>input</I> = input file name in DIMACS format.
+ * <P>
+ * 
+ * The program's algorithm is based on Culberson's lemma and Scalable parallel 
+ * graph coloring algorithms by  A. H. Gebremedhin and F. Manne.
+ * 
+ * Instructor: Prof. Alan Kaminsky
+ * 
+ * @author Xi He, Jai Dayal, Kevin Pinto
+ * @version 13-Feb-2010
+ * 
  */
 public class GraphColoringSeq {
-	public static Node[] nodes;
+	
+	//ColorCount.
 	static int colorCount = 1;
 
+	/**
+	 * Main Program
+	 * 
+	 * @param input file name
+	 * @throws Exception
+	 */
 	public static void main(String... args) throws Exception {
+		
 		// Start timing.
-		long t1 = System.currentTimeMillis();
+		long time = -System.currentTimeMillis();
+		
+		//Initialize middleware.
 		Comm.init (args);
-		nodes = Node.getInstance(args[0]);
-		long t2= System.currentTimeMillis();
-		System.out.println("I/O time "+(t2 - t1) + " msec");
-		GraphColoring gc=new GraphColoring(nodes);
-		//gc.permuteByDegree();
+		
+		//Make instance of GraphColoring class to perform necessary operation on graph.
+		GraphColoring gc = new GraphColoring(args[0]);
+		
+		//Color the graph.
 		gc.color();
+		
+		//Calculate the number of colors used so far.
 		gc.calculateColor();
-		gc.printColor();
-		long t3= System.currentTimeMillis();
-		System.out.println("phase 1 "+(t3 - t2) + " msec");
+		
+		//Reorder the array of nodes as per color in reverse order.
 		gc.permuteByColor();
+		
+		//Reset all nodes color.
 		gc.cleanColor();
+		
+		//Color the graph.
 		gc.color();
+		
+		//Calculate the number of colors used so far.
 		gc.calculateColor();
-		gc.printColor();
+		
 		// Stop timing.
-		long t4 = System.currentTimeMillis();
-		System.out.println("phase 2 "+(t4 - t3) + " msec");
+		time += System.currentTimeMillis();
+		
+		//Print the number of colors used to color the graph.
+		gc.printColor();
+		
 		// Printing run time.
-		System.out.println("total running time (exclude I/O) "+(t4 - t2) + " msec");
+		System.out.println(time + " msec");
 
 	}
 }
