@@ -43,7 +43,7 @@ public class GraphColoringSmp {
 	public static void main(String args[]) throws Exception {
 
 		// Start timing.
-		long time = -System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
 
 		// Initialize middleware.
 		Comm.init (args);
@@ -51,6 +51,8 @@ public class GraphColoringSmp {
 		//Instantiate graph coloring class to perform operations over graph.
 		gc = new GraphColoring(args[0]);
 		
+		// Start timing for computation.
+		long t2 = System.currentTimeMillis();
 		
 	// Phase 1 -  FF algorithm over entire array.
 		new ParallelTeam().execute(new ParallelRegion() {
@@ -135,13 +137,14 @@ public class GraphColoringSmp {
 		
 		
 		// Stop timing.
-		time += System.currentTimeMillis();
+		long t3 = System.currentTimeMillis();
 		
 		//Print the number of colors used to color the graph.
 		gc.printColor();
 		
 		// Printing run time.
-		System.out.println(time + " msec");
+		System.out.println("Computation time= "+ (t3-t2) + " msec");
+		System.out.println("Total time= "+(t3-t1) + " msec");
 
 	}
 
