@@ -32,13 +32,16 @@ public class GraphColoringSeq {
 	public static void main(String... args) throws Exception {
 		
 		// Start timing.
-		long time = -System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
 		
 		//Initialize middleware.
 		Comm.init (args);
 		
 		//Make instance of GraphColoring class to perform necessary operation on graph.
 		GraphColoring gc = new GraphColoring(args[0]);
+		
+		// Start timing for computation.
+		long t2 = System.currentTimeMillis();
 		
 		//Color the graph.
 		gc.color();
@@ -59,13 +62,14 @@ public class GraphColoringSeq {
 		gc.calculateColor();
 		
 		// Stop timing.
-		time += System.currentTimeMillis();
+		long t3 = System.currentTimeMillis();
 		
 		//Print the number of colors used to color the graph.
 		gc.printColor();
 		
 		// Printing run time.
-		System.out.println(time + " msec");
+		System.out.println("Computation time= "+ (t3-t2) + " msec");
+		System.out.println("Total time= "+(t3-t1) + " msec");
 
 	}
 }
