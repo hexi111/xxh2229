@@ -6,15 +6,38 @@
 \newcommand{\AUTHOR}{%
 Xi He\\
 Rochester Institute of Technology\\
-Bldg 74, Lomb Memorial Drive, Rochester, NY 14623-5608 \\
-Email: xi.he@mail.rit.edu%
+%Bldg 74, Lomb Memorial Drive\\Rochester, NY 14623-5608 \\
+Department of Computer Science\\
+xi.he@mail.rit.edu%
 }
-\newcommand{\TITLE}{M.S. Project Proposal \\}
+\newcommand{\TITLE}{M.S. Project Proposal \\~\\~\\Improved Parallel Java Cluster Middleware\\~\\~}
 
 \title{\TITLE}
 \author{\AUTHOR\\~}
-
+\date{}
 \maketitle
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+
+\vspace{0.25in}
+
+\begin{minipage}[t]{0.5\textwidth}
+~\\
+\end{minipage}
+\begin{minipage}[t]{4\textwidth}
+\large{Committee:}\\
+~\\
+Chair: Prof. Alan Kaminsky\\
+Reader: Prof. Hans-Peter Bischof\\
+Observer: Prof. Minseok Kwon 
+\end{minipage}
+
+
 \clearpage
 
 \tableofcontents
@@ -32,76 +55,142 @@ Email: xi.he@mail.rit.edu%
 %\end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Preface}
+%\section*{Preface}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Put your preface here. 
+%Put your preface here. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Your introduction goes here. 
+In recent years, parallel computing has been widely adopted in domains that need massive computational power, such as 	graphics, animation, data mining and informatics. While the parallel programs are in general written in C, as Java has become one of the most popular languages in the IT industry with its ``write once, run anywhere'' feature and powerful support from open source organizations and big IT vendors, a Java base parallel computing framework is regarded as necessary. 
 
-The paper is structured as follows ...
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Other Sections}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-To cite you use the cite command \cite{armbrust2009above}. Abstract and Conclusion sections must not contain citations or special formating such as itemized lists.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Including Figures}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-This is how to include and refer to Figure \ref{F:framework}.
- 
+Parallel Java (PJ) is an API and middleware for parallel programming in 100\% Java developed by Professor Alan Kaminsky \cite{kaminsky2007parallel}. 
+Figure \ref{F:architecture} shows the architecture of PJ running on a cluster parallel computer with one frontend node and multiple backend nodes connected by a high-speed network.  A Job Scheduler daemon and multiple Job Frontend processes run on the frontend nodes. The Job Scheduler keeps track of each backend node's status and maintains a queue of PJ jobs; The Job Frontend connects to the Job Scheduler, and spawns a Job Backend process on the backend node. Then the Job Backend communicates with Job Frontend, obtaining the program’s class files and command line arguments, and calling the static main() method of the main program class. The Job Frontend relays the job’s standard input, standard output, and standard error streams between the Job Backend and the user’s terminal.  A web interface in PJ (See Figure \ref{F:webinterface}) displays the status of the cluster parallel computer. 
 
 \FIGURE{!htb}
-  {images/cyberaide}
+  {images/architecture.pdf}
   {1.0}
-  {Cyberaide Framework}
-  {F:framework}
+  {Parallel Java Architecture}
+  {F:architecture}
+ 
+ \FIGURE{!htb}
+  {images/webinterface.png}
+  {1.0}
+  {Parallel Java Web Interface}
+  {F:webinterface} 
+  
+The goal of our master project is two-fold. One is to design and implement a more efficient job launching scheme that is faster and doesn’t require SSH. Another goal is to enable PJ users to perform more tasks via PJ's web interface, such as job submission or job cancelation.
 
-Example for a side by side figure is Figure  \ref{F:blocks} with ist subfigures 
-\ref{F:blocks}.a and \ref{F:blocks}.b.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Work}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\SIDEBYSIDEFIGURE{!htb}
-  {images/cyberaide}
-  {0.5}
-  {Caption for Figure a}
-  {images/cyberaide}
-  {0.5}
-  {Caption for Figure b}
-  {Example of two figures next to each other}
-  {F:blocks}
+Besides PJ, there exist different flavors of MPI implementations, such as MPICH2 \cite{mpi}, OpenMPI \cite{openmpi} and mpiJava \cite{mpijava}. As to the job launching scheme, we plan to have a complete comparison of these implementation with PJ. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Design}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this section, we present a complete analysis of the two tasks in our project and propose our solutions to the problems. 
+
+~\\
+Our first task is to design and implement a more efficient PJ job launching scheme. The working of current PJ job launching scheme is as follows:
+\begin{itemize}
+\item During system installation stage, system administrator launches the Job Scheduler daemon on the frontend node. 
+\item When an end user submits his parallel program to the cluster, a Job Frontend process on the frontend node is started.
+\item The Job Frontend process connects to the Job Scheduler daemon and requests for available computing resources.
+\item After obtaining enough resources from the Job Scheduler, the Job Frontend will use SSH to start a Job Backend processes on each assigned backend nodes. Then these Job Backend processes start to launch the job.
+\item When the job finishes, the results will be relayed to the user terminal via the Job Frontend process.
+\end{itemize}
+
+A typical SSH conversation involves authentication, keys exchange and encryption, which create many processes and occupy plenty of resources. Current implementation of PJ spawns a separate SSH session for each backend processor to start each backend process and authenticate each backend process into the user’s account. As a result, PJ job launching scheme is somewhat inefficient. To address this problem, the new job launching scheme would adopt authenticated message passing to assign the jobs to the backend nodes instead of encrypted message passing which is more time-consuming.
+
+  \FIGURE{!htb}
+  {images/newarchitecture}
+  {1.0}
+  {New Job Launching Scheme}
+  {F:newarchitecture} 
+  
+Figure \ref{F:newarchitecture} shows the new job launching scheme. When the end user first submits his job to the frontend node, a Job Frontend process will be started and the Job Frontend process will then use SSh to launch a Job Launcher daemon running on behalf of the end user on each assigned backend node. The Job Launcher daemon spawns a Job Backend process on the backend node which will be responsible for running the user's job. Next time when the end users is assigned the same backend node to run his job, instead of using SSH, he can only send the MAC message to the Job Launcher daemon on the backend node, and request the Job Launcher daemon to spawn a Job Backend process to run his job. 
+
+We do not want to develop the new job launching scheme from the scratch. Instead we can modify the existing job launching scheme to achieve a more efficient job launching scheme. Here is what we plan to do:
+\begin{itemize}
+\item Add a Job Launcher class. This class is responsible for MAC base authentication and spawning job backend process on behave of the end user on the backend nodes.
+\item Modify JobScheduler class. 
+\item Modify JobFrontend class. The Job Front process request job execution by sending MAC message instead of using SSH.
+\end{itemize}
+
+
+  \FIGURE{!htb}
+  {images/newwebinterface1.jpg}
+  {0.8}
+  {PJ's web interface for anonymous users }
+  {F:newwebinterface1} 
+  
+    \FIGURE{!htb}
+  {images/newwebinterface2.jpg}
+  {0.8}
+  {PJ's web interface for common users}
+  {F:newwebinterface2} 
+  
+    \FIGURE{!htb}
+  {images/newwebinterface3.jpg}
+  {0.8}
+  {PJ's web interface for system administrators}
+  {F:newwebinterface3} 
+
+The second task of our project is to design and implement a new web interface with more functionalities. Right now PJ’s web interface only displays the PJ job queue status. The new web interface is designed to present different views and grant different privilege to different users.
+
+As to anonymous users, the web interface (Figure \ref{F:newwebinterface1}) shows the status of the nodes and the job queue in the cluster. 
+
+As to common users, the web interface (Figure \ref{F:newwebinterface2}) is similar to that of anonymous users except that the common users can submit jobs to the cluster and run the jobs through the web interface. The common users can also cancel the jobs he submitted.
+
+As to system administrators, he can cancel any jobs submitted. He can also change the priority of suspending jobs. (Figure \ref{F:newwebinterface3})
+
+
+    \FIGURE{!htb}
+  {images/webinterfacearchitecture}
+  {0.8}
+  {PJ's web interface architecture}
+  {F:newwebinterface4} 
+
+Figure \ref{F:newwebinterface4} shows the web interface architecture. A secure connection is developed between the web browse and Job Scheduler daemon on frontend node. When a web interface user submits a job to the PJ cluster or cancel a job running or suspending in the PJ cluster, the web browse sends the end user's request and his credential to the Job Scheduler daemon. The Job Scheduler daemon will then try to log in to the user account with the provided credential. If successful, the Job Scheduler Daemon can spawn a Job Frontend Process to accept the user's job submission or cancel the running Job Frontend Process. Otherwise it will reply an error information to the web interface user.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Test}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The test of the job launching scheme is to compare the time the new job launching scheme of PJ, the old job launching scheme of PJ and the job launching scheme of a few MPI implementation such as MPICH2 or OpenMPI take to start a job. The test program submits 1000 jobs to different job launching schemes, respectively. Each job requires all processors and its task is just to print out the current date of the backend nodes to a log file. By analyzing the log file, we can compare the efficiency of different job launching scheme.  
+
+We also want to compare the efficiency of submitting a job via PJ's web interface with that of the old and new job launching schemes. We submit 1000 jobs from the web interface with each job requiring all processors and then calculate the time for the jobs to start. By comparing this result with the above test results, we can have an analysis of different job submission mechanisms. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Make}
+\section{Deliverables}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The best way to create the documents is form the commandline (under windows you can install miktex and cygwin). Make sure you have make installed. Once that is done you can craete the contents while modifying the following files in teh directory.
-
-\begin{description}
-
-\item[paper.tex:] contents of the paper you will write
-\item[vonLaszewski-template.tex:] real name of the latex file that includes the contents from paper.tex. In teh final version the \verb|template| shoudl be replaced with something more meaningful and the Makefile shoud be updated. Do not modify the contents of this file too much other than changing title and authors. Typically {\em Gregor von Laszewski} is always a coauthor.
-
-\end{description}
-
-To create the file and view the pdf file say
-
-\begin{verbatim}
-$ make
-$ make view
-\end{verbatim}
-
+Upon completion of this project the following deliverables will be presented:
+\begin{itemize}
+\item Final report containing
+\subitem Detailed job launching scheme and web interface design
+\subitem Summary of implementation
+\subitem Performance study
+\subitem Web interface user's manual
+\subitem Future work
+\item Source code of job launching scheme and web interface.
+\item Test programs
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion}
+\section{Project Timeline}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Put your conclusions in this section
+The following is a tentative schedule for the completion of major phases of this project:
+\begin{itemize}
+\item Proposal Completed ~~~~02/19/10
+\item Background Research ~~~~02/26/10
+\item Implementation of job launching scheme ~~~~03/12/10  
+\item Implementation of web interface ~~~~03/26/10
+\item Testing \& Benchmarking  ~~~~04/02/10
+\item Project Final Paper ~~~~05/07/2010
+\item Project Defense ~~~~05/21/2010
+\end{itemize}
