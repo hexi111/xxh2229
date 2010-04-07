@@ -8,6 +8,12 @@
 \oddsidemargin=0pt % leftmargin is 1 inch
 \textwidth=6.5in   % textwidth of 6.5in leaves 1 inch for right margin
 \newcommand*\wrapletters[1]{\wr@pletters#1\@nil}
+%%%%%%Begin Modification%%%%%%
+\newcommand{\company}{ITA Software}
+\newcommand{\addr}{141 Portland Street\\Cambridge, MA 02139}
+\newcommand{\position}{Java software engineer}
+\newcommand{\technique}{Java server-side developer }
+%%%%%%End Modification%%%%%%
 \def\wr@pletters#1#2\@nil{#1\allowbreak\if&#2&\else\wr@pletters#2\@nil\fi}
 \begin{document}
 
@@ -16,10 +22,7 @@
 \longindentation=0pt                       % needed to get closing flush left
 \let\raggedleft\raggedright                % needed to get date flush left
  
-\begin{letter}{Mr. Jamie Miller, Mindex Technology Inc.  \\
-3495 Winton Place Plaza \\
-Building E, Suite 4  \\
-Rochester, NY 14623 } 
+\begin{letter}{\company \\ \addr}
 
 \begin{center}
 \large\bf Xi He\\
@@ -29,14 +32,14 @@ Rochester, NY 14623 }
 
 
  
-\opening{Dear Mr. Jamie Miller,} 
+\opening{Dear Sir/Madam,} 
  
-\noindent I am writing to inquire about the career opportunity as a Java software engineer.
-I am very interested in working as a Java server developer or a Java Web Services developer at Mindex Technologies Inc. 
+\noindent I am writing to inquire about the career opportunity as a \position.
+I am very interested in working as a \technique at \company. 
  
 \noindent I will be graduating from Rochester Institute of Technology in May with a Master of Science degree in Computer Science. As shown in my resume, I have strong Computer Science background, holding a Computer Science Bachelor degree and a Computer Science Master degree and working as a software engineer for 3 years in China. While working as a Java software engineer, my colleagues and I spent 2 years developing a new Banking System for China MinSheng Bank.  I also worked as a lecturer in the Web Services class when I pursued my Master degree in China. Being a Java enthusiast, I like to study open source software like Structs or Axis in my spare time and am also a Sun Certified Programmer. 
 
-At RIT, I have developed a very unique educational experience that has combined the practical aspects of a career education with the creativity of a research education. I have also become proficient in applying the Computer Science theory I have learned in the classroom to the actual project. Currently, I am working with my advisor Professor Kaminsky on Parallel Java, a API and middleware for parallel programming in Java. Our goal is to develop a Java based efficient platform for parallel computing. As a result of these experiences, I am confident that I will bring both technical skills and a fresh perspective to Mindex Technologies Inc.
+At RIT, I have developed a very unique educational experience that has combined the practical aspects of a career education with the creativity of a research education. I have also become proficient in applying the Computer Science theory I have learned in the classroom to the actual project. Currently, I am working with my advisor Professor Kaminsky on Parallel Java, an API and middleware for parallel programming in Java. Our goal is to develop a Java based efficient platform for parallel computing. As a result of these experiences, I am confident that I will bring both technical skills and a fresh perspective to \company.
  
 \noindent I am enclosing my resume. My personal information can also be viewed online at \wrapletters{http://sites.google.com/site/hexi111/home}.
 I would appreciate an interview with you at your convenience. 
