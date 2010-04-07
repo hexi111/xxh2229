@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.util.LinkedList;
 
 /**
- * Ternary Search Trie is
+ * This class is the implementation of Ternary Search Trie.
  * 
  * @author Xi He
  * @version 04/01/2010
@@ -16,7 +16,12 @@ import java.util.LinkedList;
  */
 public class TST {
 	private Node root;
+	// The maximum length of words
 	private int depth;
+
+	public int getDepth() {
+		return depth;
+	}
 
 	private class Node {
 		char c;
@@ -28,67 +33,28 @@ public class TST {
 		}
 	}
 
-	public boolean contains(String s) {
-		if (s.length() == 0)
-			return false;
-		return contains(root, s, 0);
-	}
-
-	public boolean contains(Node x, String s, int i) {
-		if (x == null)
-			return false;
-		char c = s.charAt(i);
-		if (c < x.c)
-			return contains(x.l, s, i);
-		else if (c > x.c)
-			return contains(x.r, s, i);
-		else if (i < s.length() - 1)
-			return contains(x.m, s, i + 1);
-		else
-			return x.end;
-	}
-
-	public boolean contains(char[] chs, int begin, int end) {
-		if (end == begin)
-			return false;
-		return contains(root, chs, begin, end, begin);
-	}
-
-	public boolean contains(Node x, char[] chs, int begin, int end, int point) {
-		if (x == null)
-			return false;
-		char c = chs[point];
-		if (c < x.c)
-			return contains(x.l, chs, begin, end, point);
-		else if (c > x.c)
-			return contains(x.r, chs, begin, end, point);
-		else if (point < (end - begin + 1) - 1)
-			return contains(x.m, chs, begin, end, point + 1);
-		else
-			return x.end;
-	}
-
-	public void contains(char[] chs, boolean [] result, int begin, int end) {
-		contains(root, chs, result,begin, end,0);
+	public void contains(char[] chs, boolean[] result, int begin, int end) {
+		contains(root, chs, result, begin, end, begin);
 	}
 
 	public void contains(Node x, char[] chs, boolean[] result, int begin,
 			int end, int point) {
 		if (x == null) {
 			for (int i = point; i <= end; i++) {
-				result[i] = false;
+				result[i - begin] = false;
 			}
+			return;
 		}
-		char c = chs[point];
+		char c = chs[point - begin];
 		if (c < x.c)
 			contains(x.l, chs, result, begin, end, point);
 		else if (c > x.c)
 			contains(x.r, chs, result, begin, end, point);
-		else if (point < (end - begin + 1) - 1) {
-			result[point] = result[point] || x.end;
+		else if (point < end ) {
+			result[point - begin] = x.end;
 			contains(x.m, chs, result, begin, end, point + 1);
 		} else
-			result[end] =result[point]|| x.end;
+			result[point-begin] = x.end;
 	}
 
 	public void add(String s) {
@@ -152,6 +118,12 @@ public class TST {
 
 	}
 
+	/**
+	 * Just for test
+	 * 
+	 * @param argv
+	 * @throws Exception
+	 */
 	public static void main(String argv[]) throws Exception {
 		TST tree = new TST();
 		tree.buildTree("test1.txt");
