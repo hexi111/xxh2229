@@ -11,7 +11,6 @@ Department of Computer Science\\
 xi.he@mail.rit.edu%
 }
 \newcommand{\TITLE}{~\\~\\~\\Improved Parallel Java Cluster Middleware\\~\\~}
-
 \title{\TITLE}
 \author{\AUTHOR\\~}
 \date{}
@@ -39,15 +38,14 @@ Observer: Prof. Minseok Kwon
 
 
 \clearpage
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-As CPU clock speed increase has been limited by the cooling techniques and multicore architecture has been widely adopted, Parallel Computing is attracting more and more attention. Parallel Java (PJ) is an API and middleware for parallel programming in 100\% Java developed by Professor Alan Kaminsky. It is running well on cluster parallel computers at Computer Science Department, Rochester Institute of Technology. However, the job launching scheme in PJ is not as efficient as we expect, and it takes a while for PJ to actually start running the submitted jobs. Besides, currently the only way for PJ users to submit their jobs is to log in to the cluster parallel computers and execute their programs through the command line, which is not convenient for people with little computer knowledge.
+As CPU clock speed increase has been limited by the cooling techniques and multicore architecture has been widely adopted, Parallel Computing is attracting more and more attention. Parallel Java (PJ) is an API and middleware for parallel programming in 100\% Java developed by Professor Alan Kaminsky. It is running well on cluster parallel computers at Computer Science Department, Rochester Institute of Technology. However, the job launching scheme in PJ is not as efficient as we expect, and it takes a while for PJ to actually start running the submitted jobs. Besides, currently the only way for PJ users to submit their jobs is to log in to the cluster parallel computers and type a few Unix commands via command lines, which has a steep learning curve for people with little computer knowledge.
 
-This project aims to improve the job launching scheme in PJ and make it faster to launch the submitted jobs. Also, the project is targeted to provide PJ users a enhanced Web interface with more functionality.
+This project aims to improve the job launching scheme in PJ and make it faster to launch the submitted jobs. Also, the project is targeted at providing PJ users an enhanced Web interface with more functionality.
 
-To achieve our goal, we replace SSH scheme with Message Authentication Codes (MAC) based scheme in the job launching scheme, redesign the protocol for communication between processes, and implement and test the new job  launching scheme. We also improve the existing Web server and add to it more functionality such as security, user authentication, session management and job submission. 
+To achieve our goal, we replace SSH protocol with Message Authentication Codes (MAC) based protocol in the new job launching scheme, redesign the protocol for communication between processes, and implement and evaluate the new job  launching scheme. We also improve the existing Web interface and add to it more functionality such as security, user authentication, session management and job submission. 
 \clearpage
 
 \tableofcontents
@@ -85,20 +83,28 @@ Figure \ref{F:architecture} shows the architecture of PJ running on cluster para
   {PJ's Architecture \cite{kaminsky2007parallel}}
   {F:architecture}
   
-Currently the Job Frontend Process spawns Job Backend Processes over SSH protocol to start running the submitted jobs. Due to the complexity of SSH protocol, the efficiency for this original job launching scheme is not as good as we expect. Besides, the Web interface in PJ can be improved to allow more user operations. As a result, the goal of our master project is two-fold. One is to design and implement a more efficient job launching scheme. The other is to enable PJ users to perform more tasks via PJÕs web interface, such as job submission. 
+Currently the Job Frontend Process spawns Job Backend Processes using SSH protocol. Due to the complexity of SSH protocol, the efficiency for this job launching scheme is not as good as we expect. Besides, PJ's Web interface can be improved to allow more user operations. As a result, the goal of our master project is two-fold. One is to design and implement a more efficient job launching scheme. The other is to enable PJ users to perform more tasks via PJÕs web interface, such as job submission. 
  
-The remainder of this paper is organized as follows: first we introduce MPI and other Java implementation of MPI in Section \ref{S:relatedwork}, and describe SSH protocol and our motivation for this project in Section \ref{S:ssh} and \ref{S:motivation}. Then we discuss the design for both the job launching scheme and the Web interface, and implementation issues in Section \ref{S:design} and \ref{S:implementation}. We also present the project deploy instruction, user manual and test result in Section \ref{S:deploy}, \ref{S:usermanual} and \ref{S:test}. Lastly, we conclude the paper and propose our future work in Section \ref{S:conclusion} and \ref{S:futurework}.
+The remainder of this paper is organized as follows: first we introduce MPI and some of  its important implementation in Section \ref{S:relatedwork}, and describe SSH protocol and our motivation for this project in Section \ref{S:ssh} and \ref{S:motivation}. Then we discuss the design for both the job launching scheme and the Web interface, and implementation issues in Section \ref{S:design} and \ref{S:implementation}. We also present the project deploy instruction, user manual and test result in Section \ref{S:deploy}, \ref{S:usermanual} and \ref{S:test}. Lastly, we propose our future work and conclude the paper in Section \ref{S:futurework} and \ref{S:conclusion}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Work \label {S:relatedwork}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
-PJ is actually a flavor of MPI implementations. Message Passing Interface (MPI) \cite{mpi2} is a standard application program interface (API) for writing parallel programs. These MPI programs can run on a cluster parallel computer with one process on each node and messages traversing the network between nodes. MPI's feature includes message passing operations, process topologies, multithreading support, one-sided communication and parallel I/O. Typically, a MPI program is a regular C or Fortran program plus calls to the MPI routines to send and receive messages. MPICH2 \cite{mpi}, OpenMPI \cite{openmpi} are two important implementations.
- 
-Rather than using C or Fortran, PJ is developed purely in Java. Other MPI Java implementation include mpiJava \cite{mpijava} and MPJ \cite{baker-mpj}.  mpiJava and MPJ both stick to MPI standard. However, mpiJava is implemented as a thin Java native interface while MPJ is a 100\% Java implementation. 
+Message Passing Interface (MPI) \cite{mpi2} is a standard application program interface (API) for writing parallel programs. These MPI programs can run on cluster parallel computers with one process on each node and messages traversing the network between nodes. MPI's feature includes message passing operations, process topologies, multithreading support, one-sided communication and parallel I/O. Typically, a MPI program is a regular C or Fortran program plus calls to the MPI routines to send and receive messages. MPICH2 \cite{mpi}, OpenMPI \cite{openmpi} and Sun MPI \cite{sunmpi} are three important implementations.
 
-In \cite{kaminsky2009building}, Professor Kaminsky tried to compare MPI and PJ by running a C program of Floyd's Algorithm on a Sun MPI Library and a Java program of Flod's Algorithm on PJ. The result shows the Java program's running times are about 50 percent higher than the C program's running times. 
+\FIGURE{!htb}
+  {images/mpijob}
+  {0.8}
+  {MPI job launching scheme}
+  {F:mpijob}
+  
+Figure \ref{F:mpijob} illustrates MPI's job launching scheme. When a MPI program is submitted to the frontend node, a parent process is spawned and this process calls {\em MPI\_Init} routine for initialization and {\em MPI\_Com\_spawn} routine to spawn child processes on the backend nodes. Once the children processes are created, they call {\em MPI\_Init} routine to initialize MPI communicators for the parent process and the other child processes. Then the MPI program starts launching and messages are passed between the parent process and children processes. When the children processes finish running the program, they return the results to the parent process and the MPI program terminates.
+ 
+PJ is actually a flavor of MPI implementations. Rather than using C or Fortran, PJ is developed purely in Java. Other MPI Java implementations include mpiJava \cite{mpijava} and MPJ \cite{baker-mpj}.  mpiJava and MPJ both stick to MPI standard. However, mpiJava is implemented as a thin Java native interface while MPJ is a 100\% Java implementation. 
+
+In \cite{kaminsky2009building}, Professor Kaminsky tried to compare MPI and PJ by running a C program of Floyd's Algorithm on a Sun MPI Library and a Java program of Flod's Algorithm on PJ. The result shows the Java program's running times are about 50 percent higher than the C program's running times.  In Section \ref{S:test}, we measure the time for both PJ and MPI to start launching jobs and compare their efficiency. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,7 +118,7 @@ Secure Shell or SSH is a network protocol that allows data to be exchanged using
   {SSH Protocol Architecture}
   {F:ssh_architecture}
 
-Typically running on top of TCP, SSH \cite{ssh} is organized into three layers of protocol: Transport Layer Protocol, User Authentication Layer Protocol and Connection Layer Protocol, as shown in Figure \ref{F:ssh_architecture}.  Transport Layer Protocol is responsible for server authentication, confidentiality and integrity. On top of Transport Layer Protocol, User Authentication Layer Protocol authenticate the user to the server and then Connection Layer Protocol multiplexes logical communications channels over a single underlying SSH connection.
+Typically running on top of TCP protocol, SSH \cite{ssh} is organized into three layers of protocol: Transport Layer Protocol, User Authentication Layer Protocol and Connection Layer Protocol, as shown in Figure \ref{F:ssh_architecture}.  Transport Layer Protocol is responsible for server authentication, confidentiality and integrity. On top of Transport Layer Protocol, User Authentication Layer Protocol authenticate the user to the server and then Connection Layer Protocol multiplexes logical communications channels over a single underlying SSH connection.
 
 \subsection{Transport Layer Protocol}
 
@@ -124,14 +130,14 @@ Typically running on top of TCP, SSH \cite{ssh} is organized into three layers o
 
 Figure \ref{F:ssh_transport} illustrates the typical message sequences in the SSH Transport Layer \cite{ssh-userauth}. First, the client establishes a TCP connection to the server. When the connection is established, the client and the server can start to exchange data.  The first step of data exchange, the identification string exchange, begins with the client sending its identification string composed of the version number of SSH protocol and SSH implementation. The server then responds with its identification string. 
 
-The next step of data exchange is algorithm negotiation. Both the client and the server send the other side SSH\_MSG\_KEXINIT message containing lists of supported algorithms in the order of preference to the sender. The types of algorithms that need to negotiation include key exchange, encryption, MAC algorithm and compression algorithm. Each type of algorithms has one list. For each category of algorithm, the first algorithm on the client's list that is supported by the server will be chosen. 
+The next step of data exchange is algorithm negotiation. Both the client and the server send the other side SSH\_MSG\_KEXINIT message containing lists of supported algorithms in the order of preference to the sender. The types of algorithms that need to negotiation include key exchange, encryption, MAC algorithm and compression algorithm. Each type of algorithms has one list of available algorithm to choose from. For each category of algorithm, the first algorithm on the client's list that is supported by the server will be chosen. 
 
-The step of key exchange comes after algorithm negotiation. At present two versions of Diffie\_Hellman key exchange algorithm are specified. Three sub-steps are involved in key exchange and they are explained as follows. In these steps, $p$ is a large safe prime; $g$ is a generator for a subgroup of of $GF(p)$; $q$ is the order of subgroup. 
+The step of key exchange comes after algorithm negotiation. At present two versions of Diffie\_Hellman key exchange algorithm are specified. Three sub-steps are involved in key exchange and they are explained as follows. Here, $p$ denotes a large safe prime; $g$ denotes a generator for a subgroup of of $GF(p)$; $q$ is the order of subgroup. 
 
 \begin{itemize}
 \item The client generates a random number $x (1< x< q)$ and computes $e=g^x$ mod $p$. Then send the server a SSH\_MSG\_NEWKEYS message containing $e$.
 \item The server receives $e$, and it also generates a random number $y (0<y<q)$ and computes $f=g^y$ mod $p$. Then the server can compute the exchanged key $K=e^y$ mod $p$. The server hashes the client's SSH\_MSG\_KEXINIT message, the server's SSH\_MSG\_KEXINIT message, the client's identification, the server's identification, the server's public host key, $e$, $f$ and $K$ into $H$ and signature $s$ on $H$ using its private host key. The server send back a SSH\_MSG\_NEWKEYS message containing  $f$, $s$ and the server's public host key.
-\item The client receives the message from the server and verifies the public host key is really the host key for the server it want to connect by means of comparing it with the local host key database. Then the client can computer $K=f^x$ mod $p$. The client also calculate $H$, the hash value of the client's SSH\_MSG\_KEXINIT message, the server's SSH\_MSG\_KEXINIT message, the client's identification, the server's identification, the server's public host key, $e$, $f$ and $K$.  After verifying with $s$, the client can authenticate the server.
+\item The client receives the message from the server and verifies that the public host key is the authenticate host key for the server it want to connect by means of searching the key in the local host key database. Then the client can computer $K=f^x$ mod $p$. The client also calculate $H$, the hash value of the client's SSH\_MSG\_KEXINIT message, the server's SSH\_MSG\_KEXINIT message, the client's identification, the server's identification, the server's public host key, $e$, $f$ and $K$.  After verifying with $s$, the client can trust the server.
 \end{itemize} 
 
 As a result of above steps, the client and the server now share a master key $K$. In addition, the server is authenticated by the client. As a final step in the Transport Layer Protocol, the client sends the SSH\_MSG\_SERVICE\_REQUEST to the server to request the user authentication service. And the server response with  SSH\_MSG\_SERVICE\_ACCEPT message. Subsequent to these messages, all data exchanged are protected by encryption and MAC.
@@ -149,9 +155,9 @@ Figure \ref{F: ssh_authentication} illustrates the message sequences in User Aut
    \item The client sends a SSH\_MSG\_USERAUTH\_REQUEST message containing the username and a ``requested method'' of none.
    \item The server checks the validity of the username. If username is not valid, the server returns SSH\_MSG\_USERAUTH\_FAILURE with ``the partial success value'' of false, and terminates the conversation.
    \item If the username is valid, the server returns SSH\_MSG\_USERAUTH\_FAILURE with ``the partial success value'' of true and a list of one or more authentication methods to be used.
-   \item The client selects one of the acceptable authentication methods and inform the server of that authentication method name through a SSH\_MSG\_USERAUTH\_REQUEST message. Then the client and the server will exchange the required method-specific fields by a sequence of SSH\_MSG\_USERAUTH\_INFO\_REQUEST and SSH\_MSG\_USERAUTH\_INFO\_RESPONSE message passing. 
-   \item If the authentication on one of selected authentication methods fails, the client will try another authentication method. If the client already tries all of the acceptable authentication methods, the authentication fails and the conversation is terminated.
-   \item If the authentication succeeds, the server sends back a SSH\_MSG\_USERAUTH\_SUCCESS message.
+   \item The client selects one of the acceptable authentication methods and informs the server of the authentication method name through a SSH\_MSG\_USERAUTH\_REQUEST message. Then the client and the server will exchange the required method-specific fields by a sequence of SSH\_MSG\_USERAUTH\_INFO\_REQUEST and SSH\_MSG\_USERAUTH\_INFO\_RESPONSE message passing. 
+   \item If the authentication on the selected authentication methods fails, the client will try another authentication method. If the client already tries all of the acceptable authentication methods, the authentication fails and the conversation is terminated.
+   \item If the authentication succeeds, the server sends a SSH\_MSG\_USERAUTH\_SUCCESS message to the client.
 \end{enumerate}
  
 \subsection{Connection Layer Protocol}
@@ -184,16 +190,17 @@ The SSH Connection Layer Protocol \cite{ssh-connect} runs on top of the SSH Tran
 %\label {F:ssh}
 %\end{figure}
 
-Current job launching scheme relies on SSH protocol to spawn new Job Backend Processes to execute the submitted job. As we discuss in Section \ref{S:ssh}, SSH protocol is powerful and complicated. It involves encryption, both sides authentication, key exchange, data integrity, data compression and so on. However, PJ's job launching scheme only need part of functionality that SSH provides. For example, PJ does not need to encrypt its messages because  these messages do not contain any confidential information. Also, PJ does not necessarily need algorithm exchange or key exchange. We can predefine algorithm or preconfigure cryptographic key for the communication between computer nodes. These unnecessary functionalities makes the job launching scheme much less efficient. In fact, what the job launching scheme really needs is just the both sides authentication and data integrity verification, which can be accomplished by MAC.
+The original job launching scheme relies on SSH protocol to spawn new Job Backend Processes to execute the submitted job. As we discuss in Section \ref{S:ssh}, SSH protocol is a powerful and complicated protocol. It involves encryption, both sides authentication, key exchange, data integrity, data compression and other functionality. However, PJ's job launching scheme only needs part of functionality that SSH provides. For example, PJ does not need to encrypt its messages because  these messages do not contain any confidential information. Also, PJ does not necessarily need algorithm exchange or key exchange. We can predefine algorithm or preconfigure cryptographic key for the communication between computer nodes. These unnecessary functionalities makes PJ's job launching scheme much less efficient. Actually only the both sides authentication and data integrity verification are what PJ's job launching scheme essentially needs.
 
-Parallel Computing is often applied to other disciplines which need massive computational power, such as physics, biology and astronomy. It might be painful for scientists in these disciplines to work in Unix-like system. A interactive Web interface will be helpful, because people can utility computational power without any prerequisite and submit their jobs just like surfing the Internet.  The original PJ's Web interface only provides limited functionality and there is much room for improvement. 
+
+In addition, Parallel Computing is often applied to other disciplines which need massive computational power, such as physics, biology and astronomy. It might be painful for scientists in these disciplines to work in Unix-like system. A interactive Web interface will be helpful, because people can utility computational power without any prerequisite and submit their jobs just like surfing the Internet.  The original PJ's Web interface only provides limited functionality and there is much room for improvement. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Design \label {S:design}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Job Launching Scheme}
 \subsubsection{Overview}
-The basic idea behind the design of the new job launching scheme is that we try to avoid using SSH to spawn the Job Backend Processes. Instead, we use MAC based message passing to inform backend nodes to run the submitted jobs.
+The basic idea behind the design of the new job launching scheme is that we try to avoid using SSH protocol to spawn the Job Backend Processes. Instead, we use MAC based message to inform backend nodes to run the submitted jobs.
 
 \FIGURE{!htb}
 {images/newarchitecture}
@@ -201,7 +208,7 @@ The basic idea behind the design of the new job launching scheme is that we try 
 {PJ's New Architecture}
 {F:newarchitecture}
 
-Figure \ref{F:newarchitecture} shows PJ's new architecture based on which the job launching scheme is improved. A Job Scheduler Daemon is always running on the frontend node, and listening for connections to a well-known port; When each end user logs in to the frontend node and tries to run his parallel programs, a Job Frontend Process is actually created and this Job Frontend Process then communicates with the Job Scheduler Daemon and request computing resources to run the submitted job; If there are enough computing resources for this job, the Job Scheduler Daemon assigns a requested number of backend nodes to the Job. Being allocated enough computing resources, the Job Frontend Process begins to communicates with Job Backend Daemons on those assigned backend nodes. The Job Backend Daemons are running on a per user basis. So there might be multiple Job Backend Daemons running on behalf of different users at the same time. The Job Frontend Process might need to use SSH to spawn a Job Backend Daemons if there is no corresponding Job Backend Daemon running. Once the authentication between the Job Frontend Process and the Job Backend Daemon is finished, the Job Backend Daemon will spawn the Job Backend Process.  
+Figure \ref{F:newarchitecture} shows PJ's new architecture based on which the job launching scheme is improved. A Job Scheduler Daemon is always running on the frontend node, and listening for connections to a well-known port; When each end user logs in to the frontend node and tries to run his parallel programs, a Job Frontend Process is actually created and this Job Frontend Process then communicates with the Job Scheduler Daemon and requests computing resources to run the submitted job;  If being allocated enough computing resources, the Job Frontend Process begins to communicates with Job Backend Daemons on those assigned backend nodes. The Job Backend Daemons are running on a per user basis. So there might be multiple Job Backend Daemons running on behalf of different users at the same time. The Job Frontend Process might need to use SSH to spawn a Job Backend Daemons if there is no corresponding Job Backend Daemon running. Once the authentication between the Job Frontend Process and the Job Backend Daemon is finished, the Job Backend Daemon will spawn the Job Backend Process.  
 
 Next, we present the details of the protocols between different processes.
 \subsubsection{Protocol design}
@@ -214,9 +221,9 @@ Next, we present the details of the protocols between different processes.
 {Communication between Job Scheduler Daemon and Job Frontend Process}
 {F: protocol1}
 
-Figure \ref{F: protocol1} illustrates the communication protocol between Job Scheduler Daemon and Job Frontend Process. As a Job Frontend Process is created, it sends the Job Scheduler Daemon a ``Request job'' message containing the name of the user and the required number of processors. The Job Scheduler Daemon gets the message and checks the resource pool to see if the overall computing resources are sufficient for the job.  If there are not enough computing resources, the Job Scheduler Daemon sends back a ``Cancel job'' message and terminates the conversation. If there exist sufficient computing resources, the Job Scheduler Daemon puts the job into its job queue. The job queue follows the FIFO policy and when it is the job's turn to run, the Job Scheduler Daemon assigns the idle backend nodes to the job. If there is a Job Backend Daemon running as the same user as the job submitter on the backend, the Job Scheduler Daemon will send the Job Frontend Process ``Assign Backend Daemon''. Otherwise, the Job Scheduler Daemon sends a ``Create Backend Daemon'' to the Job Frontend Process.  Since then, the Job Frontend Process turns to communicate with the Job Backend Daemon and the Job Backend Process until the job is finished. When the job is done, the Job Frontend Process tells the Job Scheduler Daemon ``Job finished''.
+Figure \ref{F: protocol1} illustrates the communication protocol between Job Scheduler Daemon and Job Frontend Process. As a Job Frontend Process is created, it sends the Job Scheduler Daemon a ``Request job'' message containing the name of the user and the required number of processors. The Job Scheduler Daemon gets the message and checks the resource pool to see if the overall computing resources are sufficient for the job.  If there are not enough computing resources, the Job Scheduler Daemon sends back a ``Cancel job'' message and terminates the conversation. If there exist sufficient computing resources, the Job Scheduler Daemon puts the job into its job queue. The job queue follows the FIFO policy and when it is the job's turn to run, the Job Scheduler Daemon assigns the idle backend nodes to the job. If there is a Job Backend Daemon running as the same user as the job submitter on the backend nodes, the Job Scheduler Daemon will send the Job Frontend Process a ``Assign Backend Daemon'' message. Otherwise, the Job Scheduler Daemon sends a ``Create Backend Daemon'' message to the Job Frontend Process.  Since then, the Job Frontend Process begins to communicate with the Job Backend Daemon and the Job Backend Process until the job is finished. When the job is done, the Job Frontend Process tells the Job Scheduler Daemon ``Job finished''.
 
-The Job Scheduler Daemon renews a lease on the Job Frontend Process, and vice versa, by sending a "renew lease" message every 60 seconds. If some failure is detected during job execution, the Job Scheduler Daemon or the Job Frontend Process can send the other side ``Cancel job'' message to terminate the conversation. 
+The Job Scheduler Daemon renews a lease on the Job Frontend Process, and vice versa, by sending a "renew lease" message every 60 seconds. If some failure is detected during job execution, the Job Scheduler Daemon or the Job Frontend Process can send the other side a ``Cancel job'' message to terminate the conversation. 
 
 \paragraph{Protocol  for Job Frontend Process and Job Backend Daemon}
 \FIGURE{!htb}
@@ -225,14 +232,14 @@ The Job Scheduler Daemon renews a lease on the Job Frontend Process, and vice ve
 {Communication between Job Frontend Process and Job Backend Daemon}
 {F: protocol2}
 
-Figure \ref{F: protocol2} illustrates the communication protocol between Job Frontend Process and Job Backend Daemon. When the Job Frontend Process receive the ``Assign Backend Daemon'' message from the Job Scheduler Daemon, it will try to communicate with the Job Backend Daemon. Since these two process run in two different computer nodes and communicate through message passing, We need two-side authentication mechanism and avoid security issues. For this project, we adopt the challenge-response MAC based authentication\cite{mac}. 
+Figure \ref{F: protocol2} illustrates the communication protocol between Job Frontend Process and Job Backend Daemon. When the Job Frontend Process receives the ``Assign Backend Daemon'' message from the Job Scheduler Daemon, it will try to communicate with the Job Backend Daemon. Since these two processes run in two different computer nodes and communicate through message passing, We need a two sides authentication mechanism and avoid security issues. For this project, we adopt the challenge-response MAC based authentication\cite{mac}. 
 
 \FIGURE{!htb}
 {images/mac}
 {0.6}
 {Message Authentication Codes}
 {F: mac}
-A message authentication code (MAC) is a short piece of information used to authenticate a message. We choose HMAC \cite{hmac} algorithm, hash function based MAC algorithm, as the authentication and integrity algorithm. The selected hash function is SHA-256\cite{standard2002federal}. Figure \ref{F: mac} explains how HMAC algorithm works. An authentication key and an arbitrary-length message are inputed to the HMAC-SHA-256 hash function to generate the fixed-length HMAC. Only the same input message and authentication key can generate the same HMAC.  For this reason, the HMAC message can be used for authentication and data integrity. The following steps show how we use HMAC to achieve both sides authentication and data integrity verification.
+A message authentication code (MAC) is a short piece of information used to authenticate a message. We choose HMAC \cite{hmac} algorithm, a hash function based MAC algorithm, as the authentication and integrity algorithm. The selected hash function is SHA-256\cite{standard2002federal}. Figure \ref{F: mac} explains how HMAC algorithm works. An authentication key and an arbitrary-length message are inputed to the HMAC-SHA-256 hash function to generate the fixed-length HMAC. Only the same input message and authentication key can generate the same HMAC.  For this reason, the HMAC message can be used for authentication and data integrity. The following steps show how we use HMAC to achieve both sides authentication and data integrity verification.
 
 \begin{itemize}
 \item As we will mention in Section \ref{S:usermanual}, before starting to submit jobs to PJ, each user needs to generate his own authentication key and save the key in the {\em key} file under .ssh/hmac/ on his account. The user also needs to configure the privilege of {\em key} file and make it only accessible to the user. 	 
@@ -240,7 +247,7 @@ A message authentication code (MAC) is a short piece of information used to auth
 \item The Job Frontend Process generates a random number A, and sends A to the Job Backend Daemon. 
 \item The Job Backend Daemon receives the random number A. It also generates another random number B. Then it computes MAC(A$\mid$B) using the authentication key K and gets a message authentication code MAC1. It sends MAC1 and B to the Job Frontend Process.
 \item When the Job Frontend Process receives MAC1 and B, it computes MAC(A$\mid$B) using the authentication key K and gets a message authentication code MAC2. Comparing MAC1 with MAC2 and if MAC1!=MAC2, the Job Frontend Process thus terminates the conversation. Otherwise,  the Job Frontend Process computes MAC(A$\mid$B$\mid$Job info) using the authentication key K and gets a message authentication code MAC3. The job information includes user JVM command line flags, username, job number, the required number of processors, the Job Backend Process's rank, the flag of whether there exists a Job Backend Process's frontend communicator, the hostname and the port number of the Job Frontend Process, and the hostname of the backend node. Then it sends MAC3 and these job information to the Job Backend Daemon.
-\item When the Job Backend Daemon receives the job information and MAC3, it computes MAC(A$\mid$B$\mid$Job info) using the authentication key K and gets a message authentication code MAC4. It then compares MAC3 with MAC4. If MAC3!=MAC4, the Job Backend Daemon terminates the conversation. Otherwise the Job Backend Daemon begin to spawn a new Job Backend Process. Here is how  the Job Backend Daemon spawn the new Job Backend Process:
+\item When the Job Backend Daemon receives the job information and MAC3, it computes MAC(A$\mid$B$\mid$Job info) using the authentication key K and gets a message authentication code MAC4. It then compares MAC3 with MAC4. If MAC3!=MAC4, the Job Backend Daemon terminates the conversation. Otherwise the Job Backend Daemon begin to spawn a new Job Backend Process with the provided job information. Here is how  the Job Backend Daemon spawn the new Job Backend Process:
 
 When a Job Backend Daemon is created by Job Frontend Process, the Job Frontend Process specified the full pathname of JVM at the backend node, the class path for PJ library and JVM command line flags. With these information and the job information passed by the Job Frontend Process, the Job Backend Daemon can construct the command string as follows:
 \small
@@ -251,7 +258,7 @@ When a Job Backend Daemon is created by Job Frontend Process, the Job Frontend P
 \normalsize
 \textless jvm\textgreater=JVM pathname; \textless jvmflags\textgreater=JVM command line flags, including the user JVM command line flags; \textless classpath\textgreater=Java class path for PJ library; \textless args\textgreater=job information which is passed by Job Frontend Process.
 
-Thus Job Backend Daemon runs this command and spawn a new Job Backend Process with provided job information. 
+Thus Job Backend Daemon runs this command and spawn a new Job Backend Process with the provided job information. 
 \end{itemize}
 
 
@@ -261,12 +268,12 @@ Thus Job Backend Daemon runs this command and spawn a new Job Backend Process wi
 {0.8}
 {Communication between Job Scheduler Daemon and Job Backend Daemon}
 {F: protocol3}
-Figure \ref{F: protocol3} illustrates the communication protocol between Job Scheduler Daemon and Job Backend Daemon.The communication between Job Scheduler Daemon and Job Backend Daemon is to let Job Scheduler Daemon keep track of the status of the Job Backend Daemon
+Figure \ref{F: protocol3} illustrates the communication protocol between Job Scheduler Daemon and Job Backend Daemon.The communication between Job Scheduler Daemon and Job Backend Daemon is to let Job Scheduler Daemon keep track of the status of Job Backend Daemons
 
 \begin{itemize}
-\item When a new Job Backend Daemon is created, it will send Job Scheduler Daemon a ``Ready'' message and tells the Job Scheduler Daemon its IP address, port number and the name of user who owns the Job Backend Daemon. 
-\item Each running Job Backend Daemon will send a ``renew lease'' message to the Job Scheduler Daemon every 60 second and tells the Job Scheduler Daemon that it is still running. 
-\item If no Job Frontend Process communicates with the Job Backend Daemon in 600 seconds, the Job Backend Daemon will send Job Scheduler Daemon ``terminate'' message and tells the Job Scheduler Daemon it is going to terminate.
+\item When a new Job Backend Daemon is created, it sends Job Scheduler Daemon a ``Ready'' message and tells the Job Scheduler Daemon its IP address, port number and the name of user who owns the Job Backend Daemon. 
+\item Each of the running Job Backend Daemons sends a ``renew lease'' message to the Job Scheduler Daemon every 60 second and informs the Job Scheduler Daemon that it is still running. 
+\item If no Job Frontend Process communicates with the Job Backend Daemon in 600 seconds, the Job Backend Daemon will send Job Scheduler Daemon a ``terminate'' message and tells the Job Scheduler Daemon that it is going to terminate.
 \end{itemize}
 
 
@@ -280,9 +287,9 @@ Figure \ref{F: protocol3} illustrates the communication protocol between Job Sch
 {F: protocol4}
 
 Figure \ref{F: protocol4} illustrates the communication protocol between Job Frontend Process and Job Backend Process. The Job Backend Process begins by sending a "backend ready" message to the Job Frontend Process. 
-Once all the Job Backend Processes have reported ready, the Job Frontend Process sends a "commence job" message to each Job Backend Process and tell them start running. The Job Backend Process sends message ``request resource'' to load the user's program and the Job Frontend Process respond with message ``report resource'' and transport the bytecodes to the Job Backend Process. Since then, the Job Backend Process start running the user' program. When the job is done, the Job Backend Process sends Job Frontend Process ``Backend finished'' message. Once all the Job Backend Process have reported ``Backend finished'', the Job Frontend Process sends each Job Backend Process ``Job finished''. 
+Once all the Job Backend Processes have reported ready, the Job Frontend Process sends a "commence job" message to each Job Backend Process and tell them to start running. The Job Backend Process sends a ``request resource'' message to load the user's program and the Job Frontend Process respond with a ``report resource'' message and transport the bytecodes to the Job Backend Process. Since then, the Job Backend Process starts running the user' program. When the job is done, the Job Backend Process sends Job Frontend Process a ``Backend finished'' message. Once all the Job Backend Processes have reported that they have finished their jobs, the Job Frontend Process sends each Job Backend Process a ``Job finished'' message. 
 
-The Job Frontend Process renews a lease on the Job Backend Process, and vice versa, by sending a "renew lease" message every 60 seconds. If some failure is detected during job execution, the Job Frontend Process or the Job Backend Process can send the other side ``Cancel job'' message to terminate the conversation. 
+The Job Frontend Process renews a lease on the Job Backend Process, and vice versa, by sending a ``renew lease" message every 60 seconds. If some failure is detected during job execution, the Job Frontend Process or the Job Backend Process can send the other side a ``Cancel job'' message to terminate the conversation. 
 
 %\subsubsection{Remote Method Calls in PJ}
 %\FIGURE{!htb}
@@ -306,7 +313,7 @@ The Job Frontend Process renews a lease on the Job Backend Process, and vice ver
 \caption {A scenario illustrating how to spawn Web interface users' process }
 \label {F:auth}
 \end{figure}
-Our motivation for redesigning the Web interface is the authentication issues. One of the important design principles in PJ is that no root privilege is required to start PJ. However, this principles bring a problem into the Web interface design. Illustrated in Figure \ref{F:auth_fail}, a standard user B starts PJ, and another standard user A submits a job through a Web interface and the job is supposed to run on user A's account. The problem is that  the Web server process belongs to user B and since user B is not the root user, he has no privilege to directly spawn a user A's process. 
+One of our motivations for redesigning the Web interface is the authentication issues. An important design principles in PJ is that no root privilege is required to start PJ. However, this principle brings a problem into this Web interface design. Illustrated in Figure \ref{F:auth_fail}, a standard user B starts PJ, and another standard user A submits a job through a Web interface and the job is supposed to run on user A's account. The problem is that  the Web server process belongs to user B and since user B is not the root user, he has no privilege to directly spawn a user A's process. 
 
 Figure \ref{F:auth_succ} shows our solution. The Web server process can SSH to the user A's account on the local machine using user A's username and password, and thus start the SSH daemon, and since the SSH daemon is running on behalf of root users, it can spawn the process running on A's account.
 
@@ -330,11 +337,11 @@ There are three things we take more consideration when designing the Web interfa
 
 The mini Web server for this project is running as a thread inside the Job Scheduler Daemon. As shown in Figure \ref{F:web_server}, the Web server consists of five components: HttpServer, HttpRequest, HttpResponse, SessionManager and SSH Agent. 
 
-HttpServer component is the most important component in the Web server. It adopts SSL Socket technique to provide a secure connection between the browser and the Web server, thus protecting critical information such as username and password from eavesdroppers. HttpServer component alway listens to HTTP requests. When it receives HTTP requests, it will forward these requests to HTTPRequest component for parsing. Once getting parsed request objects back from HttpRequest component, the HttpServer component tries to service these HTTP requests by functioning in accordance with requested URL.
+HttpServer component is the most important component in the Web server. It adopts SSL Socket technique to provide a secure connection between the browser and the Web server, thus protecting critical information such as username and password from eavesdroppers. HttpServer component alway listens to HTTP requests. When receiving HTTP requests, it will forward these requests to HTTPRequest component for parsing. Once getting parsed request objects back from HttpRequest component, the HttpServer component tries to service these HTTP requests by functioning in accordance with requested URL.
 
-SessionManager component provides session service for the Web server. The session service regards the HTTP requests with the same cookie ID as from the same user and provides the same context to these HTTP requests. If the HTTP requests are for Web interface users to log into the Web server, SessionManager component generates a new cookie ID and save the pair of this cookie ID and user information object in its cache. SessionManager component  also sends back the new cookie ID to the client. Otherwise SessionManager component checks the cookie values of each upcoming HTTP requests, and compare these cookie IDs with its cached cookie IDs. If the same cookie ID is found in SessionManager component's cache, SessionManager component will retrieve the corresponding user information and service the HTTP request in the context of the user's session.
+SessionManager component provides session service for the Web server. The session service regards the HTTP requests with the same cookie ID as from the same user and provides the same context to these HTTP requests. If the HTTP requests are for Web interface users to log into the Web server, SessionManager component generates a new cookie ID and save the pair of this cookie ID and user information object in its cache. SessionManager component  also sends back the new cookie ID to the client. Otherwise SessionManager component checks the cookie values of each upcoming HTTP requests, and compare these cookie IDs with its cached cookie IDs. If the same cookie ID is found in SessionManager component's cache, SessionManager component retrieves the corresponding user information and the HTTP request can be serviced in the context of the user's session.
 
-HttpRequest component is responsible for parsing the incoming message. It retrieves HTTP headers including cookie ID, and request parameters from the HTTP message, and encapsulates them as a request object for HttpServer component's further handling. Its features include Http 1.0/1.1 support, Cookie support and File Upload support; HttpResponse component is used for encapsulating the response objects and parsing these objects to the outgoing messages; 
+HttpRequest component is responsible for parsing the incoming messages. It retrieves HTTP headers including cookie ID, and request parameters from the HTTP message, and encapsulates them as a request object for HttpServer component's further handling. Its features include Http 1.0/1.1 support, Cookie support and File Upload support; HttpResponse component is used for encapsulating the response objects and parsing these objects to the outgoing messages; 
 
 SSH Agent component implements SSH protocol's client side and is responsible for interacting with SSH daemon. It connects to SSH daemon over TCP/IP network, authenticates to SSH daemon with the username and password passed from the Web interface user and asks SSH daemon to execute commands on behalf of the Web interface user.   
 
@@ -343,8 +350,8 @@ The following steps show how each part of the Web server works together to enabl
 \item When a user tries to access PJ's Web interface, the HttpServer component sets up a SSL connection between the Web server and the browse so that all information transported over this connection is under protection.
 \item The user logs in to the Web interface using his username and password. The HttpServer component retrieves the username and password, and passes this user credential to SSH Agent component to authenticates to SSH daemon . Once the user can successfully authenticated to SSH daemon, SessionManager component will generate a cookie ID for the user and also save this cookie ID and the user information into its cache. When this user requests the job submission pages, the SessionManager component can recognize this user and this user does not need to input his username and password again. 
 \item The user submits his job via Web interface. HttpServer component receives this HTTP request and forwards this request to HttpRequest component.
-\item HttpRequest component parses this HTTP message and retrieves cookie ID, uploaded programs and job information such as the required number of processors, program name, program argument and the location to put the uploaded programs. HttpRequest component encapsulates this information into a request object and sends this object back to the the HttpServer component.
-\item HttpServer component forwards job information to SSH Agent component. SSH Agent component submits the job to the SSH daemon and retrieves the results back to HttpServer component.
+\item HttpRequest component parses this HTTP message and retrieves cookie ID, uploaded user programs and job information such as the required number of processors, program name, program argument and the location to save the uploaded programs. HttpRequest component encapsulates this information into a request object and sends this object back to the HttpServer component.
+\item HttpServer component forwards the job information to SSH Agent component. After connecting to the SSH daemon, the SSH Agent component can submits the job to the SSH daemon and retrieves the results back to HttpServer component.
 \item HttpServer component forwards the results to the HttpResponse component which will be responsible for sending the results to the browser.
 \end{itemize}
 %SSH agent
@@ -431,7 +438,7 @@ while (true) {
 The above code parses the stream format and saves the stream to a file.
 
 \subsection{SSH Agent} 
-The implementation of SSH agent is very complex and we do not need to reinvent the wheels since there already exist a lot of open source Java implementations of SSH agent. For example, JSch \cite{jsch} is a pure java implementation of SSH2, allowing users integrate its functionality to his programs. We tailed JSch and integrate it to our project. 
+The implementation of SSH agent is very complex and we do not need to reinvent the wheels since there already exist a lot of open source Java implementations of SSH agent. For example, JSch \cite{jsch} is a pure java implementation of SSH2, allowing users integrate its functionality to their programs. We tailed JSch and integrate it to our project. 
 
   \FIGURE{!htb}
   {images/jsch}
@@ -506,7 +513,7 @@ public void executeCmd(String command) throws Exception {
 }
 \end{verbatim} 
 \normalsize
-The {\em executeCmd()} function creates a channel between local machine and remote machine. It then tries running a command on remote machine and reads the result back. 
+The {\em executeCmd()} function creates a channel between local machine and remote machine. Over this channel, it can run a command on remote machine and reads the result back. 
 \scriptsize
 \begin{verbatim}
 // Secure copy from local machine to remote machine
@@ -616,7 +623,7 @@ Updated files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We design, develop and debug the PJ project on a Macbook Pro. We now demonstrate how to deploy the PJ project onto real cluster parallel computers. 
 
-The PJ project is under /Users/Xi/Documents/workspace/Parallel\_Java. As shown in Figure \ref{F:folder}, the source codes are organized under src directory while the binary codes are organized under bin directory. {\em scheduler.conf} is the configure file and {\em scheduler.log} is the log file.
+The PJ project is under /Users/Xi/Documents/workspace/Parallel\_Java. As shown in Figure \ref{F:folder}, the source codes are organized under {\em src} directory while the binary codes are organized under {\em bin} directory. {\em scheduler.conf} is the configure file and {\em scheduler.log} is the log file.
       
 \FIGURE{!htb}
 {images/folder.png}
@@ -714,7 +721,7 @@ jobtime 3600
 \normalsize
 %\end{lstlisting}
 
-\subsection*{Setting Up A Certificate }
+\subsection*{Setting Up A Certificate For The Web Server }
 \begin{enumerate}
 \item Generate a certificate
 \begin{verbatim} 
@@ -857,7 +864,7 @@ The program we use for the test is to implement Floyd's algorithm to calculate t
 {Measurement}
 {F:pj}
 
-The result (Figure \ref{F:pj}) is excellent. Efficiency of the new job launching scheme and Web interface is almost the same, and that is because they are all based on PJ's new job launching scheme.  From the second job, the time for the new job launching scheme to launch the job decreases drastically, about one tenth of the time for the original job launching. The reason is that once the Job Backend Daemon starts, the Job Frontend Process can use MAC base message passing to communicate with Job Backend Daemon and spawn the Job Backend Process via Job Backend Daemon. This scheme is much more faster than that based on SSH. 
+The result (Figure \ref{F:pj}) is excellent. Efficiency of the new job launching scheme and Web interface is almost the same, and that is because they are all based on PJ's new job launching scheme.  From the second job, the time for the new job launching scheme to launch the job decreases drastically, about one tenth of the time used by the original job launching scheme. The reason is that once the Job Backend Daemon starts, the Job Frontend Process can use MAC base message passing to communicate with Job Backend Daemon and spawn the Job Backend Process via Job Backend Daemon. This scheme is much more faster than that based on SSH. 
 
 The result also shows that Sun's MPI job launching scheme is even faster than PJ's new job launching scheme, probably because Sun's MPI job launching scheme is based on C and uses low level and more efficient message passing methods. Another interesting observation is that it takes apparently more time for Sun's MPI to start launching jobs for the first time.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -869,8 +876,8 @@ The Web interface is based on SSL, but its certificate is not certified by any c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion \label {S:conclusion}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The project is very successful. The new job launching scheme shortens time for PJ to start launching the submitted jobs by 10 times compared to the original one. The improved Web interface provides more services to PJ users and PJ users can easily submit their jobs to PJ just like surfing the Internet.
+The project is very successful. The new job launching scheme shortens time for PJ to start launching the submitted jobs by 10 times compared to the original one. The improved Web interface provides more services to PJ users and PJ users can easily submit their jobs to PJ.
 
-More significance for this project is that we achieve a lot while working on the project. We are exposed to a bunch of classical computing paradigm such as distributed system, parallel computing. We study SSH protocol, HTTP protocol, and we even design our protocol. We get a deeper understanding of MAC, RSA. We get familiar with Java language and its related library. We also gain much experience in designing and developing a software system.
+More significance for this project is that we achieve a lot while working on the project. We are exposed to a bunch of classical computing paradigm such as distributed system, parallel computing. We study SSH protocol, HTTP protocol, and we even design our protocol for communication between various processes. We get a deeper understanding of MAC. We get familiar with Java language and its related library. We also gain much experience in designing and developing a software system.
 
 

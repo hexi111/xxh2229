@@ -22,63 +22,38 @@
 \BIBdecl
 
 \bibitem{www-graph}
-\BIBentryALTinterwordspacing
-``{Graph Theory}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Graph_theory}
-\BIBentrySTDinterwordspacing
+L.~Euler, ``{The seven bridges of K\"{o}nigsberg},'' \emph{Translated in
+  Newman, James R. The World of Mathematics}, vol.~1, no. 4 part IV, pp.
+  573--580.
 
 \bibitem{www-random}
-\BIBentryALTinterwordspacing
-``{Random Graph}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Random_graph}
-\BIBentrySTDinterwordspacing
+S.~Janson, T.~{\L}uczak, and A.~Ruci{\'n}ski, \emph{{Random graphs}}.\hskip 1em
+  plus 0.5em minus 0.4em\relax Citeseer, 2000.
 
 \bibitem{www-small}
-\BIBentryALTinterwordspacing
-``{Random Graph}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Small-world_network}
-\BIBentrySTDinterwordspacing
+D.~Watts and S.~Strogatz, ``{Collective dynamics of ‘small-world’networks},''
+  \emph{Nature}, vol. 393, no. 6684, pp. 440--442, 1998.
 
 \bibitem{www-scale}
-\BIBentryALTinterwordspacing
-``{Random Graph}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Scale-free_network}
-\BIBentrySTDinterwordspacing
-
-\bibitem{www-network}
-\BIBentryALTinterwordspacing
-``{Network Theory}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Network_theory}
-\BIBentrySTDinterwordspacing
+A.~Barabasi and E.~Bonabeau, ``{Scale-free networks.}'' \emph{Scientific
+  American}, vol. 288, no.~5, pp. 50--9, 2003.
 
 \bibitem{www-apl}
-\BIBentryALTinterwordspacing
-``{Average path length}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Average_path_length}
-\BIBentrySTDinterwordspacing
+R.~Albert, H.~Jeong, and A.-L. Barab{\'a}si, ``The diameter of the world wide
+  web,'' \emph{CoRR}, vol. cond-mat/9907038, 1999.
 
 \bibitem{www-sds}
-\BIBentryALTinterwordspacing
-``{Six Degrees of Separation}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Six_degrees_of_separation}
-\BIBentrySTDinterwordspacing
-
-\bibitem{www-clustering}
-\BIBentryALTinterwordspacing
-``{Clustering Coefficient}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Clustering_coefficient}
-\BIBentrySTDinterwordspacing
+A.-L. Barab{\'a}si, ``Linked: The new science of networks,'' \emph{J.
+  Artificial Societies and Social Simulation}, vol.~6, no.~2, 2003.
 
 \bibitem{www-centrality}
-\BIBentryALTinterwordspacing
-``{Centrality}.'' [Online]. Available:
-  \url{http://en.wikipedia.org/wiki/Centrality}
-\BIBentrySTDinterwordspacing
+M.~Newman, ``{The Structure and Function of Complex Networks},''
+  \emph{Structure}, vol.~45, no.~2, pp. 167--256.
 
 \bibitem{wu2008topology}
 W.~Wu, Y.~Han, and D.~Li, ``{The Topology and Motif Analysis of Journal
   Citation Networks},'' in \emph{International Conference on Computer Science
-  and Software Engineering}, 2008.
+  and Software Engineering}, 2008, pp. 287--293.
 
 \bibitem{hung2008small}
 S.~Hung and A.~Wang, ``{A small world in the patent citation network},'' in
@@ -89,13 +64,9 @@ S.~Hung and A.~Wang, ``{A small world in the patent citation network},'' in
 V.~Batagelj and A.~Mrvar, ``{Pajek-program for large network analysis},''
   \emph{Connections}, vol.~21, no.~2, pp. 47--57, 1998.
 
-\bibitem{batagelj2002pajek}
-------, ``{Pajek-analysis and visualization of large networks},'' \emph{Lecture
-  notes in computer science}, pp. 477--478, 2002.
-
 \bibitem{Foster01theanatomy}
 I.~Foster, ``The anatomy of the grid: Enabling scalable virtual
-  organizations,'' \emph{INTERNATIONAL JOURNAL OF SUPERCOMPUTER APPLICATIONS},
+  organizations,'' \emph{International Journal of supercomputer applications},
   vol.~15, no.~3, p. 2001, 2001.
 
 \bibitem{foster2004grid}
